@@ -18,7 +18,7 @@ endif
 
 LDFLAGS = 
 
-CFLAGS = -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I../install/include/
+CFLAGS = -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I./src 
 
 
 COPY        := cp
@@ -31,18 +31,27 @@ DIRNAME     := dirname
 OBJDIR=/tmp/.obj
 
 PATHDIR=$(shell find -type d) 
-#PATHDIR=.
 SRCS= $(foreach dir,$(PATHDIR),$(wildcard $(dir)/*.cpp)) 
 PATHOBJS=$(subst ./,,$(SRCS:.cpp=.o))
 OBJS=$(patsubst %,$(OBJDIR)/%,$(PATHOBJS))
+DEPS=$(OBJS:%.o=%.d)
+
+all:$(EXEC) 
 
 $(EXEC):$(OBJS)
 	$(CPP) $(STATIC) $(OBJS) -o $@ $(LDFLAGS) 
 
-$(OBJS):$(OBJDIR)/%.o:%.cpp
+$(OBJDIR)/%.o:%.cpp 
 	@echo COMPILING $(notdir $@)
 	@$(MKDIR) `$(DIRNAME) $@`
+#	$(CPP) $(CFLAGS) $< -MM -MT $@ -MF $@.d
 	$(CPP) $(CFLAGS) -c -o $@ $<
+
+
+$(DEPS):$(OBJDIR)/%.d:%.cpp
+	@$(MKDIR) `$(DIRNAME) $@`
+	$(CPP) $(CFLAGS) $< -MM -MT $(patsubst %.d,%.o,$@) -MF $@
+
 
 install:
 	@echo "installing"
@@ -51,3 +60,6 @@ install:
 
 clean:
 	rm -rf $(EXEC) $(OBJDIR)
+
+
+-include $(DEPS)
