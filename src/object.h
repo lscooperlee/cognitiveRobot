@@ -6,10 +6,8 @@
 #include "global.h"
 
 class Object{
-	public:
-		Object();
-	private:
-		Position self;
+	protected:
+		Position position;
 		vector<Position> shape;
 };
 

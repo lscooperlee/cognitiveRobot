@@ -6,7 +6,7 @@ LD=$(CROSS)ld
 AS=$(CROSS)as
 OBJCOPY=$(CROSS)objcopy
 
-EXEC=robot
+EXEC=/tmp/robot
 
 INSTALLDIR=/tmp/robot
 

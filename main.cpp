@@ -1,8 +1,10 @@
 #include <iostream>
 #include "position.h"
+#include "robot.h"
 
 int main(int argc, char **argv){
-	Position p(1,2);
+	Robot r;
+	r.look();
 }
 
 
