@@ -7,12 +7,15 @@
 #include "view.h"
 #include "position.h"
 
+namespace robot {
+
 class Creature: public Object {
 	public:
 		virtual View const &look() = 0;
 		virtual void move(Position const & pos){this->position=pos;}
 };
 
+}
 #endif
 
 

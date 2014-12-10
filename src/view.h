@@ -5,10 +5,14 @@
 #include "global.h"
 #include "obstacle.h"
 
+namespace robot {
+
+
 class View {
 	public:
-		vector<Obstacle> obstacles;
+		std::vector<Obstacle> obstacles;
 		View const &transform();
 };
 
+}
 #endif

@@ -4,8 +4,12 @@
 #include "global.h"
 #include "object.h"
 
+namespace robot {
+
 class Obstacle: public Object {
 
 };
+
+}
 
 #endif

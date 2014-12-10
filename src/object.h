@@ -5,11 +5,15 @@
 #include "position.h"
 #include "global.h"
 
+namespace robot {
+
+
 class Object{
 	protected:
 		Position position;
-		vector<Position> shape;
+		std::vector<Position> shape;
 };
 
 
+}
 #endif

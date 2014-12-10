@@ -4,8 +4,11 @@
 
 #include "global.h"
 
+namespace robot {
+
 class Mind {
 };
 
 
+}
 #endif

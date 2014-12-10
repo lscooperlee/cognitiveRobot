@@ -5,11 +5,14 @@
 #include "object.h"
 #include "mind.h"
 #include "creature.h"
+#include "view.h"
 
+namespace robot {
 
 class Robot: public Mind, public Creature {
 	public:
 		View const & look();
 };
 
+}
 #endif
