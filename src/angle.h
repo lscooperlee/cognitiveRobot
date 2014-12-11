@@ -1,9 +1,8 @@
 #ifndef __SRC_ANGLE_H__
 #define __SRC_ANGLE_H__
 
-
+#include <cmath>
 #include "global.h"
-#include "math.h"
 
 namespace robot {
 
@@ -24,17 +23,33 @@ class Angle {
 		Angle(double a): angle(a) {}
 
 		Angle operator +(Angle const &ang) const {
-			double na=fixAngle(ang.getAngle() + angle);
+			double na=fixAngle(ang.value() + angle);
+			return Angle(na);
+		}
+		Angle operator +(double ang) const {
+			double na=fixAngle(ang + angle);
 			return Angle(na);
 		}
 
 		Angle operator -(Angle const &ang) const {
-			double na=fixAngle(ang.getAngle() - angle);
+			double na=fixAngle(angle - ang.value());
+			return Angle(na);
+		}
+		Angle operator -(double ang) const {
+			double na=fixAngle(angle - ang);
+			return Angle(na);
+		}
+		Angle operator -() const {
+			double na=fixAngle(-angle);
 			return Angle(na);
 		}
 
-		double getAngle() const {return angle;}
-		double convertToRadian(double a) const { return fixAngle(a*PI/180); };
+		operator double() const {return value();}
+
+		double cos() const {return std::cos(angle);}
+
+		double value() const {return angle;}
+		double convertToRadian(double a) const { return fixAngle(a*PI/180); }
 
 	private:
 		double angle;
@@ -46,6 +61,12 @@ class Angle {
 			return oa;
 		}
 };
+static inline Angle operator +(double const ang, Angle const &angle) {
+	return angle+ang;
+}
+static inline Angle operator -(double const ang, Angle const &angle) {
+	return -angle+ang;
+}
 
 }
 

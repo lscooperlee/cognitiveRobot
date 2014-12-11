@@ -6,6 +6,10 @@
 
 namespace robot {
 
+/*
+ * Position is designed for 3D, it could also be used in 2D if z=0,
+ *
+ */
 
 class Position{
 	public:
@@ -15,18 +19,18 @@ class Position{
 		 * by default and convention, there is a implict cordinates position (0,0,0) so that
 		 * the value for this position is (x,y,z), 
 		 *
-		 * In this system, the robot's facing direction is always the Y axis, 
-		 * the second parameter is actually the angle between the two respective X,Y and Z axes.
-		 * the angles between X and Y, X and Y, and Y and Z in different 
-		 * coordinates can be caculated too.
-		 *
+		 * currnetly the transform method only support 2D transform.
+		 * 
 		 * the first parameter _cord_ is the zero point of the coordinates 
 		 * which the position is being transformed into.
+		 *
+		 * the second parameter is the angle between the current y axis direction 
+		 * and the y axis direction that is going to transform into.
 		 *
 		 * see http://www.continuummechanics.org/cm/coordxforms.html for more.
 		 *
 		 */
-		Position const &transform(Position const &cord, Angle const &ang);
+		Position const transform(Position const &cord, Angle const &ycur_ynew);
 		
 
 	private:
