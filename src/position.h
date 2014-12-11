@@ -30,9 +30,21 @@ class Position{
 		 * see http://www.continuummechanics.org/cm/coordxforms.html for more.
 		 *
 		 */
-		Position const transform(Position const &cord, Angle const &ycur_ynew);
+		Position transform(Position const &cord, Angle const &ycur_ynew);
 		
+		Position operator + (Position const &pos) const { 
+			return Position(x+pos.X(),y+pos.Y(),z+pos.Z());
+		}
 
+		Position operator - (Position const &pos) const {
+			return Position(x-pos.X(),y-pos.Y(),z-pos.Z());
+		}
+		
+		
+		double X() const {return x;}
+		double Y() const {return y;}
+		double Z() const {return z;}
+		
 	private:
 		double x;
 		double y;

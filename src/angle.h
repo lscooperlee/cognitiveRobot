@@ -46,6 +46,8 @@ class Angle {
 
 		operator double() const {return value();}
 
+		
+
 		double cos() const {return std::cos(angle);}
 
 		double value() const {return angle;}
