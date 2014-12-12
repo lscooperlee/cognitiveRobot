@@ -1,6 +1,8 @@
 #ifndef __SRC_POSITION_H__
 #define __SRC_POSITION_H__
 
+#include <ostream>
+#include <iomanip>
 #include "global.h"
 #include "angle.h"
 
@@ -21,7 +23,7 @@ class Position{
 		 *
 		 * currnetly the transform method only support 2D transform.
 		 * 
-		 * the first parameter _cord_ is the zero point of the coordinates 
+		 * the first parameter _cord_ is the zero podouble of the coordinates 
 		 * which the position is being transformed into.
 		 *
 		 * the second parameter is the angle between the current y axis direction 
@@ -50,6 +52,13 @@ class Position{
 		double y;
 		double z;
 };
+
+static inline std::ostream & operator <<(std::ostream &os, Position const & position){
+//	os << "("<<position.X()<<","<<position.Y()<<","<<position.Z()<<") ";
+	std::fixed(os);
+	os << std::setprecision(2) <<"("<<float(position.X())<<","<<float(position.Y())<<") ";
+	return os;
+}
 
 }
 #endif

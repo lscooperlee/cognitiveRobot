@@ -20,7 +20,7 @@ endif
 
 LDFLAGS = 
 
-CFLAGS = -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I./src 
+CFLAGS = -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I./src -I./src/robot
 
 
 COPY        := cp
@@ -32,7 +32,7 @@ DIRNAME     := dirname
 
 OBJDIR=/tmp/.obj
 
-PATHDIR=src .
+PATHDIR=src . src/robot
 #PATHDIR=$(shell find -type d) 
 SRCS= $(foreach dir,$(PATHDIR),$(wildcard $(dir)/*.cpp)) 
 PATHOBJS=$(subst ./,,$(SRCS:.cpp=.o))

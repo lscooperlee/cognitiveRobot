@@ -4,14 +4,17 @@
 #include "global.h"
 #include "object.h"
 #include "mind.h"
-#include "creature.h"
 #include "view.h"
 
 namespace robot {
 
-class Robot: public Mind, public Creature {
+class Robot: public Mind, public Object{
+
 	public:
-		View const & look();
+		virtual ~Robot(){}
+		virtual View const &look()=0;
+		virtual void move(Position const & pos){this->position=pos;}
+
 };
 
 }

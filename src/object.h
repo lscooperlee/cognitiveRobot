@@ -9,7 +9,11 @@ namespace robot {
 
 
 class Object{
+	public:
+		virtual ~Object(){};
 	protected:
+		Object(){}
+		Object(Object const &obj){};
 		Position position;
 		std::vector<Position> shape;
 };

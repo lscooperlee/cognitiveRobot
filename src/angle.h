@@ -2,6 +2,8 @@
 #define __SRC_ANGLE_H__
 
 #include <cmath>
+#include <ostream>
+#include <iomanip>
 #include "global.h"
 
 namespace robot {
@@ -46,8 +48,6 @@ class Angle {
 
 		operator double() const {return value();}
 
-		
-
 		double cos() const {return std::cos(angle);}
 
 		double value() const {return angle;}
@@ -69,6 +69,13 @@ static inline Angle operator +(double const ang, Angle const &angle) {
 static inline Angle operator -(double const ang, Angle const &angle) {
 	return -angle+ang;
 }
+
+static inline std::ostream & operator<<(std::ostream &os, Angle const &angle){ 
+	std::fixed(os);
+	os <<std::setprecision(2)<<" <"<<angle.value() << "> ";
+	return os;
+}
+
 
 }
 
