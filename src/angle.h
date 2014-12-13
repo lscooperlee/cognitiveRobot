@@ -63,9 +63,11 @@ class Angle {
 			return oa;
 		}
 };
+
 static inline Angle operator +(double const ang, Angle const &angle) {
 	return angle+ang;
 }
+
 static inline Angle operator -(double const ang, Angle const &angle) {
 	return -angle+ang;
 }

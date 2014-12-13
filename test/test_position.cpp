@@ -7,7 +7,7 @@ using std::cout;
 using std::endl;
 
 int main(int argc, char** argv){
-	Position p=Position();
+	Position p;//=Position();
 	cout<<p<<endl;
 
 	Position o=Position(1,0);
