@@ -18,11 +18,11 @@ class Robot: public Mind, public Object{
 		class FailCreateException {};
 
 		virtual ~Robot() {}
-		virtual View const &look() throw(NoViewException)=0;
+		virtual View const look() throw(NoViewException)=0;
 		virtual void move(Position const & pos) {this->position=pos;}
 		virtual void memorize (View const & view) {memory.push_back(view);}
 		virtual View recall (int id ) const {return memory[id];}
-	//	virtual Map doMap () const {}
+
 
 	protected:
 
@@ -33,6 +33,7 @@ class Robot: public Mind, public Object{
 		const_iterator end() const  {return memory.end();}
 
 		std::vector<View> memory;
+
 
 };
 

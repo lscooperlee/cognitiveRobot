@@ -1,6 +1,7 @@
 #ifndef __SRC_OBSTACLE_H__
 #define __SRC_OBSTACLE_H__
 
+#include <float.h>
 #include "global.h"
 #include "position.h"
 #include "object.h"
@@ -10,7 +11,7 @@ namespace robot {
 class Obstacle: public Object {
 
 	public:
-		virtual bool operator <(Obstacle const &obstacle) const { return size() < obstacle.size(); };
+
 
 		/*
 		 * a string of points for any shape,
@@ -61,6 +62,43 @@ class Obstacle: public Object {
 			Position const &p1=shape[0];
 			Position const &p2=shape[1];
 			return p1.distance(p2);
+		}
+
+		virtual bool operator <(Obstacle const &obstacle) const {return size() < obstacle.size(); };
+
+		//
+		//FIXME:template
+		double minX() const {
+			double min=DBL_MAX;
+			for(Obstacle::const_iterator i=shape.begin();i!=shape.end();++i){
+				Position const &o=*i;
+				min=o.X()<min?o.X():min;
+			}
+			return min;
+		}
+		double minY() const {
+			double min=DBL_MAX;
+			for(Obstacle::const_iterator i=shape.begin();i!=shape.end();++i){
+				Position const &o=*i;
+				min=o.Y()<min?o.Y():min;
+			}
+			return min;
+		}
+		double maxX() const {
+			double max=-DBL_MAX;
+			for(Obstacle::const_iterator i=shape.begin();i!=shape.end();++i){
+				Position const &o=*i;
+				max=o.X()>max?o.X():max;
+			}
+			return max;
+		}
+		double maxY() const {
+			double max=-DBL_MAX;
+			for(Obstacle::const_iterator i=shape.begin();i!=shape.end();++i){
+				Position const &o=*i;
+				max=o.Y()>max?o.Y():max;
+			}
+			return max;
 		}
 
 };

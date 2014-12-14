@@ -21,7 +21,7 @@ class Object{
 
 	protected:
 		Object(){}
-		Object(Object const &obj){}
+		Object(Object const &obj){ this->shape=obj.shape; this->position=obj.position;}
 
 		typedef std::vector<Position>::iterator iterator;
 

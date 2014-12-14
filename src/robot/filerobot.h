@@ -13,7 +13,7 @@ class FileRobot: public LaserRobot {
 		FileRobot(char const *filename) throw(FailCreateException);
 		FileRobot(FileRobot const &filerobot);
 		~FileRobot();
-		View const &look() throw(NoViewException);
+		View const look() throw(NoViewException);
 
 	private:
 		std::ifstream *file;
