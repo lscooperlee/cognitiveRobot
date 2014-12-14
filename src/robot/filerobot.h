@@ -4,8 +4,7 @@
 #include <fstream>
 #include "laserrobot.h"
 
-
-using namespace robot;
+namespace robot {
 
 class FileRobot: public LaserRobot {
 
@@ -19,5 +18,7 @@ class FileRobot: public LaserRobot {
 		std::ifstream *file;
 		std::string filename;
 };
+
+}
 
 #endif

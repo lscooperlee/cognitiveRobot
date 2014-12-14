@@ -3,7 +3,7 @@
 #include "view.h"
 #include "display.h"
 
-
+using namespace robot;
 
 int main(int argc, char **argv){
 	
@@ -12,12 +12,18 @@ int main(int argc, char **argv){
 	FileRobot d=FileRobot("b");
 
 	Robot &b=f;
-	
-	View v=b.look();
-	std::cout<<v<<std::endl;
+	while(1){
+		View v;
+		try {
+			v=b.look();
+		}catch(...){
+			break;
+		}
+		std::cout<<v<<std::endl;
 
-	b.memorize(v);
+		b.memorize(v);
 
-	GnuplotDisplay display;
-	display.display(v);
+		GnuplotDisplay display;
+		display.display(v);
+	}
 }

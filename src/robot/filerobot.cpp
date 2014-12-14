@@ -1,6 +1,7 @@
 
 #include "filerobot.h"
 
+using namespace robot;
 using std::ifstream;
 using std::string;
 using std::stod;

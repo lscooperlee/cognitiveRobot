@@ -3,9 +3,11 @@
 
 #include "robot.h"
 
-using namespace robot;
+namespace robot {
 
 class LaserRobot: public Robot {
 };
+
+}
 
 #endif

@@ -53,7 +53,7 @@ class GnuplotDisplay: public Display {
 			std::ofstream gnuplotfile;
 			gnuplotfile.open("/tmp/gnuplotfile.dat");
 
-			gnuplotfile << "set terminal png size " << PLOT_RESOLUTION_X <<", "<<PLOT_RESOLUTION_Y << std::endl;
+			gnuplotfile << "set terminal png size " << PLOT_RESOLUTION_X <<", "<<PLOT_RESOLUTION_Y << " nocrop linewidth 15" <<std::endl;
 			gnuplotfile << "set output \"/tmp/a.png\" "<<std::endl;
 			gnuplotfile << "set xrange["<<minX<<":"<<maxX<<"]" <<std::endl;
 			gnuplotfile << "set yrange["<<minY<<":"<<maxY<<"]" <<std::endl;
@@ -65,6 +65,7 @@ class GnuplotDisplay: public Display {
 					Position const &p=*j;
 					gnuplotfile << p << std::endl;
 				}
+				gnuplotfile << std::endl;
 			}
 
 			gnuplotfile.close();
