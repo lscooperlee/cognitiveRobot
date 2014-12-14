@@ -20,7 +20,7 @@ int main(int argc, char **argv){
 	Angle d=c-PI/4;
 	cout << d << " cos:" << d.cos() << endl;
 
-	Angle f=Angle();
+	Angle f=Angle(b-c);
 	cout << f << " cos:" << f.cos() << endl;
 
 }

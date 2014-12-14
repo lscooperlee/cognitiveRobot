@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <iomanip>
+#include <cmath>
 #include "global.h"
 #include "angle.h"
 
@@ -42,6 +43,9 @@ class Position{
 			return Position(x-pos.X(),y-pos.Y(),z-pos.Z());
 		}
 		
+		double distance (Position const &pos) const{
+			return std::sqrt(std::pow(X()-pos.X(),2)+std::pow(Y()-pos.Y(),2));
+		}
 		
 		double X() const {return x;}
 		double Y() const {return y;}

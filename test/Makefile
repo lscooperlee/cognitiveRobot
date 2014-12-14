@@ -17,7 +17,7 @@ endif
 
 LDFLAGS = -L$(INSTALLDIR) -lrobot
 
-CFLAGS = -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I../src -I../src/robot
+CFLAGS = -std=c++11 -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I../src -I../src/robot
 
 
 COPY        := cp

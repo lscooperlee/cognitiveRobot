@@ -5,8 +5,9 @@
 int main(int argc, char **argv){
 	
 	FileRobot f("a");
-	//FileRobot f=FileRobot("a");
+	FileRobot c=FileRobot(f);
+	FileRobot d=FileRobot("b");
 
-	FileRobot &b=f;
+	Robot &b=f;
 
 }

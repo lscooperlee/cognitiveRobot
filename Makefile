@@ -20,7 +20,7 @@ endif
 
 LDFLAGS = 
 
-CFLAGS = -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I./src -I./src/robot
+CFLAGS = -std=c++11 -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I./src -I./src/robot
 
 
 COPY        := cp
@@ -39,7 +39,7 @@ PATHOBJS=$(subst ./,,$(SRCS:.cpp=.o))
 OBJS=$(patsubst %,$(OBJDIR)/%,$(PATHOBJS))
 DEPS=$(OBJS:%.o=%.d)
 
-all:$(EXEC) $(LIB) 
+all:$(EXEC) $(LIB) TEST
 
 $(EXEC):$(OBJS)
 	@$(CPP) $(STATIC) $(OBJS) -o $@ $(LDFLAGS) 
@@ -53,6 +53,8 @@ $(OBJDIR)/%.o:%.cpp
 #	$(CPP) $(CFLAGS) $< -MM -MT $@ -MF $@.d
 	@$(CPP) $(CFLAGS) -c -o $@ $<
 
+TEST:
+	@make -C test
 
 $(DEPS):$(OBJDIR)/%.d:%.cpp
 	@$(MKDIR) `$(DIRNAME) $@`
