@@ -25,4 +25,8 @@ int main(int argc,char **argv){
 	Obstacle c(v);
 	cout<<c<<endl;
 
+	Obstacle t(-5589.00, -20.00, -5415.00, 75.00);
+	Obstacle m=t.transform(Position(-161.21, 972.45), Angle(0));
+	cout<<m<<endl;
+
 }

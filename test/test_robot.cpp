@@ -24,8 +24,8 @@ int main(int argc, char **argv){
 		std::cout<<v<<"\n"<<std::endl;
 
 		b.memorize(v);
-//		display.display(v);
-		display.display(v.transform(v.getPosition(),-v.getAngle()));
+
+		display.display(v.transform(-v.getPosition(),-v.getAngle()));
 	}
 	Map m=b.doMap();
 
