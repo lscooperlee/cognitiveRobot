@@ -25,27 +25,63 @@ class Display {
 
 class GnuplotDisplay {
 	public:
-		GnuplotDisplay(char const *bname, char const *dname=NULL):vid(0),mid(0){
+		GnuplotDisplay(char const *bname, char const *dname=NULL){
+			id=0,minX=0,minY=0,maxX=0,maxY=0;
 			basename=bname;
 			dirname=dname;
+
 			//if empty create
 		}
 
-		void display(Map const & v,int id=0) {
+		void display(Map const & v) {
 		}
 
-		void display(View const & v,int id=0) {
+		void display(View const & v) {
+
+			for(View::const_iterator i=v.begin();i!=v.end();++i){
+				maxmin(*i);
+			}
+
+			display_prepare(std::string("View"));
+
+			for(View::const_iterator i=v.begin();i!=v.end();++i){
+				Obstacle const &o=*i;
+				for(Obstacle::const_iterator j=o.begin();j!=o.end();++j){
+					Position const &p=*j;
+					gnuplotfile << p << std::endl;
+				}
+				gnuplotfile << std::endl;
+			}
+			display_cleanup(std::string("View"));
+		}
+
+		
+	private:
+		void maxmin(Obstacle const &obs) {
+			//assert
+			minX = obs.minX()<minX?obs.minX():minX;
+			minY = obs.minY()<minY?obs.minY():minY;
+			maxX = obs.maxX()>maxX?obs.maxX():maxX;
+			maxY = obs.maxY()>maxY?obs.maxY():maxY;
+
+		}
+
+		void display_cleanup(std::string name){
+			gnuplotfile.close();
+			std::string dataname=dirname+"/"+name+"_"+basename+std::to_string(id)+".dat";
+			std::string cmd=std::string("gnuplot ")+dataname;
+			system(cmd.c_str());
+
 			minX=0;
 			minY=0;
 			maxX=0;
 			maxY=0;
 
-			if(id==0)
-				id=++vid;
+			++id;
 
-			for(View::const_iterator i=v.begin();i!=v.end();++i){
-				maxmin(*i);
-			}
+		}
+
+		void display_prepare(std::string name){
 
 			double xRange = maxX - minX;
 			double yRange = maxY - minY;
@@ -68,11 +104,10 @@ class GnuplotDisplay {
 			maxX += border;
 			minY -= border;
 			maxY += border;
-			
-			std::string dataname=dirname+"/View_"+basename+std::to_string(id)+".dat";
-			std::string imgname=dirname+"/View_"+basename+std::to_string(id)+".png";
 
-			std::ofstream gnuplotfile;
+			std::string dataname=dirname+"/"+name+"_"+basename+std::to_string(id)+".dat";
+			std::string imgname=dirname+"/"+name+"_"+basename+std::to_string(id)+".png";
+
 			gnuplotfile.open(dataname);
 			gnuplotfile << "set terminal png size " << PLOT_RESOLUTION_X <<", "<<PLOT_RESOLUTION_Y << " nocrop linewidth 10" <<std::endl;
 			gnuplotfile << "set output \""<<imgname<<"\" "<<std::endl;
@@ -80,42 +115,18 @@ class GnuplotDisplay {
 			gnuplotfile << "set yrange["<<minY<<":"<<maxY<<"]" <<std::endl;
 			gnuplotfile << "plot \"-\" with linespoint" <<std::endl;
 
-			for(View::const_iterator i=v.begin();i!=v.end();++i){
-				Obstacle const &o=*i;
-				for(Obstacle::const_iterator j=o.begin();j!=o.end();++j){
-					Position const &p=*j;
-					gnuplotfile << p << std::endl;
-				}
-				gnuplotfile << std::endl;
-			}
-
-			gnuplotfile.close();
-
-			std::string cmd=std::string("gnuplot ")+dataname;
-			system(cmd.c_str());
 		}
 
-		
-	private:
-		void maxmin(Obstacle const &obs) {
-			//assert
-			minX = obs.minX()<minX?obs.minX():minX;
-			minY = obs.minY()<minY?obs.minY():minY;
-			maxX = obs.maxX()>maxX?obs.maxX():maxX;
-			maxY = obs.maxY()>maxY?obs.maxY():maxY;
-
-		}
-
-		double minX=0;
-		double minY=0;
-		double maxX=0;
-		double maxY=0;
+		double minX;
+		double minY;
+		double maxX;
+		double maxY;
+		int id;
 
 		std::string basename;
 		std::string dirname;
+		std::ofstream gnuplotfile;
 
-		int vid;
-		int mid;
 };
 
 #if 0
