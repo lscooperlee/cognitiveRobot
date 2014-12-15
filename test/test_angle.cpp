@@ -24,6 +24,17 @@ int main(int argc, char **argv){
 	Angle f=Angle(b-c);
 	cout << f << " cos:" << f.cos() << endl;
 	
-	Angle p(Position(1,1),Position(2,2));
+	Angle p;
+
+	p=Angle(Position(1,1),Position(2,2));
+	cout << p << " cos:" << p.cos() << endl;
+
+	p=Angle(Position(1,1),Position(0,3));
+	cout << p << " cos:" << p.cos() << endl;
+
+	p=Angle(Position(1,1),Position(0,0));
+	cout << p << " cos:" << p.cos() << endl;
+
+	p=Angle(Position(1,1),Position(3,0));
 	cout << p << " cos:" << p.cos() << endl;
 }
