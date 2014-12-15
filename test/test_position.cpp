@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
 #include "position.h"
 #include "angle.h"
 
 using namespace robot;
 using std::cout;
 using std::endl;
+using std::vector;
 
 int main(int argc, char** argv){
 	Position p(-5,-5);
@@ -32,6 +34,16 @@ int main(int argc, char** argv){
 	cout<<"transforming "<<p<<" from new coordinate "<<o<<" and angle "<<"0"<<" get "<<p4<<endl;
 
 	Position m(4,4);
-	Position n(3,1);
+	Position n(7,1);
 	cout<<m-n<<endl;
+	
+	vector<Position> v;
+	v.push_back(Position(1,1));
+	v.push_back(Position(1,6));
+	v.push_back(Position(6,6));
+	v.push_back(Position(6,1));
+	bool bl=m.isInArea(v);
+	cout<<bl<<endl;
+	cout<<n.isInArea(v)<<endl;
+
 }

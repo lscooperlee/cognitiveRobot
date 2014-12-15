@@ -9,11 +9,10 @@
 
 namespace robot {
 
-
+//class View:public Area
 class View {
 
 	public:
-//		View(){}
 		View const transform(Position const &cord, Angle const &ycur_ynew) const;
 		void insert(Obstacle const &obstacle){Obstacles.insert(obstacle);}
 		void putPosition(Position const &position){globalPosition=position;}
@@ -28,6 +27,27 @@ class View {
 		const_iterator end() const {return Obstacles.end();}
 
 		int size(){return Obstacles.size();}
+
+		View operator -(View const &view) const {
+			//toArea
+			std::vector<Position> area;
+			for(const_iterator i=view.begin();i!=view.end();++i){
+				Obstacle const &o=*i;
+				for(Obstacle::const_iterator j=o.begin();j!=o.end();++j){
+					Position const &p=*j;
+					area.push_back(p);
+				}
+				
+			}
+			View v;		
+			for(const_iterator i=begin();i!=end();++i){
+				Obstacle const &o=*i;
+				if(!o.isInArea(area)){
+					v.insert(o);
+				}
+			}
+			return v;
+		}
 
 	private:
 		std::multiset<Obstacle> Obstacles;

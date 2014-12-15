@@ -23,5 +23,17 @@ int main(int argc,char **argv){
 	std::cout<<w<<std::endl;
 	d.display(w);
 
+	View m;
+	m.insert(Obstacle(1,1,1,6));
+	m.insert(Obstacle(2,7,5,5));
+	m.insert(Obstacle(6,1,8,-1));
+	d.display(m);
 	
+	View i;
+	i.insert(Obstacle(3,-1,4,4));
+	i.insert(Obstacle(-5,-5,5,-5));
+	d.display(i);
+
+	View r=i-m;
+	d.display(r);
 }

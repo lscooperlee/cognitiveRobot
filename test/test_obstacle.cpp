@@ -29,4 +29,15 @@ int main(int argc,char **argv){
 	Obstacle m=t.transform(Position(-161.21, 972.45), Angle(0));
 	cout<<m<<endl;
 
+	vector<Position> w;
+	w.push_back(Position(1,1));
+	w.push_back(Position(6,1));
+	w.push_back(Position(6,6));
+	w.push_back(Position(1,6));
+
+	Obstacle d("0 0 4 4");
+	bool bl=d.isInArea(w);
+
+	cout<<bl<<endl;
+	cout<<Obstacle("-1 -1 -5 -5").isInArea(w)<<endl;
 }

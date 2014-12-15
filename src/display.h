@@ -28,7 +28,7 @@ class GnuplotDisplay {
 		GnuplotDisplay(char const *bname, char const *dname=NULL):vid(0),mid(0){
 			basename=bname;
 			dirname=dname;
-			
+			//if empty create
 		}
 
 		void display(Map const & v,int id=0) {
