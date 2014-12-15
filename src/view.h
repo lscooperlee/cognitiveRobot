@@ -14,7 +14,13 @@ class View {
 
 	public:
 		View const transform(Position const &cord, Angle const &ycur_ynew) const;
+		
+		//depricated
 		void insert(Obstacle const &obstacle){Obstacles.insert(obstacle);}
+
+		void addObstacle(Obstacle const &obstacle){Obstacles.insert(obstacle);}
+		void addObstacles(std::multiset<Obstacle> const &obset){Obstacles.insert(obset.begin(),obset.end());}
+
 		void putPosition(Position const &position){globalPosition=position;}
 		void putAngle(Angle const &angle){facingAngle=angle;}
 		

@@ -39,6 +39,12 @@ class Map {
 			return obstacles;
 		}
 
+		View toView() const{
+			View v;
+			v.addObstacles(toObstacles());
+			return v;
+		}
+
 		typedef std::vector<View>::const_iterator const_iterator;
 		
 		const_iterator begin() const {return ViewVector.begin();}
