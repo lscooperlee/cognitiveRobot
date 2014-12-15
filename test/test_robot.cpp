@@ -11,8 +11,7 @@ int main(int argc, char **argv){
 	FileRobot c=FileRobot(f);
 	FileRobot d=FileRobot("b");
 
-	GnuplotDisplay<Map> displaymap;
-	GnuplotDisplay<View> displayview;
+	GnuplotDisplay display("filerobot","/tmp/img");
 
 	Robot &b=f;
 	while(1){
@@ -25,10 +24,9 @@ int main(int argc, char **argv){
 		std::cout<<v<<"\n"<<std::endl;
 
 		b.memorize(v);
-
-//		displayview.display(v.transform(v.getPosition(),-v.getAngle()));
+//		display.display(v);
+		display.display(v.transform(v.getPosition(),-v.getAngle()));
 	}
 	Map m=b.doMap();
-	displaymap.display(m);
 
 }

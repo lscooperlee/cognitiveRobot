@@ -3,6 +3,7 @@
 
 #include <set>
 #include <fstream>
+#include "map.h"
 #include "obstacle.h"
 #include "view.h"
 
@@ -10,11 +11,11 @@
 
 namespace robot {
 
-template <typename T> 
 class Display {
 	public:
 		virtual ~Display(){};
 		virtual void display(View const & v) =0;
+		virtual void display(Map const & v) =0;
 
 	protected:
 		Display(){}
@@ -22,10 +23,26 @@ class Display {
 };
 
 
-template <typename T> 
 class GnuplotDisplay {
 	public:
-		void display(T const & v) {
+		GnuplotDisplay(char const *bname, char const *dname=NULL):vid(0),mid(0){
+			basename=bname;
+			dirname=dname;
+			
+		}
+
+		void display(Map const & v,int id=0) {
+		}
+
+		void display(View const & v,int id=0) {
+			minX=0;
+			minY=0;
+			maxX=0;
+			maxY=0;
+
+			if(id==0)
+				id=++vid;
+
 			for(View::const_iterator i=v.begin();i!=v.end();++i){
 				maxmin(*i);
 			}
@@ -52,11 +69,13 @@ class GnuplotDisplay {
 			minY -= border;
 			maxY += border;
 			
-			std::ofstream gnuplotfile;
-			gnuplotfile.open("/tmp/gnuplotfile.dat");
+			std::string dataname=dirname+"/View_"+basename+std::to_string(id)+".dat";
+			std::string imgname=dirname+"/View_"+basename+std::to_string(id)+".png";
 
+			std::ofstream gnuplotfile;
+			gnuplotfile.open(dataname);
 			gnuplotfile << "set terminal png size " << PLOT_RESOLUTION_X <<", "<<PLOT_RESOLUTION_Y << " nocrop linewidth 10" <<std::endl;
-			gnuplotfile << "set output \"/tmp/a.png\" "<<std::endl;
+			gnuplotfile << "set output \""<<imgname<<"\" "<<std::endl;
 			gnuplotfile << "set xrange["<<minX<<":"<<maxX<<"]" <<std::endl;
 			gnuplotfile << "set yrange["<<minY<<":"<<maxY<<"]" <<std::endl;
 			gnuplotfile << "plot \"-\" with linespoint" <<std::endl;
@@ -72,9 +91,11 @@ class GnuplotDisplay {
 
 			gnuplotfile.close();
 
-			system("gnuplot /tmp/gnuplotfile.dat");
+			std::string cmd=std::string("gnuplot ")+dataname;
+			system(cmd.c_str());
 		}
 
+		
 	private:
 		void maxmin(Obstacle const &obs) {
 			//assert
@@ -84,11 +105,17 @@ class GnuplotDisplay {
 			maxY = obs.maxY()>maxY?obs.maxY():maxY;
 
 		}
+
 		double minX=0;
 		double minY=0;
 		double maxX=0;
 		double maxY=0;
 
+		std::string basename;
+		std::string dirname;
+
+		int vid;
+		int mid;
 };
 
 #if 0
