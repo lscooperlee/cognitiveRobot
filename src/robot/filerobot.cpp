@@ -97,7 +97,9 @@ Map const FileRobot::doMap() const{
 	Map m;
 	for(const_iterator i=begin();i!=end();++i){
 		View const &v=*i;
+		std::cout<<v.getPosition()<<" "<<v.getAngle()<<std::endl;
 		m.addView(v.transform(v.getPosition(),v.getAngle()));
 	}
 	return m;
 }
+
