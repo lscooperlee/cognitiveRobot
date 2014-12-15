@@ -67,12 +67,17 @@ class Obstacle: public Object {
 		virtual bool operator <(Obstacle const &obstacle) const {return size() < obstacle.size(); };
 		
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const {
+			/*
 			std::vector<Position> newshape;
 			for(Obstacle::const_iterator i=shape.begin();i!=shape.end();++i){
 				Position const &o=*i;
 				newshape.push_back(o.transform(cord,ycur_ynew));
 			}
 			return Obstacle(newshape);
+			*/
+			Position const &p1=shape[0];
+			Position const &p2=shape[1];
+			return Obstacle(p1.transform(cord,ycur_ynew),p2.transform(cord,ycur_ynew));
 		}
 
 		//

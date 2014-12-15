@@ -37,15 +37,15 @@ class Position{
 		Position const transform(Position const &cord, Angle const &ycur_ynew) const;
 		
 		Position operator + (Position const &pos) const { 
-			return Position(x+pos.X(),y+pos.Y(),z+pos.Z());
+			return Position(X()+pos.X(),Y()+pos.Y(),Z()+pos.Z());
 		}
 
 		Position operator - (Position const &pos) const {
-			return Position(x-pos.X(),y-pos.Y(),z-pos.Z());
+			return Position(X()-pos.X(),Y()-pos.Y(),Z()-pos.Z());
 		}
 
 		Position operator - () const {
-			return Position(-x,-y,-z);
+			return Position(-X(),-Y(),-Z());
 		}
 		
 		double distance (Position const &pos) const{
