@@ -13,6 +13,7 @@ class FileRobot: public LaserRobot {
 		FileRobot(FileRobot const &filerobot);
 		~FileRobot();
 		View const look() throw(NoViewException);
+		Map const doMap() const;
 
 	private:
 		std::ifstream *file;

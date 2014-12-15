@@ -10,9 +10,19 @@
 namespace robot {
 	
 class Map {
+	
+	public:
+		void addView(View const &view){
+			Obstacles.insert(view.begin(),view.end());
+		}
+
+		typedef std::multiset<Obstacle>::const_iterator const_iterator;
+		
+		const_iterator begin() const {return Obstacles.begin();}
+		const_iterator end() const {return Obstacles.end();}
 
 	private:
-		std::set<Obstacle> Obstacles;
+		std::multiset<Obstacle> Obstacles;
 		std::vector<Position> route;
 
 };

@@ -39,7 +39,7 @@ class Obstacle: public Object {
 			position=shape.back();
 		}
 		/*
-		 * an obstacle needs at least two points. 
+		 * an obstacle needs at least two points. these methods are for 2D
 		 */
 		Obstacle(Position const &p1, Position const &p2){
 			shape.push_back(p1);
@@ -52,9 +52,7 @@ class Obstacle: public Object {
 			shape.push_back(Position(x2,y2));
 			position=Position(x1,y1);
 		}
-
-		Obstacle(std::vector<Position> const &obshape){shape=obshape;}
-
+		
 		virtual bool size() const {
 			if(shape.size() < 2){
 				return 0;
@@ -64,7 +62,18 @@ class Obstacle: public Object {
 			return p1.distance(p2);
 		}
 
+		Obstacle(std::vector<Position> const &obshape){shape=obshape;}
+
 		virtual bool operator <(Obstacle const &obstacle) const {return size() < obstacle.size(); };
+		
+		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const {
+			std::vector<Position> newshape;
+			for(Obstacle::const_iterator i=shape.begin();i!=shape.end();++i){
+				Position const &o=*i;
+				newshape.push_back(o.transform(cord,ycur_ynew));
+			}
+			return Obstacle(newshape);
+		}
 
 		//
 		//FIXME:template

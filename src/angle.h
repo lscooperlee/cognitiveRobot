@@ -5,6 +5,8 @@
 #include <ostream>
 #include <iomanip>
 #include "global.h"
+#include "position.h"
+
 
 namespace robot {
 
@@ -23,6 +25,12 @@ class Angle {
 	public:
 		Angle(): angle(0) {}
 		Angle(double a): angle(a) {}
+
+		Angle(Position const &p1, Position const &p2){
+			double d=p1.distance(p2);
+			double dx=p2.X()-p1.X();
+			angle=std::asin(dx/d);
+		}
 
 		Angle operator +(Angle const &ang) const {
 			double na=fixAngle(ang.value() + angle);

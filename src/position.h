@@ -5,9 +5,10 @@
 #include <iomanip>
 #include <cmath>
 #include "global.h"
-#include "angle.h"
+
 
 namespace robot {
+class Angle;
 
 /*
  * Position is designed for 3D, it could also be used in 2D if z=0,
@@ -33,7 +34,7 @@ class Position{
 		 * see http://www.continuummechanics.org/cm/coordxforms.html for more.
 		 *
 		 */
-		Position transform(Position const &cord, Angle const &ycur_ynew);
+		Position const transform(Position const &cord, Angle const &ycur_ynew) const;
 		
 		Position operator + (Position const &pos) const { 
 			return Position(x+pos.X(),y+pos.Y(),z+pos.Z());

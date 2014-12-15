@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include "position.h"
 #include "angle.h"
 
 
@@ -22,5 +23,7 @@ int main(int argc, char **argv){
 
 	Angle f=Angle(b-c);
 	cout << f << " cos:" << f.cos() << endl;
-
+	
+	Angle p(Position(1,1),Position(2,2));
+	cout << p << " cos:" << p.cos() << endl;
 }

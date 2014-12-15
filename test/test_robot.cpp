@@ -11,6 +11,8 @@ int main(int argc, char **argv){
 	FileRobot c=FileRobot(f);
 	FileRobot d=FileRobot("b");
 
+	GnuplotDisplay<Map> display;
+
 	Robot &b=f;
 	while(1){
 		View v;
@@ -23,7 +25,9 @@ int main(int argc, char **argv){
 
 		b.memorize(v);
 
-		GnuplotDisplay display;
-		display.display(v);
+//		display.display(v);
 	}
+	Map m=b.doMap();
+	display.display(m);
+
 }

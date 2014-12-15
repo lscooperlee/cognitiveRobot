@@ -1,8 +1,9 @@
 #include "position.h"
+#include "angle.h"
 
 using robot::Position;
 
-Position Position::transform(Position const & coordinate, Angle const &ycur_ynew){
+Position const Position::transform(Position const & coordinate, Angle const &ycur_ynew) const{
 	/* see the equation*/
 	double cos_ynew_yold=-ycur_ynew.cos();
 	double cos_ynew_xold=(PI/2-ycur_ynew).cos();

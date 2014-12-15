@@ -3,6 +3,7 @@
 
 #include "global.h"
 #include "object.h"
+#include "angle.h"
 #include "mind.h"
 #include "map.h"
 #include "view.h"
@@ -22,7 +23,7 @@ class Robot: public Mind, public Object{
 		virtual void move(Position const & pos) {this->position=pos;}
 		virtual void memorize (View const & view) {memory.push_back(view);}
 		virtual View recall (int id ) const {return memory[id];}
-
+		virtual Map const doMap() const = 0;
 
 	protected:
 

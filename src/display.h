@@ -10,6 +10,7 @@
 
 namespace robot {
 
+template <typename T> 
 class Display {
 	public:
 		virtual ~Display(){};
@@ -21,9 +22,10 @@ class Display {
 };
 
 
-class GnuplotDisplay: public Display {
+template <typename T> 
+class GnuplotDisplay {
 	public:
-		void display(View const & v) {
+		void display(T const & v) {
 			for(View::const_iterator i=v.begin();i!=v.end();++i){
 				maxmin(*i);
 			}
