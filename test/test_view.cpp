@@ -1,5 +1,6 @@
 
 #include <set>
+#include <iostream>
 #include "view.h"
 #include "obstacle.h"
 #include "position.h"
@@ -11,9 +12,9 @@ int main(int argc,char **argv){
 	View v;
 	GnuplotDisplay d("testview","/tmp/img");
 
-	v.insert(Obstacle(1,1,3,3));
-	v.insert(Obstacle(4,7,3,2));
-	v.insert(Obstacle(2,5,6,0));
+	v.addObstacle(Obstacle(1,1,3,3));
+	v.addObstacle(Obstacle(4,7,3,2));
+	v.addObstacle(Obstacle(2,5,6,0));
 
 	std::cout<<v.size()<<std::endl;
 	std::cout<<v<<std::endl;
@@ -24,14 +25,14 @@ int main(int argc,char **argv){
 	d.display(w);
 
 	View m;
-	m.insert(Obstacle(1,1,1,6));
-	m.insert(Obstacle(2,7,5,5));
-	m.insert(Obstacle(6,1,8,-1));
+	m.addObstacle(Obstacle(1,1,1,6));
+	m.addObstacle(Obstacle(2,7,5,5));
+	m.addObstacle(Obstacle(6,1,8,-1));
 	d.display(m);
 	
 	View i;
-	i.insert(Obstacle(3,-1,4,4));
-	i.insert(Obstacle(-5,-5,5,-5));
+	i.addObstacle(Obstacle(3,-1,4,4));
+	i.addObstacle(Obstacle(-5,-5,5,-5));
 	d.display(i);
 
 	View r=i-m;

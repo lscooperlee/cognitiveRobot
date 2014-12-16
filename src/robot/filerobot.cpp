@@ -83,7 +83,7 @@ View const FileRobot::look() throw(NoViewException) {
 				y2 = stod(s, &pos);
 
 				Obstacle o(x1, y1, x2, y2);
-				v.insert(o);
+				v.addObstacle(o);
 			}
 			catch( ...) {
 				break;
