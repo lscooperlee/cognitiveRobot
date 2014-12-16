@@ -12,6 +12,7 @@ class Obstacle: public Object {
 	public:
 
 		Obstacle();
+		Obstacle(std::initializer_list<Position> &plist);
 
 		/*
 		 * a string of points for any shape,

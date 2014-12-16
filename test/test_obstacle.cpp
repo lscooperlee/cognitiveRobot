@@ -12,6 +12,9 @@ using std::vector;
 
 int main(int argc,char **argv){
 
+	Obstacle u={Position(4,1),Position(1,4)};
+	cout<<u<<endl;
+
 	Obstacle o=Obstacle(1,1,5,5);
 	cout<<o<<endl;
 	

@@ -8,6 +8,12 @@ using namespace robot;
 Obstacle::Obstacle() {
 }
 
+Obstacle::Obstacle(std::initializer_list<Position> &plist) {
+	for(auto i=plist.begin();i!=plist.end();i++){
+		shape.push_back(*i);
+	}
+}
+
 Obstacle::Obstacle(std::string const &str) {
 	std::string::size_type pos = 0;
 	std::string s = str;
