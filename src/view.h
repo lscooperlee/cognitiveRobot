@@ -3,13 +3,14 @@
 
 #include <set>
 #include "global.h"
+#include "area.h"
 #include "obstacle.h"
 #include "angle.h"
 
 namespace robot {
 
 //class View:public Area
-class View {
+class View: public Area{
 
 	public:
 		View const transform(Position const &cord, Angle const &ycur_ynew) const;

@@ -3,13 +3,15 @@
 
 #include <vector>
 #include <set>
+#include "global.h"
+#include "area.h"
 #include "obstacle.h"
 #include "position.h"
 #include "view.h"
 
 namespace robot {
 	
-class Map {
+class Map:public Area {
 	
 	public:
 		/*

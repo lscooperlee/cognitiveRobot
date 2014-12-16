@@ -7,7 +7,6 @@
 #include "mind.h"
 #include "map.h"
 #include "view.h"
-#include "display.h"
 
 namespace robot {
 

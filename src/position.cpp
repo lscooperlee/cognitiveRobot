@@ -5,14 +5,19 @@ using robot::Position;
 
 Position const Position::transform(Position const & coordinate, Angle const &ycur_ynew) const{
 	/* see the equation*/
+
+	//first move, then turn
+	
+	Position newp(this->x-coordinate.X(),this->y-coordinate.Y());
+
 	double cos_ynew_yold=ycur_ynew.cos();
-	double cos_ynew_xold=(-PI/2+ycur_ynew).cos();
+	double cos_ynew_xold=(PI/2-ycur_ynew).cos();
 	double cos_xnew_xold=ycur_ynew.cos();
-	double cos_xnew_yold=(-ycur_ynew-PI/2).cos();
+	double cos_xnew_yold=(-PI/2-ycur_ynew).cos();
 
-	double newx=this->x*cos_xnew_xold+this->y*cos_xnew_yold;
-	double newy=this->x*cos_ynew_xold+this->y*cos_ynew_yold;
+	double newx=newp.X()*cos_xnew_xold+newp.Y()*cos_xnew_yold;
+	double newy=newp.X()*cos_ynew_xold+newp.Y()*cos_ynew_yold;
 
-	Position p=Position(newx, newy);
-	return p-coordinate;
+	return Position(newx, newy);
+
 }

@@ -13,8 +13,8 @@ namespace robot {
 class Display {
 	public:
 		virtual ~Display(){};
-		virtual void display(View const & v) =0;
-		virtual void display(Map const & v) =0;
+		virtual void display(View const & v, std::string fname=NULL) =0;
+		virtual void display(Map const & v, std::string fname=NULL) =0;
 
 	protected:
 		Display(){}
@@ -22,13 +22,17 @@ class Display {
 };
 
 
+#define PLOT_BORDER_FACTOR 0.05
+#define PLOT_RESOLUTION_X  2400
+#define PLOT_RESOLUTION_Y  2400
+
 class GnuplotDisplay {
 	public:
-		GnuplotDisplay(char const *bname, char const *dname=NULL);
+		GnuplotDisplay(char const *bname, char const *dname=NULL, int res_x = PLOT_RESOLUTION_X, int res_y=PLOT_RESOLUTION_Y);
 
-		void display(Map const & v);
+		void display(Map const & v, char const *fname=NULL);
 
-		void display(View const & v);
+		void display(View const & v, char const *fname=NULL);
 
 		void maxmin(Obstacle const &obs);
 
@@ -41,6 +45,10 @@ class GnuplotDisplay {
 		double maxX;
 		double maxY;
 		int id;
+
+		double plot_border_factor = PLOT_BORDER_FACTOR;
+		int plot_resolution_x = PLOT_RESOLUTION_X;
+		int plot_resolution_y = PLOT_RESOLUTION_Y;
 
 		std::string basename;
 		std::string dirname;

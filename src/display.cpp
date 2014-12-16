@@ -9,25 +9,31 @@
 
 using namespace robot;
 
-GnuplotDisplay::GnuplotDisplay(char const *bname, char const *dname){
+GnuplotDisplay::GnuplotDisplay(char const *bname, char const *dname, int res_x, int res_y){
 	id=0,minX=0,minY=0,maxX=0,maxY=0;
 	basename=bname;
 	dirname=dname;
-
+	
+	plot_resolution_x = res_x;
+	plot_resolution_y = res_y;
+	
 	//if empty create
 }
 
-void GnuplotDisplay::display(Map const & m) {
+void GnuplotDisplay::display(Map const & m, char const *fname) {
 	View v=m.toView();
 }
 
-void GnuplotDisplay::display(View const & v) {
+void GnuplotDisplay::display(View const & v, char const *fname) {
 
 	for(View::const_iterator i=v.begin();i!=v.end();++i){
 		maxmin(*i);
 	}
 
-	display_prepare(std::string("View"));
+	if(fname)
+		display_prepare(std::string(fname));
+	else
+		display_prepare(std::string("View"));
 
 	for(View::const_iterator i=v.begin();i!=v.end();++i){
 		Obstacle const &o=*i;
@@ -37,7 +43,11 @@ void GnuplotDisplay::display(View const & v) {
 		}
 		gnuplotfile << std::endl;
 	}
-	display_cleanup(std::string("View"));
+
+	if(fname)
+		display_cleanup(std::string(fname));
+	else
+		display_cleanup(std::string("View"));
 }
 
 
@@ -79,11 +89,8 @@ void GnuplotDisplay::display_prepare(std::string name){
 	}
 
 	// Add a border to the image
-	#define PLOT_BORDER_FACTOR 0.05
-	#define PLOT_RESOLUTION_X  2400
-	#define PLOT_RESOLUTION_Y  2400
 
-	double border = (maxX - minX) * PLOT_BORDER_FACTOR; // x and y now have the same range
+	double border = (maxX - minX) * plot_border_factor; // x and y now have the same range
 	minX -= border;
 	maxX += border;
 	minY -= border;
@@ -93,7 +100,7 @@ void GnuplotDisplay::display_prepare(std::string name){
 	std::string imgname=dirname+"/"+name+"_"+basename+std::to_string(id)+".png";
 
 	gnuplotfile.open(dataname);
-	gnuplotfile << "set terminal png size " << PLOT_RESOLUTION_X <<", "<<PLOT_RESOLUTION_Y << " nocrop linewidth 10" <<std::endl;
+	gnuplotfile << "set terminal png size " << plot_resolution_x <<", "<<plot_resolution_y << " nocrop linewidth 10" <<std::endl;
 	gnuplotfile << "set output \""<<imgname<<"\" "<<std::endl;
 	gnuplotfile << "set xrange["<<minX<<":"<<maxX<<"]" <<std::endl;
 	gnuplotfile << "set yrange["<<minY<<":"<<maxY<<"]" <<std::endl;
