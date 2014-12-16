@@ -12,6 +12,7 @@ class Obstacle: public Object {
 
 	public:
 
+		Obstacle(){}
 
 		/*
 		 * a string of points for any shape,
@@ -62,7 +63,8 @@ class Obstacle: public Object {
 			return p1.distance(p2);
 		}
 
-		Obstacle(std::vector<Position> const &obshape){shape=obshape;}
+//		Obstacle(std::vector<Position> const &obshape){shape=obshape;}
+		void addPosition(Position const &position){shape.push_back(position);}
 
 		virtual bool operator <(Obstacle const &obstacle) const {return size() < obstacle.size(); };
 
@@ -79,13 +81,12 @@ class Obstacle: public Object {
 		
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const {
 	
-			std::vector<Position> newshape;
+			Obstacle newshape;
 			for(Obstacle::const_iterator i=shape.begin();i!=shape.end();++i){
-				Position const &o=*i;
-				newshape.push_back(o.transform(cord,ycur_ynew));
+				Position const &p=*i;
+				newshape.addPosition(p.transform(cord,ycur_ynew));
 			}
-			return Obstacle(newshape);
-		
+			return newshape;
 		}
 
 		//

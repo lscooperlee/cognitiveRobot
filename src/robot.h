@@ -23,15 +23,24 @@ class Robot: public Mind, public Object{
 		virtual void move(Position const & pos) {this->position=pos;}
 		virtual void memorize (View const & view) {memory.push_back(view);}
 		virtual View recall (int id ) const {return memory[id];}
-		virtual Map const doMap() const = 0;
+
+		virtual Map const doMap(int c=0) const = 0;
 
 	protected:
+		int size() const {return memory.size();}
+		View const &get(int i) const {return memory[i];}
 
 		typedef std::vector<View>::iterator iterator;
 		typedef std::vector<View>::const_iterator const_iterator;
+
+		typedef std::vector<View>::reverse_iterator reverse_iterator;
+		typedef std::vector<View>::const_reverse_iterator const_reverse_iterator;
 		
-		const_iterator begin() const  {return memory.begin();}
-		const_iterator end() const  {return memory.end();}
+		const_iterator cbegin() const  {return memory.cbegin();}
+		const_iterator cend() const  {return memory.cend();}
+
+		const_reverse_iterator crbegin() const {return memory.crbegin();}
+		const_reverse_iterator crend() const {return memory.crend();}
 
 		std::vector<View> memory;
 

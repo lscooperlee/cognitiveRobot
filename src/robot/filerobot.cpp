@@ -93,12 +93,48 @@ View const FileRobot::look() throw(NoViewException) {
 	return v;
 }
 
-Map const FileRobot::doMap() const{
+Map const FileRobot::doMap(int c) const{
+//	return do_map_forward(c);
+	return do_map_backward(c);
+}
+
+Map const FileRobot::do_map_forward(int c) const{
 	Map m;
-	for(const_iterator i=begin();i!=end();++i){
-		View const &v=*i;
+
+//	const_iterator end = c == 0 ? cend() : cbegin() + c;
+//	for(const_iterator i=cbegin();i!=end;++i){
+//		View const &v=*i;
+
+	c=c==0?size():c;
+	int sz=c>size()?size():c;
+	for(int i=0;i<sz;++i){
+		View const &v=get(i);	
 		m.addView(v.transform(-v.getPosition(),-v.getAngle()));
 	}
 	return m;
 }
 
+Map const FileRobot::do_map_backward(int c) const {
+	Map m;
+
+//	const_reverse_iterator end = c == 0 ? crend() : crbegin() + c;
+//	for(;i!=end;++i){
+//		View const &v=*i;
+//
+
+	const_reverse_iterator i=crbegin();
+	View const &vorig=*i;
+	Position coor=vorig.getPosition();
+	Angle angle=vorig.getAngle();
+
+	c=c==0?size():c;
+	int sz=c>size()?size():c;
+	for(int i=sz-1;i>=0;--i){
+		View const &v=get(i);	
+
+		View const vtrans=v.transform(coor-v.getPosition(),angle-v.getAngle());
+		m.addView(vtrans);
+	}
+
+	return m;
+}

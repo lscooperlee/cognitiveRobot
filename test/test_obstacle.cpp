@@ -18,12 +18,11 @@ int main(int argc,char **argv){
 	Obstacle b("1 2 3 4");
 	cout<<b<<endl;
 
-	vector<Position> v;
-	v.push_back(Position(1,2));
-	v.push_back(Position(3,4));
-	v.push_back(Position(5,6));
-	Obstacle c(v);
-	cout<<c<<endl;
+	Obstacle v;
+	v.addPosition(Position(1,2));
+	v.addPosition(Position(3,4));
+	v.addPosition(Position(5,6));
+	cout<<v<<endl;
 
 	Obstacle t(-5589.00, -20.00, -5415.00, 75.00);
 	Obstacle m=t.transform(Position(-161.21, 972.45), Angle(0));

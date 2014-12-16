@@ -18,16 +18,17 @@ int main(int argc, char **argv){
 		View v;
 		try {
 			v=b.look();
-		}catch(...){
+		}catch(Robot::NoViewException e){
 			break;
 		}
-		std::cout<<v<<"\n"<<std::endl;
+//		std::cout<<v<<"\n"<<std::endl;
 
 		b.memorize(v);
 
-		display.display(v.transform(-v.getPosition(),-v.getAngle()));
+		Map m=b.doMap(2);
+		display.display(m.toView());
+
+	//	display.display(v.transform(-v.getPosition(),-v.getAngle()));
 	}
-	Map m=b.doMap();
-	display.display(m.toView());
 
 }

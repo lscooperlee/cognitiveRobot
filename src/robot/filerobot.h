@@ -13,11 +13,15 @@ class FileRobot: public LaserRobot {
 		FileRobot(FileRobot const &filerobot);
 		~FileRobot();
 		View const look() throw(NoViewException);
-		Map const doMap() const;
+		Map const doMap(int c) const;
 
 	private:
 		std::ifstream *file;
 		std::string filename;
+
+		Map const do_map_forward(int c) const;
+		Map const do_map_backward(int c) const;
+
 };
 
 }
