@@ -3,6 +3,12 @@
 
 using namespace robot;
 
+View::View(std::initializer_list<Obstacle> oblist){
+	for(auto const &o:oblist){
+		addObstacle(o);
+	}
+}
+
 View const View::transform(Position const &cord, Angle const &ycur_ynew) const {
 	View nv;
 	for(const_iterator i=begin();i!=end();++i){
@@ -11,8 +17,6 @@ View const View::transform(Position const &cord, Angle const &ycur_ynew) const {
 	}
 	return nv;
 }
-
-
 		
 void View::addObstacle(Obstacle const &obstacle) {
 	Obstacles.insert(obstacle);
@@ -36,28 +40,38 @@ Angle const & View::getAngle() const {
 	return facingAngle;
 };
 
-int View::size() {
-	return Obstacles.size();
-}
-
 
 View View::operator -(View const &view) const {
 	//toArea
 	//
 	std::vector < Position > area;
-	for (const_iterator i = view.begin(); i != view.end(); ++i){
-		Obstacle const &o = *i;
-		for (Obstacle::const_iterator j = o.begin(); j != o.end(); ++j){
-			Position const &p = *j;
+	for (auto const &o:view){
+		for (auto const &p:o){
 			 area.push_back(p);
 		}
 	}
+
 	View v;
-	for (const_iterator i = begin(); i != end(); ++i) {
-		Obstacle const &o = *i;
+	for (auto const &o:*this) {
 		if (!o.isInArea(area)) {
 			v.addObstacle(o);
 		}
 	}
 	return v;
+}
+
+double View::minX() const {
+	return min_x(*this);
+}
+
+double View::minY() const {
+	return min_y(*this);
+}
+
+double View::maxX() const {
+	return max_x(*this);
+}
+
+double View::maxY() const {
+	return max_y(*this);
 }

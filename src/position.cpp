@@ -21,3 +21,21 @@ Position const Position::transform(Position const & coordinate, Angle const &ycu
 	return Position(newx, newy);
 
 }
+
+bool Position::isInArea(std::vector<Position> const &t) const{
+	unsigned int i,j=t.size()-1;
+	bool oddNodes=false;
+	for(i=0;i<t.size();++i){
+		double xi=t[i].X();
+		double xj=t[j].X();
+		double yi=t[i].Y();
+		double yj=t[j].Y();
+		if((yi<y&&yj>=y)||(yj<y&&yi>=y)){
+			if(xi+(y-yi)/(yj-yi)*(xj-xi)<x){
+				oddNodes=!oddNodes;
+			}
+		}
+		j=i;
+	}
+	return oddNodes;
+}

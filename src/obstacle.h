@@ -2,10 +2,11 @@
 #define __SRC_OBSTACLE_H__
 
 #include "global.h"
-#include "position.h"
 #include "object.h"
 
 namespace robot {
+
+class Position;
 
 class Obstacle: public Object {
 
@@ -26,29 +27,18 @@ class Obstacle: public Object {
 		Obstacle(Position const &p1, Position const &p2);
 		
 		Obstacle(double x1, double y1, double x2, double y2);
-		
-		virtual bool size() const;
 
-//		Obstacle(std::vector<Position> const &obshape){shape=obshape;}
+		double length() const;
+		int size() const {return shape.size();}
+
 		void addPosition(Position const &position);
 
 		virtual bool operator <(Obstacle const &obstacle) const;
 
-		template< typename T >
-		bool isInArea(T const &t) const{
-			for (Obstacle::const_iterator i = shape.begin(); i != shape.end(); ++i) {
-				Position const &o = *i;
-				if (o.isInArea(t)) {
-					return true;
-				}
-			}
-			return false;
-		}
+		bool isInArea(std::vector<Position> const &t) const;
 		
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const;
 
-		//
-		//FIXME:template
 		double minX() const;
 		double minY() const;
 		double maxX() const;
@@ -57,12 +47,9 @@ class Obstacle: public Object {
 };
 
 static inline std::ostream & operator <<(std::ostream &os, Obstacle const &obstacle){
-	os << "[ ";
-	for(Obstacle::const_iterator i=obstacle.begin();i!=obstacle.end();++i){
-		Position const &o=*i;
+	for(auto const &o:obstacle){
 		os << o;
 	}
-	os << "] ";
 	return os;
 }
 

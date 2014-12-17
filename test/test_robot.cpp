@@ -2,6 +2,7 @@
 #include "filerobot.h"
 #include "view.h"
 #include "display.h"
+#include "map.h"
 
 using namespace robot;
 
@@ -25,7 +26,7 @@ int main(int argc, char **argv){
 
 		b.memorize(v);
 
-		Map m=b.doMap(5);
+		Map m=b.doMap();
 		display.display(m.toView());
 
 	//	display.display(v.transform(-v.getPosition(),-v.getAngle()));

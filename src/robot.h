@@ -3,12 +3,11 @@
 
 #include "global.h"
 #include "object.h"
-#include "angle.h"
 #include "mind.h"
-#include "map.h"
-#include "view.h"
 
 namespace robot {
+
+class Map;
 
 class Robot: public Mind, public Object{
 

@@ -21,7 +21,27 @@ GnuplotDisplay::GnuplotDisplay(char const *bname, char const *dname, int res_x, 
 }
 
 void GnuplotDisplay::display(Map const & m, char const *fname) {
-	View v=m.toView();
+	maxmin(m);
+
+	if(fname)
+		display_prepare(std::string(fname));
+	else
+		display_prepare(std::string("Map"));
+
+	
+	gnuplotfile << "plot ";
+	std::ofstream mapdata;
+
+	int i=0;
+	for(auto const &v:m){
+		std::string tname=dirname+"/"+"tmpmap"+std::to_string(i)+".dat";
+		gnuplotfile << "\""<<tname<<"\""<<" with linespoint linetype rgb "<<"\""<<color[i]<<"\""<<", ";
+		mapdata.open(tname);
+		dump_view(v,mapdata);
+		mapdata.close();
+		i++;
+	}
+
 }
 
 void GnuplotDisplay::display(View const & v, char const *fname) {
@@ -35,14 +55,8 @@ void GnuplotDisplay::display(View const & v, char const *fname) {
 	else
 		display_prepare(std::string("View"));
 
-	for(View::const_iterator i=v.begin();i!=v.end();++i){
-		Obstacle const &o=*i;
-		for(Obstacle::const_iterator j=o.begin();j!=o.end();++j){
-			Position const &p=*j;
-			gnuplotfile << p << std::endl;
-		}
-		gnuplotfile << std::endl;
-	}
+	gnuplotfile << "plot \"-\" with linespoint" <<std::endl;
+	dump_view(v,gnuplotfile);
 
 	if(fname)
 		display_cleanup(std::string(fname));
@@ -50,8 +64,8 @@ void GnuplotDisplay::display(View const & v, char const *fname) {
 		display_cleanup(std::string("View"));
 }
 
-
-void GnuplotDisplay::maxmin(Obstacle const &obs) {
+template <typename T>
+void GnuplotDisplay::maxmin(T const &obs) {
 	//assert
 	minX = obs.minX()<minX?obs.minX():minX;
 	minY = obs.minY()<minY?obs.minY():minY;
@@ -104,7 +118,14 @@ void GnuplotDisplay::display_prepare(std::string name){
 	gnuplotfile << "set output \""<<imgname<<"\" "<<std::endl;
 	gnuplotfile << "set xrange["<<minX<<":"<<maxX<<"]" <<std::endl;
 	gnuplotfile << "set yrange["<<minY<<":"<<maxY<<"]" <<std::endl;
-	gnuplotfile << "plot \"-\" with linespoint" <<std::endl;
 
 }
 
+void GnuplotDisplay::dump_view(View const &v,std::ofstream &os){
+	for(auto const &o:v){
+		for(auto &p:o){
+			os << p << std::endl;
+		}
+		os << std::endl;
+	}
+}

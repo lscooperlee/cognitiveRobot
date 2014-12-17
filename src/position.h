@@ -4,6 +4,7 @@
 #include <ostream>
 #include <iomanip>
 #include <cmath>
+#include <vector>
 #include "global.h"
 
 
@@ -52,29 +53,18 @@ class Position{
 			return std::sqrt(std::pow(X()-pos.X(),2)+std::pow(Y()-pos.Y(),2));
 		}
 
-		template <typename T>
-		bool isInArea(T const &t) const{
-			unsigned int i,j=t.size()-1;
-			bool oddNodes=false;
-			for(i=0;i<t.size();++i){
-				double xi=t[i].X();
-				double xj=t[j].X();
-				double yi=t[i].Y();
-				double yj=t[j].Y();
-				if((yi<y&&yj>=y)||(yj<y&&yi>=y)){
-					if(xi+(y-yi)/(yj-yi)*(xj-xi)<x){
-						oddNodes=!oddNodes;
-					}
-				}
-				j=i;
-			}
-			return oddNodes;
-		}
+		bool isInArea(std::vector<Position> const &t) const;
 		
 		double X() const {return x;}
 		double Y() const {return y;}
 		double Z() const {return z;}
+
+		double minX() const {return x;}
+		double minY() const {return y;}
+		double maxX() const {return x;}
+		double maxY() const {return y;}
 		
+		int size() const {return 1;}
 	private:
 		double x;
 		double y;

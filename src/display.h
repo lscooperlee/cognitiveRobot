@@ -3,12 +3,11 @@
 
 #include <set>
 #include <fstream>
-#include "map.h"
-#include "view.h"
-
-
 
 namespace robot {
+
+class Map;
+class View;
 
 class Display {
 	public:
@@ -34,11 +33,23 @@ class GnuplotDisplay {
 
 		void display(View const & v, char const *fname=NULL);
 
-		void maxmin(Obstacle const &obs);
+	private:
+
+		std::string color[8]={
+			"#000000",
+			"#333333",
+			"#555555"
+		};
+
+		template <typename T>
+		void maxmin(T const &obs);
 
 		void display_cleanup(std::string name);
 
 		void display_prepare(std::string name);
+
+		void dump_view(View const &v, std::ofstream &os);
+		
 
 		double minX;
 		double minY;
@@ -56,23 +67,6 @@ class GnuplotDisplay {
 
 };
 
-#if 0
-template <typename T> 
-class Display {
-	public:
-		virtual ~Display();
-		virtual void display(T const & t)=0;
-
-	protected:
-		Display(){}
-		Display(Display const &display){}
-};
-
-
-template <typename T>
-class GnuplotDisplay: public Display<T> {
-};
-#endif
 
 }
 

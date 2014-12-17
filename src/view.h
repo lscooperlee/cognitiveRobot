@@ -13,6 +13,10 @@ namespace robot {
 class View: public Area{
 
 	public:
+		View(){}
+
+		View(std::initializer_list<Obstacle> oblist);
+
 		View const transform(Position const &cord, Angle const &ycur_ynew) const;
 		
 		//depricated
@@ -29,17 +33,18 @@ class View: public Area{
 
 		typedef std::multiset<Obstacle>::const_iterator const_iterator;
 		
-		const_iterator begin() const {
-			return Obstacles.begin();
-		}
+		const_iterator begin() const {return Obstacles.begin();}
+		const_iterator end() const {return Obstacles.end();}
 
-		const_iterator end() const {
-			return Obstacles.end();
-		}
-
-		int size();
+		int size() const {return Obstacles.size();}
 
 		View operator -(View const &view) const ;
+
+		double minX() const ;
+		double minY() const ;
+		double maxX() const ;
+		double maxY() const ;
+
 
 	private:
 		std::multiset<Obstacle> Obstacles;
