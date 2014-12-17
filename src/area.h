@@ -5,5 +5,4 @@
 
 class Area {
 };
-
 #endif

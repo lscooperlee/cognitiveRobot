@@ -1,6 +1,7 @@
 
 #include <cstring>
 #include "filerobot.h"
+#include "map.h"
 
 using namespace robot;
 using std::ifstream;

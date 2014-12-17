@@ -48,7 +48,7 @@ Obstacle::Obstacle(double x1, double y1, double x2, double y2) {
 	position = Position(x1, y1);
 }
 
-bool Obstacle::size() const {
+double Obstacle::length() const {
 	if (shape.size() < 2) {
 		return 0;
 	}
@@ -62,7 +62,7 @@ void Obstacle::addPosition(Position const &position) {
 }
 
 bool Obstacle::operator <(Obstacle const &obstacle) const {
-	return size() < obstacle.size();
+	return length() < obstacle.length();
 }
 
 /*
@@ -87,38 +87,27 @@ Obstacle const Obstacle::transform(Position const &cord, Angle const &ycur_ynew)
 	return newshape;
 }
 
-double Obstacle::minX() const {
-	double min = DBL_MAX;
-	for (Obstacle::const_iterator i = shape.begin(); i != shape.end(); ++i){
-		Position const &o = *i;
-		 min = o.X() < min ? o.X() : min;
+bool Obstacle::isInArea(std::vector<Position> const &t) const{
+	for (auto const &p:*this) {
+		if (p.isInArea(t)) {
+			return true;
+		}
 	}
-	return min;
+	return false;
+}
+
+double Obstacle::minX() const {
+	return min_x(*this);
 }
 
 double Obstacle::minY() const {
-	double min = DBL_MAX;
-	for (Obstacle::const_iterator i = shape.begin(); i != shape.end(); ++i) {
-		Position const &o = *i;
-		 min = o.Y() < min ? o.Y() : min;
-	}
-	return min;
+	return min_y(*this);
 }
 
 double Obstacle::maxX() const {
-	double max = -DBL_MAX;
-	for (Obstacle::const_iterator i = shape.begin(); i != shape.end(); ++i) {
-		Position const &o = *i;
-		 max = o.X() > max ? o.X() : max;
-	}
-	return max;
+	return max_x(*this);
 }
 
 double Obstacle::maxY() const {
-	double max = -DBL_MAX;
-	for (Obstacle::const_iterator i = shape.begin(); i != shape.end(); ++i) {
-		Position const &o = *i;
-		 max = o.Y() > max ? o.Y() : max;
-	}
-	return max;
+	return max_y(*this);
 }

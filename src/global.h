@@ -1,6 +1,8 @@
 #ifndef __SRC_GLOBAL_H__
 #define __SRC_GLOBAL_H__
 
+#include "template.h"
+
 namespace robot {
 
 
