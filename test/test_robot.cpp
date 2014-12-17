@@ -27,7 +27,7 @@ int main(int argc, char **argv){
 		b.memorize(v);
 
 		Map m=b.doMap();
-		display.display(m.toView());
+		display.display(m);
 
 	//	display.display(v.transform(-v.getPosition(),-v.getAngle()));
 	}

@@ -32,15 +32,26 @@ void GnuplotDisplay::display(Map const & m, char const *fname) {
 	gnuplotfile << "plot ";
 	std::ofstream mapdata;
 
-	int i=0;
+	unsigned int i=0;
 	for(auto const &v:m){
 		std::string tname=dirname+"/"+"tmpmap"+std::to_string(i)+".dat";
-		gnuplotfile << "\""<<tname<<"\""<<" with linespoint linetype rgb "<<"\""<<color[i]<<"\""<<", ";
+		std::string colorstring;
+		if(i>=6){ //size of the color array
+			colorstring=color[6-1];
+		}else{
+			colorstring=color[i];
+		}
+		gnuplotfile << "\""<<tname<<"\""<<" with linespoint linetype rgb "<<"\""<<colorstring<<"\""<<", ";
 		mapdata.open(tname);
 		dump_view(v,mapdata);
 		mapdata.close();
 		i++;
 	}
+
+	if(fname)
+		display_cleanup(std::string(fname));
+	else
+		display_cleanup(std::string("Map"));
 
 }
 
