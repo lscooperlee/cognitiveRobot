@@ -37,4 +37,7 @@ int main(int argc, char **argv){
 
 	p=Angle(Position(1,1),Position(3,0));
 	cout << p << " cos:" << p.cos() << endl;
+
+	p=Angle(Position(1,1),Position(1,0));
+	cout << p << " cos:" << p.cos() << endl;
 }

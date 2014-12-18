@@ -44,6 +44,8 @@ void GnuplotDisplay::display(Map const & m, char const *fname) {
 		gnuplotfile << "\""<<tname<<"\""<<" with linespoint linetype rgb "<<"\""<<colorstring<<"\""<<", ";
 		mapdata.open(tname);
 		dump_view(v,mapdata);
+		View r=draw_robot(v.getPosition(), v.getAngle());
+		dump_view(r,mapdata);
 		mapdata.close();
 		i++;
 	}
@@ -139,4 +141,15 @@ void GnuplotDisplay::dump_view(View const &v,std::ofstream &os){
 		}
 		os << std::endl;
 	}
+}
+
+View GnuplotDisplay::draw_robot(Position const &p, Angle const &a){
+	double robotlen=(maxX-minX)/20;
+	Position head=p.directPosition(a,robotlen);
+	
+	Position left=p.directPosition(a-PI/2, robotlen/3);
+	Position right=p.directPosition(a+PI/2, robotlen/3);
+
+	View robot({Obstacle(p,head),Obstacle(head,left),Obstacle(head,right),Obstacle(left,right)});
+	return robot;
 }

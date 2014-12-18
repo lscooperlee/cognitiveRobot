@@ -28,6 +28,7 @@ int main(int argc, char **argv){
 
 		Map m=b.doMap();
 		display.display(m);
+		display.display(v);
 
 	//	display.display(v.transform(-v.getPosition(),-v.getAngle()));
 	}

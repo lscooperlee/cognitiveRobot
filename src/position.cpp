@@ -39,3 +39,9 @@ bool Position::isInArea(std::vector<Position> const &t) const{
 	}
 	return oddNodes;
 }
+
+Position Position::directPosition(Angle const &a, double distance) const{
+	double dy=a.cos()*distance;
+	double dx=a.sin()*distance;
+	return Position(dx+X(),dy+Y());
+}

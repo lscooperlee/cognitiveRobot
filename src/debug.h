@@ -17,6 +17,10 @@ void dbg(const T& firstArg, const Types&... args){
 	dbg(args...);
 }
 
+#define waitdbg() do{ 				\
+				getchar();			\
+					}while(0);
+
 }
 #endif
 

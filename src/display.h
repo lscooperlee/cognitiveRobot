@@ -8,6 +8,8 @@ namespace robot {
 
 class Map;
 class View;
+class Angle;
+class Position;
 
 class Display {
 	public:
@@ -52,7 +54,7 @@ class GnuplotDisplay {
 		void display_prepare(std::string name);
 
 		void dump_view(View const &v, std::ofstream &os);
-		
+		View draw_robot(Position const &p, Angle const &a);
 
 		double minX;
 		double minY;

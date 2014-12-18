@@ -14,7 +14,6 @@ View const View::transform(Position const &cord, Angle const &ycur_ynew) const {
 	for(auto const &o:*this){
 		nv.addObstacle(o.transform(cord,ycur_ynew));
 	}
-//	nv.putPosition(getPosition().transform(cord,ycur_ynew));
 	nv.putPosition(Position(0,0).transform(cord,ycur_ynew));
 	nv.putAngle(-ycur_ynew);
 	return nv;
@@ -62,6 +61,7 @@ View View::operator -(View const &view) const {
 	return v;
 }
 
+#if 0
 View View::cut(Position const &pos, Angle const &ang) const{
 	//a=sin(ang)
 	//b=cos(ang)
@@ -89,6 +89,37 @@ View View::cut(Position const &pos, Angle const &ang) const{
 		if(keep)
 			v.addObstacle(o);
 	}
+	v.putPosition(getPosition());
+	v.putAngle(getAngle());
+
+	return v;
+}
+#endif
+View View::cut(Position const &pos, Angle const &ang) const{
+	//a=sin(ang)
+	//b=cos(ang)
+	//a(x-x0)+b(y-y0)=0 is the function for line.
+	//if angle is between -PI/2 and PI/2 any points above this line  will be cut
+	//otherwise, any points below this line will be cut
+	
+	//another method is to choose two max and min points on the line, and choose an max point along the facing angle, anything in the big triangle will be cut 
+	View v;
+
+	Position p1(pos.directPosition(ang,1000000));
+	Position p2(pos.directPosition(ang+PI/2,1000000));
+	Position p3(pos.directPosition(ang-PI/2,1000000));
+
+	std::vector<Position> area;
+	area.push_back(p1);
+	area.push_back(p2);
+	area.push_back(p3);
+
+	for (auto const &o:*this) {
+		if (!o.isInArea(area)) {
+			v.addObstacle(o);
+		}
+	}
+
 	v.putPosition(getPosition());
 	v.putAngle(getAngle());
 

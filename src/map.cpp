@@ -30,7 +30,9 @@ void Map::addViewbyCut(View const &view) {
 	}else{
 		View const &tv=ViewVector.back();
 		View const nv=view.cut(tv.getPosition(),tv.getAngle());
-		ViewVector.push_back(nv);
+		if(nv.size()){
+			ViewVector.push_back(nv);
+		}
 	}
 }
 

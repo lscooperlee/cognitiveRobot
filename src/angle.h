@@ -35,6 +35,8 @@ class Angle {
 				angle-=PI/2;
 			}else if(p2.Y()<p1.Y()&&dx>0){
 				angle+=PI/2;
+			}else if(p2.Y()<p1.Y()&&dx==0){
+				angle+=PI;
 			}
 			angle=fixAngle(angle);
 		}
@@ -67,7 +69,10 @@ class Angle {
 		double sin() const {return std::sin(angle);}
 
 		double value() const {return angle;}
-		double convertToRadian(double a) const { return fixAngle(a*PI/180); }
+
+		double degree() const {return angle*180/PI;}
+
+		double radian(double a) const { return fixAngle(a*PI/180); }
 		//if it is above X axis
 		bool isAbove() const{
 			if(angle>=-PI/2 && angle <= PI/2 ){
@@ -80,7 +85,7 @@ class Angle {
 	private:
 		double angle;
 		double fixAngle(double oa) const{
-			if (oa < -PI)
+			if (oa <= -PI)
 				oa = oa + 2 * PI;
 			else if (oa > PI)
 				oa = oa - 2 * PI;
@@ -98,7 +103,7 @@ static inline Angle operator -(double const ang, Angle const &angle) {
 
 static inline std::ostream & operator<<(std::ostream &os, Angle const &angle){ 
 	std::fixed(os);
-	os <<std::setprecision(2)<<" <"<<angle.value() << "> ";
+	os <<std::setprecision(2)<<" <"<<angle.degree() << "> ";
 	return os;
 }
 

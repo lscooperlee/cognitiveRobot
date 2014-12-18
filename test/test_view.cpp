@@ -17,15 +17,15 @@ int main(int argc,char **argv){
 	dbg(tt);
 //	d.display(tt.cut(p,a));
 //	d.display(tt.cut(p,-a));
-	d.display(tt.cut(Position(0,2),Angle(PI/4)));
-	d.display(tt.cut(Position(0,2),Angle(PI/2)));
-	d.display(tt.cut(Position(0,2),Angle(-PI/4)));
-	d.display(tt.cut(Position(0,2),Angle(-PI/2)));
+	d.display(tt.cut(Position(0,2),Angle(PI/4)),"P02_AP45");
+	d.display(tt.cut(Position(0,2),Angle(PI/2)),"P02_AP90");
+	d.display(tt.cut(Position(0,2),Angle(-PI/4)),"P02_AM45");
+	d.display(tt.cut(Position(0,2),Angle(-PI/2)),"P02_AM90");
 
-	d.display(tt.cut(Position(0,1),Angle(3*PI/2)));
-	d.display(tt.cut(Position(0,1),Angle(-3*PI/2)));
+	d.display(tt.cut(Position(0,1),Angle(3*PI/2)),"P01_AP135");
+	d.display(tt.cut(Position(0,1),Angle(-3*PI/2)),"P01_AM135");
+
 	return 0;
-
 	View v;
 /*
 	v.addObstacle(Obstacle(1,1,3,10));
