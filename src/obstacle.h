@@ -3,6 +3,7 @@
 
 #include "global.h"
 #include "object.h"
+#include "area.h"
 
 namespace robot {
 
@@ -39,6 +40,8 @@ class Obstacle: public Object {
 		bool isInArea(std::vector<Position> const &t) const;
 		
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const;
+
+		Area toArea() const;
 
 		double minX() const;
 		double minY() const;
