@@ -37,11 +37,11 @@ class GnuplotDisplay {
 
 		std::string color[6]={
 			"#000000",
-			"#696969",
-			"#808080",
-			"#A9A9A9",
-			"#C0C0C0",
-			"#D3D3D3"
+			"#660033",
+			"#4c0099",
+			"#0066cc",
+			"#00ff80",
+			"#99ff33"
 		};
 
 		template <typename T>

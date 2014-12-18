@@ -73,16 +73,13 @@ View View::cut(Position const &pos, Angle const &ang) const{
 	View v;
 
 	for(auto const &o:*this){
-		dbg(o);
 		bool keep=true;
 		for(auto const &p:o){
-			dbg(p);
 			int sign=1;
 			if(!ang.isAbove()){
 				sign=-1;
 			}
 			double tmp=sign*(ang.sin()*(p.X()-pos.X())+ang.cos()*(p.Y()-pos.Y()));
-			dbg(p,ang,sign,tmp);
 			if(tmp>0){
 				keep=false;
 				break;
@@ -91,7 +88,6 @@ View View::cut(Position const &pos, Angle const &ang) const{
 		}
 		if(keep)
 			v.addObstacle(o);
-		dbg("\n");
 	}
 	v.putPosition(getPosition());
 	v.putAngle(getAngle());

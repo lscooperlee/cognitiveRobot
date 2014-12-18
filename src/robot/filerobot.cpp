@@ -138,7 +138,6 @@ Map const FileRobot::do_map_backward(int c) const {
 		Position p(coor-v.getPosition());
 		Angle a(angle-v.getAngle());
 		View const vtrans=v.transform(p,a);
-		dbg(vtrans);
 		m.addViewbyCut(vtrans);
 	}
 
