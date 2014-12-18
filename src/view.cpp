@@ -1,4 +1,3 @@
-
 #include "view.h"
 
 using namespace robot;
@@ -11,10 +10,13 @@ View::View(std::initializer_list<Obstacle> oblist){
 
 View const View::transform(Position const &cord, Angle const &ycur_ynew) const {
 	View nv;
-	for(const_iterator i=begin();i!=end();++i){
-		Obstacle const &o=*i;
+
+	for(auto const &o:*this){
 		nv.addObstacle(o.transform(cord,ycur_ynew));
 	}
+//	nv.putPosition(getPosition().transform(cord,ycur_ynew));
+	nv.putPosition(Position(0,0).transform(cord,ycur_ynew));
+	nv.putAngle(-ycur_ynew);
 	return nv;
 }
 		
@@ -36,10 +38,10 @@ void View::putAngle(Angle const &angle) {
 Position const & View::getPosition() const {
 	return globalPosition;
 }
+
 Angle const & View::getAngle() const {
 	return facingAngle;
 };
-
 
 View View::operator -(View const &view) const {
 	//toArea
@@ -57,6 +59,43 @@ View View::operator -(View const &view) const {
 			v.addObstacle(o);
 		}
 	}
+	return v;
+}
+
+View View::cut(Position const &pos, Angle const &ang) const{
+	//a=sin(ang)
+	//b=cos(ang)
+	//a(x-x0)+b(y-y0)=0 is the function for line.
+	//if angle is between -PI/2 and PI/2 any points above this line  will be cut
+	//otherwise, any points below this line will be cut
+	
+	//another method is to choose two max and min points on the line, and choose an max point along the facing angle, anything in the big triangle will be cut 
+	View v;
+
+	for(auto const &o:*this){
+		dbg(o);
+		bool keep=true;
+		for(auto const &p:o){
+			dbg(p);
+			int sign=1;
+			if(!ang.isAbove()){
+				sign=-1;
+			}
+			double tmp=sign*(ang.sin()*(p.X()-pos.X())+ang.cos()*(p.Y()-pos.Y()));
+			dbg(p,ang,sign,tmp);
+			if(tmp>0){
+				keep=false;
+				break;
+			}
+
+		}
+		if(keep)
+			v.addObstacle(o);
+		dbg("\n");
+	}
+	v.putPosition(getPosition());
+	v.putAngle(getAngle());
+
 	return v;
 }
 

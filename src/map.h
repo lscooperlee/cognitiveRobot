@@ -4,7 +4,6 @@
 #include <vector>
 #include <set>
 #include "global.h"
-#include "area.h"
 
 namespace robot {
 
@@ -12,7 +11,7 @@ class View;
 class Position;
 class Obstacle;
 	
-class Map:public Area {
+class Map {
 	
 	public:
 
@@ -24,7 +23,8 @@ class Map:public Area {
 		 * add an untransformed view to a map is meaningless
 		 *
 		 */
-		void addView(View const &view);
+		void addView(View const &view) ;
+		void addViewbyCut(View const &view) ;
 
 		View toView() const ;
 

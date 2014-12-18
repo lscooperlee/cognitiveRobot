@@ -45,7 +45,6 @@ class X {
 			iterator operator--(int); //optional
 			iterator& operator+=(size_type); //optional
 			iterator operator+(size_type) const; //optional
-			friend iterator operator+(size_type, const iterator&); //optional
 			iterator& operator-=(size_type); //optional            
 			iterator operator-(size_type) const; //optional
 			difference_type operator-(iterator) const; //optional
@@ -81,7 +80,6 @@ class X {
 			const_iterator operator--(int); //optional
 			const_iterator& operator+=(size_type); //optional
 			const_iterator operator+(size_type) const; //optional
-			friend const_iterator operator+(size_type, const const_iterator&); //optional
 			const_iterator& operator-=(size_type); //optional            
 			const_iterator operator-(size_type) const; //optional
 			difference_type operator-(const_iterator) const; //optional
@@ -163,6 +161,7 @@ class X {
 };
 template <class T, class A = std::allocator<T> >
 void swap(X<T,A>&, X<T,A>&); //optional
+
 
 #if 0
 template<typename T>

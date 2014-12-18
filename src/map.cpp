@@ -12,12 +12,25 @@ Map::Map(std::initializer_list<View> vlist){
 	}
 }
 
-void Map::addView(View const &view){
+void Map::addView(View const &view) {
+
 	if(ViewVector.size()==0){
 		ViewVector.push_back(view);
 	}else{
 		View const &tv=ViewVector.back();
 		View const nv=view-tv;
+		ViewVector.push_back(nv);
+	}
+}
+
+void Map::addViewbyCut(View const &view) {
+
+	if(ViewVector.size()==0){
+		ViewVector.push_back(view);
+	}else{
+		View const &tv=ViewVector.back();
+		dbg(tv);
+		View const nv=view.cut(tv.getPosition(),tv.getAngle());
 		ViewVector.push_back(nv);
 	}
 }

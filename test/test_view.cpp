@@ -9,8 +9,24 @@
 using namespace robot;
 
 int main(int argc,char **argv){
-	View v;
 	GnuplotDisplay d("testview","/tmp/img",500,500);
+
+	View tt={Obstacle(-1,1,-1,2),Obstacle(1,1,1,2)};
+	d.display(tt);
+	
+	dbg(tt);
+//	d.display(tt.cut(p,a));
+//	d.display(tt.cut(p,-a));
+	d.display(tt.cut(Position(0,2),Angle(PI/4)));
+	d.display(tt.cut(Position(0,2),Angle(PI/2)));
+	d.display(tt.cut(Position(0,2),Angle(-PI/4)));
+	d.display(tt.cut(Position(0,2),Angle(-PI/2)));
+
+	d.display(tt.cut(Position(0,1),Angle(3*PI/2)));
+	d.display(tt.cut(Position(0,1),Angle(-3*PI/2)));
+	return 0;
+
+	View v;
 /*
 	v.addObstacle(Obstacle(1,1,3,10));
 	v.addObstacle(Obstacle(2,3,3,1));
@@ -60,8 +76,6 @@ int main(int argc,char **argv){
 	std::cout<<w<<std::endl;
 	d.display(w,"P20_Ap135_");
 	
-
-
 	View m;
 	m.addObstacle(Obstacle(1,1,1,6));
 	m.addObstacle(Obstacle(2,7,5,5));
@@ -75,4 +89,5 @@ int main(int argc,char **argv){
 
 	View r=i-m;
 	d.display(r);
+
 }

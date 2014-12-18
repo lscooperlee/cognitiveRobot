@@ -64,9 +64,18 @@ class Angle {
 		operator double() const {return value();}
 
 		double cos() const {return std::cos(angle);}
+		double sin() const {return std::sin(angle);}
 
 		double value() const {return angle;}
 		double convertToRadian(double a) const { return fixAngle(a*PI/180); }
+		//if it is above X axis
+		bool isAbove() const{
+			if(angle>=-PI/2 && angle <= PI/2 ){
+				return true;
+			}else{
+				return false;
+			}
+		}
 
 	private:
 		double angle;

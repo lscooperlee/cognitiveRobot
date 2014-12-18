@@ -3,14 +3,12 @@
 
 #include <set>
 #include "global.h"
-#include "area.h"
 #include "obstacle.h"
 #include "angle.h"
 
 namespace robot {
 
-//class View:public Area
-class View: public Area{
+class View {
 
 	public:
 		View(){}
@@ -19,9 +17,6 @@ class View: public Area{
 
 		View const transform(Position const &cord, Angle const &ycur_ynew) const;
 		
-		//depricated
-		void insert(Obstacle const &obstacle);
-
 		void addObstacle(Obstacle const &obstacle);
 		void addObstacles(std::multiset<Obstacle> const &obset);
 
@@ -39,6 +34,9 @@ class View: public Area{
 		int size() const {return Obstacles.size();}
 
 		View operator -(View const &view) const ;
+
+		//given a position and the angle in a view, cut all obstacles on the angle side of the line that goes across the position.
+		View cut(Position const &pos, Angle const &ang) const;
 
 		double minX() const ;
 		double minY() const ;

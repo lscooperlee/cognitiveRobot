@@ -18,7 +18,7 @@ int main(int argc, char **argv){
 	View v1={o1,o2,o3};
 	View v2={o4,o5};
 
-	Map m{v1,v2};
+	Map m{v2,v1};
 
 	GnuplotDisplay d("testmap","/tmp/img",500,500);
 	d.display(m);
