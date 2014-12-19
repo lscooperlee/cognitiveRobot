@@ -54,7 +54,6 @@ View const FileRobot::look() throw(NoViewException) {
 			Position p1(x1,y1);
 			Position p2(x2,y2);
 			Angle a(p1,p2);
-			dbg(a,p1,p2);
 			v.putAngle(a);
 			v.putPosition(Position(x1,y1));
 		}
@@ -136,18 +135,6 @@ Map const FileRobot::do_map_backward(int c) const {
 	int sz=c>size()?size():c;
 
 	int j=sz;
-	/*
-	for(auto i=crbegin();j>0;j--,++i){
-		View const &v=*i;
-		Position p(coor-v.getPosition());
-		Position np=p.transform(Position(0,0),v.getAngle());
-		Angle a(angle-v.getAngle());
-		//p is in 
-		dbg(p,np,a);
-		View const vtrans=v.transform(np,a);
-		m.addViewbyCut(vtrans);
-	}
-	*/
 	for(auto i=crbegin();j>0;j--,++i){
 		View const &v=*i;
 		//fist step, make the original position into the current View (v)'s coordinates

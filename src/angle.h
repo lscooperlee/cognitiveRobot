@@ -36,7 +36,6 @@ class Angle {
 				angle=PI-angle;
 			}
 			angle=fixAngle(angle);
-			dbg(angle,dx,d);
 		}
 
 		Angle operator +(Angle const &ang) const {
