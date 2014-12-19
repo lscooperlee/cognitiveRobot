@@ -30,15 +30,13 @@ class Angle {
 			double d=p1.distance(p2);
 			double dx=p2.X()-p1.X();
 			angle=std::asin(dx/d);
-
 			if (p2.Y()<p1.Y()&&dx<0){
-				angle-=PI/2;
+				angle=-PI-angle;
 			}else if(p2.Y()<p1.Y()&&dx>0){
-				angle+=PI/2;
-			}else if(p2.Y()<p1.Y()&&dx==0){
-				angle+=PI;
+				angle=PI-angle;
 			}
 			angle=fixAngle(angle);
+			dbg(angle,dx,d);
 		}
 
 		Angle operator +(Angle const &ang) const {

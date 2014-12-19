@@ -51,8 +51,12 @@ View const FileRobot::look() throw(NoViewException) {
 			s = s.substr(pos);
 			y2 = stod(s, &pos);
 			
+			Position p1(x1,y1);
+			Position p2(x2,y2);
+			Angle a(p1,p2);
+			dbg(a,p1,p2);
+			v.putAngle(a);
 			v.putPosition(Position(x1,y1));
-			v.putAngle(Angle(Position(x1,y1),Position(x2,y2)));
 		}
 		catch( ...) {
 			return v;
@@ -131,14 +135,32 @@ Map const FileRobot::do_map_backward(int c) const {
 	c=c==0?size():c;
 	int sz=c>size()?size():c;
 
-//	for(int i=sz-1;i>=0;--i){
 	int j=sz;
+	/*
 	for(auto i=crbegin();j>0;j--,++i){
 		View const &v=*i;
 		Position p(coor-v.getPosition());
+		Position np=p.transform(Position(0,0),v.getAngle());
 		Angle a(angle-v.getAngle());
-		View const vtrans=v.transform(p,a);
+		//p is in 
+		dbg(p,np,a);
+		View const vtrans=v.transform(np,a);
 		m.addViewbyCut(vtrans);
+	}
+	*/
+	for(auto i=crbegin();j>0;j--,++i){
+		View const &v=*i;
+		//fist step, make the original position into the current View (v)'s coordinates
+		//so the current View (v)'s position and angle is the new zero.
+		Position oinv=coor.transform(v.getPosition(),v.getAngle());
+
+		//second step, because current View (v) will be transformed into original coordinates,
+		//so the angle of the original coordinates in current View (v) is needed
+		Angle ainv=-v.getAngle()+angle;
+		
+		View const vtrans=v.transform(oinv,ainv);
+		m.addViewbyCut(vtrans);
+
 	}
 
 	return m;

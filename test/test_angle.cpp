@@ -40,4 +40,21 @@ int main(int argc, char **argv){
 
 	p=Angle(Position(1,1),Position(1,0));
 	cout << p << " cos:" << p.cos() << endl;
+
+	dbg(Angle(3*PI/4)-Angle(-3*PI/4),Angle(-3*PI/4)-Angle(3*PI/4));
+	dbg(Angle(PI/4)-Angle(-PI/4),Angle(-PI/4)-Angle(PI/4));
+	dbg(Angle(3*PI/2)-Angle(-3*PI/2),Angle(-3*PI/2)-Angle(3*PI/2));
+	dbg(Angle(-PI/4)-Angle(-3*PI/4),Angle(-3*PI/4)-Angle(-PI/4));
+
+	p=Angle(Position(123,1124),Position(2454,2232));
+	Position mm(0,0);
+	Position nn=mm.directPosition(p,20);
+	Angle p1=Angle(mm,nn);
+	dbg(p1,p);
+
+	Position pp1(-215.00,100.17);
+	Position pp2(-414.98,97.47);
+	p=Angle(pp1,pp2);
+	dbg(p,pp1,pp2);
+
 }
