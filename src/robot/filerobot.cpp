@@ -121,11 +121,6 @@ Map const FileRobot::do_map_forward(int c) const{
 Map const FileRobot::do_map_backward(int c) const {
 	Map m;
 
-//	const_reverse_iterator end = c == 0 ? crend() : crbegin() + c;
-//	for(;i!=end;++i){
-//		View const &v=*i;
-//
-
 	const_reverse_iterator i=crbegin();
 	View const &vorig=*i;
 	Position coor=vorig.getPosition();
@@ -146,7 +141,8 @@ Map const FileRobot::do_map_backward(int c) const {
 		Angle ainv=-v.getAngle()+angle;
 		
 		View const vtrans=v.transform(oinv,ainv);
-		m.addViewbyCut(vtrans);
+//		m.addViewbyCut(vtrans);
+		m.addViewbyFullCut(vtrans);
 
 	}
 

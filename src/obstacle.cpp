@@ -1,4 +1,5 @@
 #include <float.h>
+#include "template.h"
 #include "position.h"
 #include "obstacle.h"
 
@@ -85,6 +86,10 @@ Obstacle const Obstacle::transform(Position const &cord, Angle const &ycur_ynew)
 		 newshape.addPosition(p.transform(cord, ycur_ynew));
 	}
 	return newshape;
+}
+
+std::vector<Position> Obstacle::toPositions() const{
+	return to_positions(*this);
 }
 
 bool Obstacle::isInArea(std::vector<Position> const &t) const{

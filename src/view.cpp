@@ -1,4 +1,5 @@
 #include "view.h"
+#include "template.h"
 
 using namespace robot;
 
@@ -61,6 +62,10 @@ View View::operator -(View const &view) const {
 	return v;
 }
 
+std::vector<Position> View::toPositions() const{
+	return to_positions(*this);
+}
+
 #if 0
 View View::cut(Position const &pos, Angle const &ang) const{
 	//a=sin(ang)
@@ -95,6 +100,7 @@ View View::cut(Position const &pos, Angle const &ang) const{
 	return v;
 }
 #endif
+
 View View::cut(Position const &pos, Angle const &ang) const{
 	//a=sin(ang)
 	//b=cos(ang)

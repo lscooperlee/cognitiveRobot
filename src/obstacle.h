@@ -3,11 +3,11 @@
 
 #include "global.h"
 #include "object.h"
-#include "area.h"
 
 namespace robot {
 
 class Position;
+class Area;
 
 class Obstacle: public Object {
 
@@ -40,6 +40,8 @@ class Obstacle: public Object {
 		bool isInArea(std::vector<Position> const &t) const;
 		
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const;
+
+		std::vector<Position> toPositions() const;
 
 		Area toArea() const;
 

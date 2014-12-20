@@ -1,5 +1,6 @@
 
 #include "map.h"
+#include "template.h"
 #include "obstacle.h"
 #include "position.h"
 #include "view.h"
@@ -34,6 +35,25 @@ void Map::addViewbyCut(View const &view) {
 			ViewVector.push_back(nv);
 		}
 	}
+}
+
+void Map::addViewbyFullCut(View const &view) {
+
+	if(ViewVector.size()==0){
+		ViewVector.push_back(view);
+	}else{
+		View nv=view;
+		for(auto const &tv:ViewVector){
+			nv=nv.cut(tv.getPosition(),tv.getAngle());
+		}
+		if(nv.size()){
+			ViewVector.push_back(nv);
+		}
+	}
+}
+
+std::vector<Position> Map::toPositions() const{
+	return to_positions(*this);
 }
 
 View Map::toView() const{

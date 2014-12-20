@@ -25,6 +25,9 @@ class Map {
 		 */
 		void addView(View const &view) ;
 		void addViewbyCut(View const &view) ;
+		void addViewbyFullCut(View const &view) ;
+
+		std::vector<Position> toPositions() const;
 
 		View toView() const ;
 

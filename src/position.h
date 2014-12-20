@@ -57,6 +57,8 @@ class Position{
 		//for 2D only
 		Position directPosition(Angle const &a, double distance) const;
 
+		std::vector<Position> toPositions() const;
+
 		bool isInArea(std::vector<Position> const &t) const;
 		
 		double X() const {return x;}

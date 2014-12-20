@@ -5,6 +5,7 @@
 #include "obstacle.h"
 #include "position.h"
 #include "display.h"
+#include "debug.h"
 
 using namespace robot;
 

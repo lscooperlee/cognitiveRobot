@@ -34,6 +34,8 @@ class View {
 		int size() const {return Obstacles.size();}
 
 		View operator -(View const &view) const ;
+		
+		std::vector<Position> toPositions() const ;
 
 		//given a position and the angle in a view, cut all obstacles on the angle side of the line that goes across the position.
 		View cut(Position const &pos, Angle const &ang) const;

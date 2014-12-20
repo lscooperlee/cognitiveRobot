@@ -2,6 +2,7 @@
 #include <iostream>
 #include "position.h"
 #include "angle.h"
+#include "debug.h"
 
 
 using namespace robot;
