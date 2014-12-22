@@ -31,13 +31,15 @@ class Obstacle: public Object {
 		Obstacle(double x1, double y1, double x2, double y2);
 
 		double length() const;
-		int size() const {return shape.size();}
+		unsigned int size() const {return shape.size();}
 
 		void addPosition(Position const &position);
 
 		virtual bool operator <(Obstacle const &obstacle) const;
 
-		bool isInArea(std::vector<Position> const &t) const;
+		bool isInArea(Area const &t) const;
+
+		bool isOverlapArea(Area const &t) const;
 		
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const;
 

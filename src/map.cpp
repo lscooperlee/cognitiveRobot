@@ -52,6 +52,20 @@ void Map::addViewbyFullCut(View const &view) {
 	}
 }
 
+void Map::addViewbyFullDeleteArea(View const &view) {
+	if(ViewVector.size()==0){
+		ViewVector.push_back(view);
+	}else{
+		View nv=view;
+		for(auto const &tv:ViewVector){
+			nv=nv.deleteArea(tv);
+		}
+		if(nv.size()){
+			ViewVector.push_back(nv);
+		}
+	}
+}
+
 std::vector<Position> Map::toPositions() const{
 	return to_positions(*this);
 }

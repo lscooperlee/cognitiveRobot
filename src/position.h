@@ -9,7 +9,9 @@
 
 
 namespace robot {
+
 class Angle;
+class Area;
 
 /*
  * Position is designed for 3D, it could also be used in 2D if z=0,
@@ -58,8 +60,9 @@ class Position{
 		Position directPosition(Angle const &a, double distance) const;
 
 		std::vector<Position> toPositions() const;
-
-		bool isInArea(std::vector<Position> const &t) const;
+		
+		bool isInArea(Area const &t) const;
+		bool isOverlapArea(Area const &t) const;
 		
 		double X() const {return x;}
 		double Y() const {return y;}

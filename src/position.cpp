@@ -1,5 +1,6 @@
 #include "position.h"
 #include "angle.h"
+#include "area.h"
 
 using robot::Position;
 
@@ -22,14 +23,18 @@ Position const Position::transform(Position const & coordinate, Angle const &ycu
 
 }
 
-bool Position::isInArea(std::vector<Position> const &t) const{
-	unsigned int i,j=t.size()-1;
+bool Position::isOverlapArea(Area const &area) const{
+	return isInArea(area);
+}
+
+bool Position::isInArea(Area const &area) const{
+	unsigned int i,j=area.size()-1;
 	bool oddNodes=false;
-	for(i=0;i<t.size();++i){
-		double xi=t[i].X();
-		double xj=t[j].X();
-		double yi=t[i].Y();
-		double yj=t[j].Y();
+	for(i=0;i<area.size();++i){
+		double xi=area[i].X();
+		double xj=area[j].X();
+		double yi=area[i].Y();
+		double yj=area[j].Y();
 		if((yi<y&&yj>=y)||(yj<y&&yi>=y)){
 			if(xi+(y-yi)/(yj-yi)*(xj-xi)<x){
 				oddNodes=!oddNodes;

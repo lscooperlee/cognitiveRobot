@@ -8,6 +8,8 @@
 
 namespace robot {
 
+class Area;
+
 class View {
 
 	public:
@@ -31,20 +33,25 @@ class View {
 		const_iterator begin() const {return Obstacles.begin();}
 		const_iterator end() const {return Obstacles.end();}
 
-		int size() const {return Obstacles.size();}
-
-		View operator -(View const &view) const ;
+		unsigned int size() const {return Obstacles.size();}
+		
+		bool isInArea (Area const &area) const;
+		bool isOverlapArea (Area const &area) const;
 		
 		std::vector<Position> toPositions() const ;
 
 		//given a position and the angle in a view, cut all obstacles on the angle side of the line that goes across the position.
 		View cut(Position const &pos, Angle const &ang) const;
 
+		//
+		View deleteArea(View const &view) const;
+
 		double minX() const ;
 		double minY() const ;
 		double maxX() const ;
 		double maxY() const ;
 
+		View operator -(View const &view) const ;
 
 	private:
 		std::multiset<Obstacle> Obstacles;

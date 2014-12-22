@@ -7,6 +7,7 @@
 namespace robot {
 
 class Position;
+class Area;
 
 template <typename T>
 double min_x(T const &t){
@@ -60,6 +61,26 @@ std::vector<Position> const to_positions(T const &t){
 		v.insert(v.end(),vp.begin(),vp.end());
 	}
 	return v;
+}
+
+template <typename T>
+bool is_overlap_area(T const &t, Area const &u){
+	for(auto const &c:t){
+		if(c.isOverlapArea(u)){
+			return true;
+		}
+	}
+	return false;
+}
+
+template <typename T>
+bool is_in_area(T const &t, Area const &u){
+	for(auto const &c:t){
+		if(!c.isInArea(u)){
+			return false;
+		}
+	}
+	return true;
 }
 
 }

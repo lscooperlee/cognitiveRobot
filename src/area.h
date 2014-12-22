@@ -17,6 +17,10 @@ class Area {
 		Area(std::initializer_list<Position> poslist){
 			toArea(poslist);
 		}
+		
+		Area(std::vector<Position> posvector){
+			toArea(posvector);
+		}
 
 		template <typename T>
 		Area(T const &t) {
@@ -31,6 +35,10 @@ class Area {
 
 		const_iterator begin() const {return points.cbegin();}
 		const_iterator end() const {return points.cend();}
+
+		Position const & operator [] (unsigned int i) const {return points[i];}
+		
+		unsigned int size() const {return points.size();}
 
 	private:
 		std::deque<Position> points;

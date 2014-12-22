@@ -26,6 +26,7 @@ class Map {
 		void addView(View const &view) ;
 		void addViewbyCut(View const &view) ;
 		void addViewbyFullCut(View const &view) ;
+		void addViewbyFullDeleteArea(View const &view) ;
 
 		std::vector<Position> toPositions() const;
 
@@ -40,7 +41,7 @@ class Map {
 		double maxX() const;
 		double maxY() const;
 
-		int size() const {return ViewVector.size();}
+		unsigned int size() const {return ViewVector.size();}
 
 	private:
 		std::vector<View> ViewVector;

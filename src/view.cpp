@@ -44,22 +44,22 @@ Angle const & View::getAngle() const {
 };
 
 View View::operator -(View const &view) const {
-	//toArea
-	//
-	std::vector < Position > area;
-	for (auto const &o:view){
-		for (auto const &p:o){
-			 area.push_back(p);
-		}
-	}
-
 	View v;
+	Area area(view);
 	for (auto const &o:*this) {
-		if (!o.isInArea(area)) {
+		if (!o.isOverlapArea(area)) {
 			v.addObstacle(o);
 		}
 	}
 	return v;
+}
+
+bool View::isInArea(Area const &area) const {
+	return is_in_area(*this, area);
+}
+
+bool View::isOverlapArea(Area const &area) const {
+	return is_overlap_area(*this,area);
 }
 
 std::vector<Position> View::toPositions() const{
@@ -115,13 +115,9 @@ View View::cut(Position const &pos, Angle const &ang) const{
 	Position p2(pos.directPosition(ang+PI/2,1000000));
 	Position p3(pos.directPosition(ang-PI/2,1000000));
 
-	std::vector<Position> area;
-	area.push_back(p1);
-	area.push_back(p2);
-	area.push_back(p3);
-
+	Area const area({p1,p2,p3});
 	for (auto const &o:*this) {
-		if (!o.isInArea(area)) {
+		if (!o.isOverlapArea(area)) {
 			v.addObstacle(o);
 		}
 	}
@@ -130,6 +126,25 @@ View View::cut(Position const &pos, Angle const &ang) const{
 	v.putAngle(getAngle());
 
 	return v;
+}
+View View::deleteArea(View const &view) const {
+	View v;
+
+	std::vector<Position> vp=view.toPositions();
+	vp.push_back(view.getPosition());
+	Area area(vp);
+
+	for (auto const &o:*this) {
+		if (!o.isOverlapArea(area)) {
+			v.addObstacle(o);
+		}
+	}
+
+	v.putPosition(getPosition());
+	v.putAngle(getAngle());
+
+	return v;
+	
 }
 
 double View::minX() const {

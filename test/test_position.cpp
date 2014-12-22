@@ -2,6 +2,9 @@
 #include <vector>
 #include "position.h"
 #include "angle.h"
+#include "obstacle.h"
+#include "view.h"
+#include "area.h"
 
 using namespace robot;
 using std::cout;
@@ -37,12 +40,11 @@ int main(int argc, char** argv){
 	Position n(7,1);
 	cout<<m-n<<endl;
 	
-	vector<Position> v;
-	v.push_back(Position(1,1));
-	v.push_back(Position(1,6));
-	v.push_back(Position(6,6));
-	v.push_back(Position(6,1));
-	bool bl=m.isInArea(v);
+	Obstacle v1(Position(1,1),Position(1,6));
+	Obstacle v2(Position(6,6),Position(6,1));
+	View v({v1,v2});
+
+	bool bl=m.isInArea(Area(v));
 	cout<<bl<<endl;
 	cout<<n.isInArea(v)<<endl;
 

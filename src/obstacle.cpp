@@ -2,6 +2,7 @@
 #include "template.h"
 #include "position.h"
 #include "obstacle.h"
+#include "view.h"
 
 using namespace robot;
 
@@ -92,13 +93,12 @@ std::vector<Position> Obstacle::toPositions() const{
 	return to_positions(*this);
 }
 
-bool Obstacle::isInArea(std::vector<Position> const &t) const{
-	for (auto const &p:*this) {
-		if (p.isInArea(t)) {
-			return true;
-		}
-	}
-	return false;
+bool Obstacle::isInArea(Area const &t) const{
+	return is_in_area(*this, t);
+}
+
+bool Obstacle::isOverlapArea(Area const &t) const{
+	return is_overlap_area(*this, t);
 }
 
 double Obstacle::minX() const {
