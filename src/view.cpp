@@ -21,11 +21,11 @@ View const View::transform(Position const &cord, Angle const &ycur_ynew) const {
 }
 		
 void View::addObstacle(Obstacle const &obstacle) {
-	Obstacles.insert(obstacle);
+	Obstacles.push_back(obstacle);
 }
 
-void View::addObstacles(std::multiset < Obstacle > const &obset) {
-	Obstacles.insert(obset.begin(), obset.end());
+void View::addObstacles(std::vector< Obstacle > const &obset) {
+	Obstacles.insert(Obstacles.end(), obset.begin(), obset.end());
 }
 
 void View::putPosition(Position const &position) {
@@ -44,12 +44,17 @@ Angle const & View::getAngle() const {
 };
 
 View View::operator -(View const &view) const {
-	View v;
 	Area area(view);
-	for (auto const &o:*this) {
-		if (!o.isOverlapArea(area)) {
-			v.addObstacle(o);
-		}
+	return addNewView(area);
+}
+
+View View::operator +(View const &view) const {
+	View v;
+	for(auto const &o:view){
+		v.addObstacle(o);
+	}
+	for(auto const &o:*this){
+		v.addObstacle(o);
 	}
 	return v;
 }
@@ -109,42 +114,46 @@ View View::cut(Position const &pos, Angle const &ang) const{
 	//otherwise, any points below this line will be cut
 	
 	//another method is to choose two max and min points on the line, and choose an max point along the facing angle, anything in the big triangle will be cut 
-	View v;
 
 	Position p1(pos.directPosition(ang,1000000));
 	Position p2(pos.directPosition(ang+PI/2,1000000));
 	Position p3(pos.directPosition(ang-PI/2,1000000));
 
 	Area const area({p1,p2,p3});
-	for (auto const &o:*this) {
-		if (!o.isOverlapArea(area)) {
-			v.addObstacle(o);
-		}
-	}
 
-	v.putPosition(getPosition());
-	v.putAngle(getAngle());
-
-	return v;
+	return addNewView(area);
 }
 View View::deleteArea(View const &view) const {
-	View v;
 
 	std::vector<Position> vp=view.toPositions();
 	vp.push_back(view.getPosition());
 	Area area(vp);
 
-	for (auto const &o:*this) {
-		if (!o.isOverlapArea(area)) {
-			v.addObstacle(o);
+	return addNewView(area);
+}
+
+View View::deleteAreaExtend(View const &view, double distance) const {
+
+	std::vector<Position> vp=view.toPositions();
+	View extview=view.extend(distance);
+	Area area(extview);
+	return addNewView(area);
+
+}
+
+View View::extend(double distance) const {
+	View v;
+	Position const &sp=globalPosition;
+	for(auto const &o:*this){
+		Obstacle newo;
+		for(auto const &p:o){
+			Angle a(sp,p);
+			Position newp=p.directPosition(a, distance);
+			newo.addPosition(newp);
 		}
+		v.addObstacle(newo);
 	}
-
-	v.putPosition(getPosition());
-	v.putAngle(getAngle());
-
 	return v;
-	
 }
 
 double View::minX() const {
@@ -161,4 +170,21 @@ double View::maxX() const {
 
 double View::maxY() const {
 	return max_y(*this);
+}
+
+View View::addNewView(Area const &area) const{
+	View v;
+
+	for (auto const &o:*this) {
+		if (!o.isOverlapArea(area)) {
+			v.addObstacle(o);
+		}
+	}
+
+	v.putPosition(getPosition());
+	v.putAngle(getAngle());
+
+	return v;
+	
+
 }

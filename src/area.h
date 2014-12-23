@@ -9,23 +9,21 @@
 
 namespace robot {
 
-class Position;
+class View;
 
 class Area {
 	public:
 		Area(){}
-		Area(std::initializer_list<Position> poslist){
-			toArea(poslist);
-		}
+		Area(std::initializer_list<Position> poslist);
 		
-		Area(std::vector<Position> posvector){
-			toArea(posvector);
-		}
+		Area(std::vector<Position> posvector);
 
 		template <typename T>
-		Area(T const &t) {
+		Area(T const &t){
 			toArea(t.toPositions());
 		}
+
+		Area(View const &v);
 
 		typedef std::deque<Position>::iterator iterator;
 		typedef std::deque<Position>::const_iterator const_iterator;
@@ -39,6 +37,10 @@ class Area {
 		Position const & operator [] (unsigned int i) const {return points[i];}
 		
 		unsigned int size() const {return points.size();}
+
+		Area extend(double distance) const ;
+
+		View toView() const;
 
 	private:
 		std::deque<Position> points;
@@ -78,7 +80,11 @@ class Area {
 
 		}
 
-		
+		template <typename C>
+		void toConvexArea(C const &c){
+			//for completion
+
+		}
 };
 
 static inline std::ostream & operator << (std::ostream &os, Area const &area){

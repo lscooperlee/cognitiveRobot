@@ -66,10 +66,25 @@ void Map::addViewbyFullDeleteArea(View const &view) {
 	}
 }
 
+void Map::addViewbyFullDeleteAreaExtend(View const &view, double distance) {
+	if(ViewVector.size()==0){
+		ViewVector.push_back(view);
+	}else{
+		View nv=view;
+		for(auto const &tv:ViewVector){
+			nv=nv.deleteAreaExtend(tv,distance);
+		}
+		if(nv.size()){
+			ViewVector.push_back(nv);
+		}
+	}
+}
+
 std::vector<Position> Map::toPositions() const{
 	return to_positions(*this);
 }
 
+/*
 View Map::toView() const{
 	View v;
 	v.addObstacles(toObstacles());
@@ -87,7 +102,7 @@ std::multiset<Obstacle> Map::toObstacles() const {
 	}
 	return obstacles;
 }
-
+*/
 double Map::minX() const {
 	return min_x(*this);
 }

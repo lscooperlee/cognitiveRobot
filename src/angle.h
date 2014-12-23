@@ -28,6 +28,11 @@ class Angle {
 
 		Angle(Position const &p1, Position const &p2){
 			double d=p1.distance(p2);
+			//nan is nan, not zero;
+//			if(d==0){
+//				angle=0;
+//				return;
+//			}
 			double dx=p2.X()-p1.X();
 			angle=std::asin(dx/d);
 			if (p2.Y()<p1.Y()&&dx<0){

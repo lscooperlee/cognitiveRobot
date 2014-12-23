@@ -15,6 +15,8 @@ int main(int argc, char** argv){
 	Position p(-5,-5);
 	cout<<p<<endl;
 
+	cout<<p/5<<endl;
+
 	Position o=Position(1,0);
 	cout<<o<<endl;
 

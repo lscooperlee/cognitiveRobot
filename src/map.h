@@ -27,6 +27,7 @@ class Map {
 		void addViewbyCut(View const &view) ;
 		void addViewbyFullCut(View const &view) ;
 		void addViewbyFullDeleteArea(View const &view) ;
+		void addViewbyFullDeleteAreaExtend(View const &view, double distance) ;
 
 		std::vector<Position> toPositions() const;
 

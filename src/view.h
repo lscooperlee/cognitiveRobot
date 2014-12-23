@@ -1,7 +1,7 @@
 #ifndef __SRC_VIEW_H__
 #define __SRC_VIEW_H__
 
-#include <set>
+#include <vector>
 #include "global.h"
 #include "obstacle.h"
 #include "angle.h"
@@ -20,7 +20,7 @@ class View {
 		View const transform(Position const &cord, Angle const &ycur_ynew) const;
 		
 		void addObstacle(Obstacle const &obstacle);
-		void addObstacles(std::multiset<Obstacle> const &obset);
+		void addObstacles(std::vector<Obstacle> const &obset);
 
 		void putPosition(Position const &position);
 		void putAngle(Angle const &angle);
@@ -28,7 +28,7 @@ class View {
 		Position const &getPosition() const ;
 		Angle const &getAngle() const ;
 
-		typedef std::multiset<Obstacle>::const_iterator const_iterator;
+		typedef std::vector<Obstacle>::const_iterator const_iterator;
 		
 		const_iterator begin() const {return Obstacles.begin();}
 		const_iterator end() const {return Obstacles.end();}
@@ -40,11 +40,14 @@ class View {
 		
 		std::vector<Position> toPositions() const ;
 
+		View extend(double distance) const ;
+
 		//given a position and the angle in a view, cut all obstacles on the angle side of the line that goes across the position.
 		View cut(Position const &pos, Angle const &ang) const;
 
 		//
 		View deleteArea(View const &view) const;
+		View deleteAreaExtend(View const &view, double distance) const;
 
 		double minX() const ;
 		double minY() const ;
@@ -52,11 +55,14 @@ class View {
 		double maxY() const ;
 
 		View operator -(View const &view) const ;
+		View operator +(View const &view) const ;
 
 	private:
-		std::multiset<Obstacle> Obstacles;
+		std::vector<Obstacle> Obstacles;
 		Position globalPosition;
 		Angle facingAngle;
+		
+		View addNewView(Area const &area) const;
 };
 
 static inline std::ostream & operator <<(std::ostream &os, View const &view) {

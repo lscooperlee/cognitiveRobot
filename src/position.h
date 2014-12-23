@@ -50,6 +50,10 @@ class Position{
 		Position operator - () const {
 			return Position(-X(),-Y(),-Z());
 		}
+
+		Position operator / (double div) const { 
+			return Position(X()/div,Y()/div,Z()/div);
+		}
 		
 		double distance (Position const &pos) const{
 			return std::sqrt(std::pow(X()-pos.X(),2)+std::pow(Y()-pos.Y(),2));

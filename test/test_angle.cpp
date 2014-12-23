@@ -53,6 +53,10 @@ int main(int argc, char **argv){
 	Angle p1=Angle(mm,nn);
 	dbg(p1,p);
 
+	Position tt(0,0);
+	p=Angle(mm,tt);
+	dbg(p,mm.directPosition(p,20));
+
 	Position pp1(-215.00,100.17);
 	Position pp2(-414.98,97.47);
 	p=Angle(pp1,pp2);
