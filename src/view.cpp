@@ -134,9 +134,16 @@ View View::deleteArea(View const &view) const {
 
 View View::deleteAreaExtend(View const &view, double distance) const {
 
-	std::vector<Position> vp=view.toPositions();
 	View extview=view.extend(distance);
+	extview.addObstacle(Obstacle(extview.getPosition(),extview.getPosition()));
 	Area area(extview);
+	/*
+	static GnuplotDisplay display("filerobot","/tmp/img1");
+	static Map m;
+	m.addView(view);
+	m.addView(area.toView());
+	display.display(m);
+	*/
 	return addNewView(area);
 
 }
@@ -153,6 +160,8 @@ View View::extend(double distance) const {
 		}
 		v.addObstacle(newo);
 	}
+	v.globalPosition=globalPosition;
+	v.facingAngle=facingAngle;
 	return v;
 }
 

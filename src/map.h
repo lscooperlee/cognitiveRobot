@@ -50,6 +50,7 @@ class Map {
 
 		std::multiset<Obstacle> toObstacles() const ;
 
+
 };
 
 }

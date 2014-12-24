@@ -98,16 +98,12 @@ View const FileRobot::look() throw(NoViewException) {
 }
 
 Map const FileRobot::doMap(int c) const{
-//	return do_map_forward(c);
 	return do_map_backward(c);
 }
 
+/*
 Map const FileRobot::do_map_forward(int c) const{
 	Map m;
-
-//	const_iterator end = c == 0 ? cend() : cbegin() + c;
-//	for(const_iterator i=cbegin();i!=end;++i){
-//		View const &v=*i;
 
 	c=c==0?size():c;
 	int sz=c>size()?size():c;
@@ -117,6 +113,7 @@ Map const FileRobot::do_map_forward(int c) const{
 	}
 	return m;
 }
+*/
 
 Map const FileRobot::do_map_backward(int c) const {
 	Map m;
@@ -144,7 +141,7 @@ Map const FileRobot::do_map_backward(int c) const {
 //		m.addViewbyCut(vtrans);
 //		m.addViewbyFullCut(vtrans);
 //		m.addViewbyFullDeleteArea(vtrans);
-		m.addViewbyFullDeleteAreaExtend(vtrans,400);
+		m.addViewbyFullDeleteAreaExtend(vtrans,500);
 
 	}
 
