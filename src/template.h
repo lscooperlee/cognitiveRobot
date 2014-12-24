@@ -1,7 +1,7 @@
 #ifndef __SRC_TEMPLATE_H__
 #define __SRC_TEMPLATE_H__
 
-#include <float.h>
+#include <limits>
 #include "area.h"
 
 namespace robot {
@@ -11,7 +11,7 @@ class Area;
 
 template <typename T>
 double min_x(T const &t){
-	double min = DBL_MAX;
+	double min = std::numeric_limits<double>::max();
 
 	for(auto const &c:t){
 		double tmp = c.minX();
@@ -22,7 +22,7 @@ double min_x(T const &t){
 
 template <typename T>
 double max_x(T const &t){
-	double max = -DBL_MAX;
+	double max = std::numeric_limits<double>::min();
 
 	for(auto const &c:t){
 		double tmp = c.maxX();
@@ -33,7 +33,7 @@ double max_x(T const &t){
 
 template <typename T>
 double min_y(T const &t){
-	double min = DBL_MAX;
+	double min = std::numeric_limits<double>::max();
 
 	for(auto const &c:t){
 		double tmp = c.minY();
@@ -44,7 +44,7 @@ double min_y(T const &t){
 
 template <typename T>
 double max_y(T const &t){
-	double max = -DBL_MAX;
+	double max = std::numeric_limits<double>::min();
 
 	for(auto const &c:t){
 		double tmp = c.maxY();

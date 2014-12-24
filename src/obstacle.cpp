@@ -1,4 +1,3 @@
-#include <float.h>
 #include "template.h"
 #include "position.h"
 #include "obstacle.h"
@@ -67,18 +66,6 @@ bool Obstacle::operator <(Obstacle const &obstacle) const {
 	return length() < obstacle.length();
 }
 
-/*
-template < typename T >
-bool Obstacle::isInArea(T const &t) const {
-	for (Obstacle::const_iterator i = shape.begin(); i != shape.end(); ++i) {
-		Position const &o = *i;
-		if (o.isInArea(t)) {
-			return true;
-		}
-	}
-	return false;
-}
-*/
 
 Obstacle const Obstacle::transform(Position const &cord, Angle const &ycur_ynew) const {
 	Obstacle newshape;

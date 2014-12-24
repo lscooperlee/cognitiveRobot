@@ -17,7 +17,7 @@ void Map::addView(View const &view) {
 	ViewVector.push_back(view);
 }
 
-/*
+
 void Map::addViewbyCut(View const &view) {
 
 	if(ViewVector.size()==0){
@@ -59,7 +59,7 @@ void Map::addViewbyFullDeleteArea(View const &view) {
 		}
 	}
 }
-*/
+
 
 void Map::addViewbyFullDeleteAreaExtend(View const &view, double distance) {
 

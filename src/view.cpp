@@ -71,40 +71,6 @@ std::vector<Position> View::toPositions() const{
 	return to_positions(*this);
 }
 
-#if 0
-View View::cut(Position const &pos, Angle const &ang) const{
-	//a=sin(ang)
-	//b=cos(ang)
-	//a(x-x0)+b(y-y0)=0 is the function for line.
-	//if angle is between -PI/2 and PI/2 any points above this line  will be cut
-	//otherwise, any points below this line will be cut
-	
-	//another method is to choose two max and min points on the line, and choose an max point along the facing angle, anything in the big triangle will be cut 
-	View v;
-
-	for(auto const &o:*this){
-		bool keep=true;
-		for(auto const &p:o){
-			int sign=1;
-			if(!ang.isAbove()){
-				sign=-1;
-			}
-			double tmp=sign*(ang.sin()*(p.X()-pos.X())+ang.cos()*(p.Y()-pos.Y()));
-			if(tmp>0){
-				keep=false;
-				break;
-			}
-
-		}
-		if(keep)
-			v.addObstacle(o);
-	}
-	v.putPosition(getPosition());
-	v.putAngle(getAngle());
-
-	return v;
-}
-#endif
 
 View View::cut(Position const &pos, Angle const &ang) const{
 	//a=sin(ang)
@@ -137,13 +103,6 @@ View View::deleteAreaExtend(View const &view, double distance) const {
 	View extview=view.extend(distance);
 	extview.addObstacle(Obstacle(extview.getPosition(),extview.getPosition()));
 	Area area(extview);
-	/*
-	static GnuplotDisplay display("filerobot","/tmp/img1");
-	static Map m;
-	m.addView(view);
-	m.addView(area.toView());
-	display.display(m);
-	*/
 	return addNewView(area);
 
 }
