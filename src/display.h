@@ -30,6 +30,7 @@ class Display {
 class GnuplotDisplay {
 	public:
 		GnuplotDisplay(char const *bname, char const *dname=NULL, int res_x = PLOT_RESOLUTION_X, int res_y=PLOT_RESOLUTION_Y);
+		GnuplotDisplay(std::string const bname, std::string const dname="", int res_x = PLOT_RESOLUTION_X, int res_y=PLOT_RESOLUTION_Y);
 
 		void display(Map const & v, char const *fname=NULL);
 
@@ -51,7 +52,7 @@ class GnuplotDisplay {
 
 		void display_cleanup(std::string name);
 
-		void display_prepare(std::string name);
+		void display_prepare(std::string name) throw(std::string);
 
 		void dump_view(View const &v, std::ofstream &os);
 		View draw_robot(Position const &p, Angle const &a);

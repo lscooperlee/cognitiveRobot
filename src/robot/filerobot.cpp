@@ -12,6 +12,16 @@ FileRobot::FileRobot (char const * fname) throw(FailCreateException){
 	file=new ifstream;
 	file->open(fname,std::ios::in);
 	filename=string(fname);
+	if(file->fail())
+		throw(FailCreateException());
+}
+
+FileRobot::FileRobot (string const fname) throw(FailCreateException){
+	file=new ifstream;
+	file->open(fname,std::ios::in);
+	filename=fname;
+	if(file->fail())
+		throw(FailCreateException());
 }
 
 FileRobot::FileRobot (FileRobot const &filerobot) {

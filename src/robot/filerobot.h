@@ -10,7 +10,9 @@ class FileRobot: public LaserRobot {
 
 	public:
 		FileRobot(char const *filename) throw(FailCreateException);
+		FileRobot(std::string const filename) throw(FailCreateException);
 		FileRobot(FileRobot const &filerobot);
+
 		~FileRobot();
 		View const look() throw(NoViewException);
 		Map const doMap(int c) const;

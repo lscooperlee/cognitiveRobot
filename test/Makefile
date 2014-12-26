@@ -7,15 +7,15 @@ AS=$(CROSS)as
 OBJCOPY=$(CROSS)objcopy
 
 
-INSTALLDIR=/tmp/
+INSTALLDIR=./
 
 ifeq ($(strip $(CROSS)),)
-LIBDIR=/usr
+LIBDIR=../
 else
 LIBDIR=../libs
 endif
 
-LDFLAGS = -L$(INSTALLDIR) -lrobot
+LDFLAGS = -L$(LIBDIR) -lrobot
 
 CFLAGS = -std=c++11 -O2 -Wall -I. -DDEBUG -g -I$(LIBDIR)/include/ -I./include -I../src -I../src/robot
 
@@ -59,7 +59,8 @@ install:
 	@$(COPY) -av $(EXEC) $(INSTALLDIR)
 
 clean:
-	rm -rf $(EXEC) $(OBJDIR)
+	@echo "cleaning"
+	@rm -rf $(patsubst %,$(INSTALLDIR)/%,$(notdir $(EXEC))) $(EXEC) $(OBJS) $(DEPS)
 
 
 -include $(DEPS)

@@ -8,7 +8,7 @@ AR=$(CROSS)ar
 OBJCOPY=$(CROSS)objcopy
 
 
-INSTALLDIR=/tmp/
+INSTALLDIR=.
 EXEC=$(INSTALLDIR)/robot
 LIB=$(INSTALLDIR)/librobot.a
 
@@ -68,7 +68,9 @@ install:
 	@$(COPY) -av $(EXEC) $(INSTALLDIR)
 
 clean:
-	rm -rf $(EXEC) $(OBJDIR)
+	@echo "cleaning"
+	@make -C test clean
+	@rm -rf $(EXEC) $(LIB) $(OBJS) $(DEPS) $(OBJDIR)
 
 
 -include $(DEPS)
