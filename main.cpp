@@ -45,7 +45,7 @@ int main(int argc, char **argv){
 
 	FileRobot &b=*p;
 	GnuplotDisplay display("filerobot",outdir);
-	b.setDisplay(&display);
+//	b.setDisplay(&display);
 
 	while(1){
 		View v;
@@ -57,15 +57,16 @@ int main(int argc, char **argv){
 
 		b.memorize(v);
 
-//		Map m=b.doMap();
-//		display.display(m);
-//		static int lookcount=0;
+		Map m=b.doMap();
+		display.display(m);
+		static int lookcount=0;
 //		std::cout<<"keeping the "<<++lookcount<<"th view in memory"<<std::endl;
+		std::cout<<"producing the "<<++lookcount<<"th map"<<std::endl;
 
 	}
 
-	Map m=b.doMap();
-	display.display(m);
+//	Map m=b.doMap();
+//	display.display(m);
 
 	delete p;
 	return 0;
