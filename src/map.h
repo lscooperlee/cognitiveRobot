@@ -30,7 +30,7 @@ class Map {
 		void addViewbyCut(View const &view) ;
 		void addViewbyFullCut(View const &view) ;
 		void addViewbyFullDeleteArea(View const &view) ;
-		void addViewbyFullDeleteAreaExtend(View const &view, double distance, Display * const display=nullptr) ;
+		std::vector<Map> addViewbyFullDeleteAreaExtend(View const &view, double distance);
 
 		std::vector<Position> toPositions() const;
 
@@ -49,7 +49,7 @@ class Map {
 		std::vector<View> ViewVector;
 		std::vector<Position> route;
 
-		void stepMapOutput(View const &nv, Display *const display);
+		Map stepMapOutput(View const &v) const;
 };
 
 }

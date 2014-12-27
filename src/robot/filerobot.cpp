@@ -2,6 +2,7 @@
 #include <cstring>
 #include "filerobot.h"
 #include "map.h"
+#include "display.h"
 
 using namespace robot;
 using std::ifstream;
@@ -149,7 +150,13 @@ Map const FileRobot::do_map_backward(int c) const {
 		
 		View const vtrans=v.transform(oinv,ainv);
 
-		m.addViewbyFullDeleteAreaExtend(vtrans,500, display);
+		std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
+
+		if(display){
+			for(auto const &m:sm){
+				display->display(m);
+			}
+		}
 
 	}
 

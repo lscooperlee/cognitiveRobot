@@ -1,4 +1,3 @@
-
 #include "map.h"
 #include "template.h"
 #include "obstacle.h"
@@ -61,30 +60,31 @@ void Map::addViewbyFullDeleteArea(View const &view) {
 	}
 }
 
-void Map::stepMapOutput(View const &nv, Display *const display){
-	if(display){
-		Map tm(*this);
-		tm.addView(nv);
-		display->display(tm);
-	}
-	
+Map Map::stepMapOutput(View const &v) const {
+	Map tm(*this);
+	tm.addView(v);
+	return tm;
 }
 
-void Map::addViewbyFullDeleteAreaExtend(View const &view, double distance, Display *const display) {
+std::vector<Map> Map::addViewbyFullDeleteAreaExtend(View const &view, double distance) {
 	
-	stepMapOutput(view, display);
+	std::vector<Map> stepMap;
+
+	stepMap.push_back(stepMapOutput(view));
 	if(ViewVector.size()==0){
 		ViewVector.push_back(view);
 	}else{
 		View nv=view;
 		for(auto const &tv:ViewVector){
 			nv=nv.deleteAreaExtend(tv,distance);
-			stepMapOutput(nv,display);
+			stepMap.push_back(stepMapOutput(nv));
 		}
 		if(nv.size()){
 			ViewVector.push_back(nv);
 		}
 	}
+
+	return stepMap;
 }
 
 std::vector<Position> Map::toPositions() const{
