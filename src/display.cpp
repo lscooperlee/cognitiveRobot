@@ -8,6 +8,7 @@
 #include "obstacle.h"
 #include "view.h"
 #include "display.h"
+#include "template.h"
 
 
 
@@ -92,10 +93,10 @@ void GnuplotDisplay::display(View const & v, char const *fname) {
 template <typename T>
 void GnuplotDisplay::maxmin(T const &obs) {
 	//assert
-	minX = obs.minX()<minX?obs.minX():minX;
-	minY = obs.minY()<minY?obs.minY():minY;
-	maxX = obs.maxX()>maxX?obs.maxX():maxX;
-	maxY = obs.maxY()>maxY?obs.maxY():maxY;
+	minX = min_x(obs);
+	minY = min_y(obs);
+	maxX = max_x(obs);
+	maxY = max_y(obs);
 
 }
 

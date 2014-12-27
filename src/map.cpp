@@ -110,19 +110,3 @@ std::multiset<Obstacle> Map::toObstacles() const {
 	return obstacles;
 }
 */
-
-double Map::minX() const {
-	return min_x(*this);
-}
-
-double Map::minY() const {
-	return min_y(*this);
-}
-
-double Map::maxX() const {
-	return max_x(*this);
-}
-
-double Map::maxY() const {
-	return max_y(*this);
-}

@@ -65,23 +65,24 @@ class Position{
 
 		std::vector<Position> toPositions() const;
 		
-		bool isInArea(Area const &t) const;
-		bool isOverlapArea(Area const &t) const;
 		
 		double X() const {return x;}
 		double Y() const {return y;}
 		double Z() const {return z;}
 
-		double minX() const {return x;}
-		double minY() const {return y;}
-		double maxX() const {return x;}
-		double maxY() const {return y;}
-		
 		int size() const {return 1;}
+
+//		friend bool is_overlap_area(Position const &p, Area const &u);
+//		friend bool is_in_area(Position const &p, Area const &u);
+		bool isInArea(Area const &t) const;
+		bool isOverlapArea(Area const &t) const;
+
 	private:
 		double x;
 		double y;
 		double z;
+
+
 };
 
 static inline std::ostream & operator <<(std::ostream &os, Position const & position){

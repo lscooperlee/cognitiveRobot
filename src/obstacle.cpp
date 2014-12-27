@@ -80,26 +80,4 @@ std::vector<Position> Obstacle::toPositions() const{
 	return to_positions(*this);
 }
 
-bool Obstacle::isInArea(Area const &t) const{
-	return is_in_area(*this, t);
-}
 
-bool Obstacle::isOverlapArea(Area const &t) const{
-	return is_overlap_area(*this, t);
-}
-
-double Obstacle::minX() const {
-	return min_x(*this);
-}
-
-double Obstacle::minY() const {
-	return min_y(*this);
-}
-
-double Obstacle::maxX() const {
-	return max_x(*this);
-}
-
-double Obstacle::maxY() const {
-	return max_y(*this);
-}

@@ -1,3 +1,7 @@
 *.o
 *.d
 *.swp
+/robot
+*.a
+/test/test_*
+!/test/*.cpp

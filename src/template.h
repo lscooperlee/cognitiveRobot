@@ -12,12 +12,17 @@ class Area;
 template <typename T>
 double min_x(T const &t){
 	double min = std::numeric_limits<double>::max();
-
+	
 	for(auto const &c:t){
-		double tmp = c.minX();
+		double tmp = min_x(c);
 		min = tmp < min ? tmp : min;
 	}	
 	return min;
+}
+
+template<typename T=Position>
+double min_x(Position const &p){
+	return p.X();
 }
 
 template <typename T>
@@ -25,10 +30,15 @@ double max_x(T const &t){
 	double max = std::numeric_limits<double>::min();
 
 	for(auto const &c:t){
-		double tmp = c.maxX();
+		double tmp = max_x(c);
 		max = tmp > max ? tmp : max;
 	}	
 	return max;
+}
+
+template<typename T=Position>
+double max_x(Position const &p){
+	return p.X();
 }
 
 template <typename T>
@@ -36,10 +46,15 @@ double min_y(T const &t){
 	double min = std::numeric_limits<double>::max();
 
 	for(auto const &c:t){
-		double tmp = c.minY();
+		double tmp = min_y(c);
 		min = tmp < min ? tmp : min;
 	}	
 	return min;
+}
+
+template<typename T=Position>
+double min_y(Position const &p){
+	return p.Y();
 }
 
 template <typename T>
@@ -47,10 +62,15 @@ double max_y(T const &t){
 	double max = std::numeric_limits<double>::min();
 
 	for(auto const &c:t){
-		double tmp = c.maxY();
+		double tmp = max_y(c);
 		max = tmp > max ? tmp : max;
 	}	
 	return max;
+}
+
+template<typename T=Position>
+double max_y(Position const &p){
+	return p.Y();
 }
 
 template <typename T>
@@ -66,21 +86,34 @@ std::vector<Position> const to_positions(T const &t){
 template <typename T>
 bool is_overlap_area(T const &t, Area const &u){
 	for(auto const &c:t){
-		if(c.isOverlapArea(u)){
+		if(is_overlap_area(c,u)){
 			return true;
 		}
 	}
 	return false;
 }
+template <typename T=Position>
+bool is_overlap_area(Position const &p, Area const &u){
+	return p.isOverlapArea(u);
+}
 
 template <typename T>
 bool is_in_area(T const &t, Area const &u){
 	for(auto const &c:t){
-		if(!c.isInArea(u)){
+		if(is_in_area(c,u)){
 			return false;
 		}
 	}
 	return true;
+}
+template <typename T=Position>
+bool is_in_area(Position const &p, Area const &u){
+	return p.isInArea(u);
+}
+
+template <typename T>
+size_t size(T const &t){
+	return t.size();
 }
 
 }

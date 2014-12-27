@@ -38,11 +38,6 @@ class Map {
 		const_iterator begin() const {return ViewVector.begin();}
 		const_iterator end() const {return ViewVector.end();}
 
-		double minX() const;
-		double minY() const;
-		double maxX() const;
-		double maxY() const;
-
 		unsigned int size() const {return ViewVector.size();}
 
 	private:

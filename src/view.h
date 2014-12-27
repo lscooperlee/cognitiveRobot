@@ -35,9 +35,6 @@ class View {
 
 		unsigned int size() const {return Obstacles.size();}
 		
-		bool isInArea (Area const &area) const;
-		bool isOverlapArea (Area const &area) const;
-		
 		std::vector<Position> toPositions() const ;
 
 		View extend(double distance) const ;
@@ -48,11 +45,6 @@ class View {
 		//
 		View deleteArea(View const &view) const;
 		View deleteAreaExtend(View const &view, double distance) const;
-
-		double minX() const ;
-		double minY() const ;
-		double maxX() const ;
-		double maxY() const ;
 
 		View operator -(View const &view) const ;
 		View operator +(View const &view) const ;

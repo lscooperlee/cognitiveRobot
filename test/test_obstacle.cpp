@@ -5,6 +5,7 @@
 #include "view.h"
 #include "position.h"
 #include "area.h"
+#include "template.h"
 
 using namespace robot;
 using std::cout;
@@ -35,8 +36,8 @@ int main(int argc,char **argv){
 	Area w({Position(1,1),Position(6,1),Position(6,6),Position(1,6)});
 
 	Obstacle d("0 0 4 4");
-	bool bl=d.isInArea(w);
+	bool bl=is_in_area(d,w);
 
 	cout<<bl<<endl;
-	cout<<Obstacle("-1 -1 -5 -5").isInArea(w)<<endl;
+	cout<<is_in_area(Obstacle("-1 -1 -5 -5"),w)<<endl;
 }

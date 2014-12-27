@@ -37,20 +37,11 @@ class Obstacle: public Object {
 
 		virtual bool operator <(Obstacle const &obstacle) const;
 
-		bool isInArea(Area const &t) const;
-
-		bool isOverlapArea(Area const &t) const;
-		
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const;
 
 		std::vector<Position> toPositions() const;
 
 		Area toArea() const;
-
-		double minX() const;
-		double minY() const;
-		double maxX() const;
-		double maxY() const;
 
 };
 

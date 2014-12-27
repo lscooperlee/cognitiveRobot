@@ -59,14 +59,6 @@ View View::operator +(View const &view) const {
 	return v;
 }
 
-bool View::isInArea(Area const &area) const {
-	return is_in_area(*this, area);
-}
-
-bool View::isOverlapArea(Area const &area) const {
-	return is_overlap_area(*this,area);
-}
-
 std::vector<Position> View::toPositions() const{
 	return to_positions(*this);
 }
@@ -124,27 +116,11 @@ View View::extend(double distance) const {
 	return v;
 }
 
-double View::minX() const {
-	return min_x(*this);
-}
-
-double View::minY() const {
-	return min_y(*this);
-}
-
-double View::maxX() const {
-	return max_x(*this);
-}
-
-double View::maxY() const {
-	return max_y(*this);
-}
-
 View View::addNewView(Area const &area) const{
 	View v;
 
 	for (auto const &o:*this) {
-		if (!o.isOverlapArea(area)) {
+		if (!is_overlap_area(o,area)) {
 			v.addObstacle(o);
 		}
 	}
