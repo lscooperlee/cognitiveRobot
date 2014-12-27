@@ -4,6 +4,7 @@
 #include "obstacle.h"
 #include "position.h"
 #include "view.h"
+#include "display.h"
 
 using namespace robot;
 
@@ -60,15 +61,25 @@ void Map::addViewbyFullDeleteArea(View const &view) {
 	}
 }
 
+void Map::stepMapOutput(View const &nv, Display *const display){
+	if(display){
+		Map tm(*this);
+		tm.addView(nv);
+		display->display(tm);
+	}
+	
+}
 
-void Map::addViewbyFullDeleteAreaExtend(View const &view, double distance) {
-
+void Map::addViewbyFullDeleteAreaExtend(View const &view, double distance, Display *const display) {
+	
+	stepMapOutput(view, display);
 	if(ViewVector.size()==0){
 		ViewVector.push_back(view);
 	}else{
 		View nv=view;
 		for(auto const &tv:ViewVector){
 			nv=nv.deleteAreaExtend(tv,distance);
+			stepMapOutput(nv,display);
 		}
 		if(nv.size()){
 			ViewVector.push_back(nv);

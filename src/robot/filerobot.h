@@ -6,6 +6,8 @@
 
 namespace robot {
 
+class Display;
+
 class FileRobot: public LaserRobot {
 
 	public:
@@ -14,12 +16,16 @@ class FileRobot: public LaserRobot {
 		FileRobot(FileRobot const &filerobot);
 
 		~FileRobot();
+		
+		void setDisplay(Display *const dis) {display=dis;}
 		View const look() throw(NoViewException);
-		Map const doMap(int c) const;
+		Map const doMap(int c=0) const;
 
 	private:
 		std::ifstream *file;
 		std::string filename;
+
+		Display *display=nullptr;
 
 		Map const do_map_forward(int c) const;
 		Map const do_map_backward(int c) const;

@@ -3,8 +3,8 @@
 
 #include <vector>
 #include "global.h"
-#include "obstacle.h"
 #include "angle.h"
+#include "obstacle.h"
 
 namespace robot {
 

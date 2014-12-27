@@ -148,10 +148,8 @@ Map const FileRobot::do_map_backward(int c) const {
 		Angle ainv=-v.getAngle()+angle;
 		
 		View const vtrans=v.transform(oinv,ainv);
-//		m.addViewbyCut(vtrans);
-//		m.addViewbyFullCut(vtrans);
-//		m.addViewbyFullDeleteArea(vtrans);
-		m.addViewbyFullDeleteAreaExtend(vtrans,500);
+
+		m.addViewbyFullDeleteAreaExtend(vtrans,500, display);
 
 	}
 

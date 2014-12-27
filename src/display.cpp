@@ -165,7 +165,7 @@ void GnuplotDisplay::dump_view(View const &v,std::ofstream &os){
 }
 
 View GnuplotDisplay::draw_robot(Position const &p, Angle const &a){
-	double robotlen=(maxX-minX)/20;
+	double robotlen=(maxX-minX)/PLOT_ROBOT_RATIO;
 	Position head=p.directPosition(a,robotlen);
 	
 	Position left=p.directPosition(a-PI/2, robotlen/3);

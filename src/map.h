@@ -5,11 +5,13 @@
 #include <set>
 #include "global.h"
 
+
 namespace robot {
 
 class View;
 class Position;
 class Obstacle;
+class Display;
 	
 class Map {
 	
@@ -17,6 +19,7 @@ class Map {
 
 		Map(){}
 		Map(std::initializer_list<View> vlist);
+
 
 		/*
 		 * BE CAUTIOUS, THE view has to be transformed first, 
@@ -27,11 +30,9 @@ class Map {
 		void addViewbyCut(View const &view) ;
 		void addViewbyFullCut(View const &view) ;
 		void addViewbyFullDeleteArea(View const &view) ;
-		void addViewbyFullDeleteAreaExtend(View const &view, double distance) ;
+		void addViewbyFullDeleteAreaExtend(View const &view, double distance, Display * const display=nullptr) ;
 
 		std::vector<Position> toPositions() const;
-
-		View toView() const ;
 
 		typedef std::vector<View>::const_iterator const_iterator;
 		const_iterator begin() const {return ViewVector.begin();}
@@ -48,9 +49,7 @@ class Map {
 		std::vector<View> ViewVector;
 		std::vector<Position> route;
 
-		std::multiset<Obstacle> toObstacles() const ;
-
-
+		void stepMapOutput(View const &nv, Display *const display);
 };
 
 }

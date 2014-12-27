@@ -20,7 +20,7 @@ int usage(char *self){
 
 int main(int argc, char **argv){
 
-	int opt,count=0;
+	int opt;
 	string logfile="/tmp/view.log";
 	string outdir="/tmp/img/";
 	while ((opt = getopt(argc, argv, "f:d:h")) != -1) {
@@ -36,30 +36,39 @@ int main(int argc, char **argv){
 		}
 	}
 
+	FileRobot *p;
 	try{
-		FileRobot fr(logfile);
-
-		Robot &b=fr;
-		GnuplotDisplay display("filerobot",outdir);
-
-		while(1){
-			View v;
-			try {
-				v=b.look();
-			}catch(Robot::NoViewException e){
-				break;
-			}
-
-			b.memorize(v);
-			Map m=b.doMap();
-			display.display(m);
-			std::cout<<"producing the "<<++count<<"th map"<<std::endl;
-		}
-
+		p=new FileRobot(logfile);
 	}catch(...){
 		return usage(argv[0]);
 	}
 
+	FileRobot &b=*p;
+	GnuplotDisplay display("filerobot",outdir);
+	b.setDisplay(&display);
+
+	while(1){
+		View v;
+		try {
+			v=b.look();
+		}catch(Robot::NoViewException e){
+			break;
+		}
+
+		b.memorize(v);
+
+//		Map m=b.doMap();
+//		display.display(m);
+//		static int lookcount=0;
+//		std::cout<<"keeping the "<<++lookcount<<"th view in memory"<<std::endl;
+
+	}
+
+	Map m=b.doMap();
+	display.display(m);
+
+	delete p;
+	return 0;
 }
 
 
