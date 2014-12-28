@@ -25,13 +25,13 @@ int main(int argc, char **argv){
 
 		b.memorize(v);
 		Map m=b.doMap();
-		display.display(m);
+		display(m);
 
-	//	display.display(v);
-	//	display.display(v.transform(-v.getPosition(),-v.getAngle()));
+	//	display(v);
+	//	display(v.transform(-v.getPosition(),-v.getAngle()));
 	}
 
 //	Map m=b.doMap();
-//	display.display(m);
+//	display(m);
 
 }

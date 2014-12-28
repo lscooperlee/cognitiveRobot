@@ -21,5 +21,5 @@ int main(int argc, char **argv){
 	Map m{v2,v1};
 
 	GnuplotDisplay d("testmap","/tmp/img",500,500);
-	d.display(m);
+	d(m);
 }
