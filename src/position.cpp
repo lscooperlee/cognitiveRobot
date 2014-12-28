@@ -51,8 +51,3 @@ Position Position::directPosition(Angle const &a, double distance) const{
 	return Position(dx+X(),dy+Y());
 }
 
-std::vector<Position> Position::toPositions() const {
-	std::vector<Position> v;
-	v.push_back(*this);
-	return v;
-}

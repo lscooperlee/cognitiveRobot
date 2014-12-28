@@ -42,7 +42,6 @@ class View {
 		//given a position and the angle in a view, cut all obstacles on the angle side of the line that goes across the position.
 		View cut(Position const &pos, Angle const &ang) const;
 
-		//
 		View deleteArea(View const &view) const;
 		View deleteAreaExtend(View const &view, double distance) const;
 

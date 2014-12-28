@@ -63,9 +63,6 @@ class Position{
 		//for 2D only
 		Position directPosition(Angle const &a, double distance) const;
 
-		std::vector<Position> toPositions() const;
-		
-		
 		double X() const {return x;}
 		double Y() const {return y;}
 		double Z() const {return z;}

@@ -37,6 +37,8 @@ class GnuplotDisplay : public Display{
 
 		void display(View const & v, char const * fname=NULL);
 
+		void displayRobot(bool robot){displayrobot=robot;}
+
 		~GnuplotDisplay(){};
 	private:
 
@@ -72,6 +74,8 @@ class GnuplotDisplay : public Display{
 		std::string basename;
 		std::string dirname;
 		std::ofstream gnuplotfile;
+
+		bool displayrobot=false;
 
 };
 

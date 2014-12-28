@@ -59,11 +59,6 @@ View View::operator +(View const &view) const {
 	return v;
 }
 
-std::vector<Position> View::toPositions() const{
-	return to_positions(*this);
-}
-
-
 View View::cut(Position const &pos, Angle const &ang) const{
 	//a=sin(ang)
 	//b=cos(ang)
@@ -83,7 +78,7 @@ View View::cut(Position const &pos, Angle const &ang) const{
 }
 View View::deleteArea(View const &view) const {
 
-	std::vector<Position> vp=view.toPositions();
+	std::vector<Position> vp=to_positions(view);
 	vp.push_back(view.getPosition());
 	Area area(vp);
 

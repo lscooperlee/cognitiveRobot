@@ -76,8 +76,3 @@ Obstacle const Obstacle::transform(Position const &cord, Angle const &ycur_ynew)
 	return newshape;
 }
 
-std::vector<Position> Obstacle::toPositions() const{
-	return to_positions(*this);
-}
-
-

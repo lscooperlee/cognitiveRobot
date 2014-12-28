@@ -65,8 +65,10 @@ void GnuplotDisplay::display(Map const & m, char const *fname) {
 		gnuplotfile << "\""<<tname<<"\""<<" with linespoint linetype rgb "<<"\""<<colorstring<<"\""<<", ";
 		mapdata.open(tname);
 		dump_view(v,mapdata);
-		View r=draw_robot(v.getPosition(), v.getAngle());
-		dump_view(r,mapdata);
+		if(displayrobot==true){
+			View r=draw_robot(v.getPosition(), v.getAngle());
+			dump_view(r,mapdata);
+		}
 		mapdata.close();
 		i++;
 	}

@@ -1,5 +1,6 @@
 
 #include <cstring>
+#include <iostream>
 #include "filerobot.h"
 #include "map.h"
 #include "display.h"
@@ -156,6 +157,7 @@ Map const FileRobot::do_map_backward(int c) const {
 			for(auto const &m:sm){
 				display->display(m);
 			}
+			std::cout<<"producing backward map "<<j<<"th"<<std::endl;
 		}
 
 	}

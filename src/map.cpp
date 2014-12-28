@@ -3,7 +3,6 @@
 #include "obstacle.h"
 #include "position.h"
 #include "view.h"
-#include "display.h"
 
 using namespace robot;
 
@@ -87,26 +86,3 @@ std::vector<Map> Map::addViewbyFullDeleteAreaExtend(View const &view, double dis
 	return stepMap;
 }
 
-std::vector<Position> Map::toPositions() const{
-	return to_positions(*this);
-}
-
-/*
-View Map::toView() const{
-	View v;
-	v.addObstacles(toObstacles());
-	return v;
-}
-
-std::multiset<Obstacle> Map::toObstacles() const {
-	std::multiset<Obstacle> obstacles;
-	for(const_iterator i=begin();i!=end();++i){
-		View const &v=*i;
-		for(View::const_iterator j=v.begin();j!=v.end();++j){
-			Obstacle const &o=*j;
-			obstacles.insert(o);
-		}
-	}
-	return obstacles;
-}
-*/

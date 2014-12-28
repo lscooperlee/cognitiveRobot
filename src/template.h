@@ -77,9 +77,15 @@ template <typename T>
 std::vector<Position> const to_positions(T const &t){
 	std::vector<Position> v;
 	for(auto const &p:t){
-		std::vector<Position> vp=p.toPositions();
+		std::vector<Position> vp=to_positions(p);
 		v.insert(v.end(),vp.begin(),vp.end());
 	}
+	return v;
+}
+template <typename T=Position>
+std::vector<Position> const to_positions(Position const &p){
+	std::vector<Position> v;
+	v.push_back(p);
 	return v;
 }
 

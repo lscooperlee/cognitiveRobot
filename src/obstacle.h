@@ -39,8 +39,6 @@ class Obstacle: public Object {
 
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const;
 
-		std::vector<Position> toPositions() const;
-
 		Area toArea() const;
 
 };

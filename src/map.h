@@ -32,8 +32,6 @@ class Map {
 		void addViewbyFullDeleteArea(View const &view) ;
 		std::vector<Map> addViewbyFullDeleteAreaExtend(View const &view, double distance);
 
-		std::vector<Position> toPositions() const;
-
 		typedef std::vector<View>::const_iterator const_iterator;
 		const_iterator begin() const {return ViewVector.begin();}
 		const_iterator end() const {return ViewVector.end();}

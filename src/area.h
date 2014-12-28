@@ -6,6 +6,7 @@
 #include <iostream>
 #include "global.h"
 #include "position.h"
+#include "template.h"
 
 namespace robot {
 
@@ -20,7 +21,7 @@ class Area {
 
 		template <typename T>
 		Area(T const &t){
-			toArea(t.toPositions());
+			toArea(to_positions(t));
 		}
 
 		Area(View const &v);
