@@ -69,7 +69,7 @@ int main(int argc, char **argv){
 
 		if(stepmap==0){
 			Map m=b.doMap();
-			display.display(m);
+			display(m);
 			static int lookcount=0;
 			std::cout<<"producing the "<<++lookcount<<"th map"<<std::endl;
 		}
@@ -78,7 +78,7 @@ int main(int argc, char **argv){
 	if(stepmap==1){
 		b.setDisplay(&display);
 		Map m=b.doMap();
-		display.display(m);
+		display(m);
 	}
 
 	delete p;

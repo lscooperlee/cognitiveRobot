@@ -42,7 +42,7 @@ GnuplotDisplay::GnuplotDisplay(std::string const bname, std::string const dname,
 	//if empty create
 }
 
-void GnuplotDisplay::display(Map const & m, char const *fname) {
+void GnuplotDisplay::operator () (Map const & m, char const *fname) {
 	maxmin(m);
 
 	if(!fname)
@@ -77,7 +77,7 @@ void GnuplotDisplay::display(Map const & m, char const *fname) {
 
 }
 
-void GnuplotDisplay::display(View const & v, char const *fname) {
+void GnuplotDisplay::operator () (View const & v, char const *fname) {
 
 	maxmin(v);
 

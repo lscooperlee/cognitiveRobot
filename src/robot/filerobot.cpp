@@ -155,7 +155,7 @@ Map const FileRobot::do_map_backward(int c) const {
 
 		if(display){
 			for(auto const &m:sm){
-				display->display(m);
+				(*display)(m);
 			}
 			std::cout<<"producing backward map "<<j<<"th"<<std::endl;
 		}

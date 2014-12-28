@@ -13,18 +13,16 @@ int main(int argc,char **argv){
 	GnuplotDisplay d("testview","/tmp/img",500,500);
 
 	View tt={Obstacle(-1,1,-1,2),Obstacle(1,1,1,2)};
-	d.display(tt);
+	d(tt);
 	
 	dbg(tt);
-//	d.display(tt.cut(p,a));
-//	d.display(tt.cut(p,-a));
-	d.display(tt.cut(Position(0,2),Angle(PI/4)),"P02_AP45");
-	d.display(tt.cut(Position(0,2),Angle(PI/2)),"P02_AP90");
-	d.display(tt.cut(Position(0,2),Angle(-PI/4)),"P02_AM45");
-	d.display(tt.cut(Position(0,2),Angle(-PI/2)),"P02_AM90");
+	d(tt.cut(Position(0,2),Angle(PI/4)),"P02_AP45");
+	d(tt.cut(Position(0,2),Angle(PI/2)),"P02_AP90");
+	d(tt.cut(Position(0,2),Angle(-PI/4)),"P02_AM45");
+	d(tt.cut(Position(0,2),Angle(-PI/2)),"P02_AM90");
 
-	d.display(tt.cut(Position(0,1),Angle(3*PI/2)),"P01_AP135");
-	d.display(tt.cut(Position(0,1),Angle(-3*PI/2)),"P01_AM135");
+	d(tt.cut(Position(0,1),Angle(3*PI/2)),"P01_AP135");
+	d(tt.cut(Position(0,1),Angle(-3*PI/2)),"P01_AM135");
 
 	return 0;
 	View v;
@@ -38,57 +36,57 @@ int main(int argc,char **argv){
 
 	std::cout<<v.size()<<std::endl;
 	std::cout<<v<<std::endl;
-	d.display(v,"P00_A00_");
+	d(v,"P00_A00_");
 
 	View w;
 	w=v.transform(Position(0,0), Angle(PI/2));
 	std::cout<<w<<std::endl;
-	d.display(w,"P00_Ap90_");
+	d(w,"P00_Ap90_");
 
 	w=v.transform(Position(0,0), Angle(-PI/2));
 	std::cout<<w<<std::endl;
-	d.display(w,"P00_Am90_");
+	d(w,"P00_Am90_");
 
 	w=v.transform(Position(0,0), Angle(-3*PI/4));
 	std::cout<<w<<std::endl;
-	d.display(w,"P00_Am135_");
+	d(w,"P00_Am135_");
 
 	w=v.transform(Position(0,0), Angle(3*PI/4));
 	std::cout<<w<<std::endl;
-	d.display(w,"P00_Ap135_");
+	d(w,"P00_Ap135_");
 	
 	w=v.transform(Position(2,0), Angle(0));
 	std::cout<<w<<std::endl;
-	d.display(w,"P20_Ap00_");
+	d(w,"P20_Ap00_");
 
 	w=v.transform(Position(2,0), Angle(PI/2));
 	std::cout<<w<<std::endl;
-	d.display(w,"P20_Ap90_");
+	d(w,"P20_Ap90_");
 
 	w=v.transform(Position(2,0), Angle(-PI/2));
 	std::cout<<w<<std::endl;
-	d.display(w,"P20_Am90_");
+	d(w,"P20_Am90_");
 
 	w=v.transform(Position(2,0), Angle(-3*PI/4));
 	std::cout<<w<<std::endl;
-	d.display(w,"P20_Am135_");
+	d(w,"P20_Am135_");
 
 	w=v.transform(Position(2,0), Angle(3*PI/4));
 	std::cout<<w<<std::endl;
-	d.display(w,"P20_Ap135_");
+	d(w,"P20_Ap135_");
 	
 	View m;
 	m.addObstacle(Obstacle(1,1,1,6));
 	m.addObstacle(Obstacle(2,7,5,5));
 	m.addObstacle(Obstacle(6,1,8,-1));
-	d.display(m);
+	d(m);
 	
 	View i;
 	i.addObstacle(Obstacle(3,-1,4,4));
 	i.addObstacle(Obstacle(-5,-5,5,-5));
-	d.display(i);
+	d(i);
 
 	View r=i-m;
-	d.display(r);
+	d(r);
 
 }
