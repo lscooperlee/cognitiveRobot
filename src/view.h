@@ -5,6 +5,7 @@
 #include "global.h"
 #include "angle.h"
 #include "obstacle.h"
+#include "template.h"
 
 namespace robot {
 
@@ -45,8 +46,12 @@ class View {
 		View deleteArea(View const &view) const;
 		View deleteAreaExtend(View const &view, double distance) const;
 
+		Obstacle const & operator [] (unsigned int i) const {return Obstacles[i];}
 		View operator -(View const &view) const ;
 		View operator +(View const &view) const ;
+
+//		template <typename T>
+//		bool isStrictRevisit(T const &t) const {return is_in_area(globalPosition, Area(t));};
 
 	private:
 		std::vector<Obstacle> Obstacles;

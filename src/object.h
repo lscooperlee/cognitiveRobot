@@ -22,6 +22,8 @@ class Object{
 
 		Position const &getPosition() const { return position;}
 
+		Position const & operator [](unsigned int i) const {return shape[i];}
+
 	protected:
 		Object(){}
 		Object(Object const &obj){ this->shape=obj.shape; this->position=obj.position;}

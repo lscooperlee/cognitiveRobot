@@ -122,6 +122,42 @@ size_t size(T const &t){
 	return t.size();
 }
 
+template <typename T>
+bool is_equal(T const &t1, T const &t2){
+	
+	if(t1.size()!=t2.size()){
+		return false;
+	}
+
+	for(unsigned int i=0;i<t1.size();i++){
+		if(!is_equal(t1[i],t2[i])){
+			return false;
+		}
+	}
+
+	return true;
 }
 
+template <typename T=Position>
+bool is_equal(Position const &p1, Position const &p2) { 
+	return p1.X()==p2.X() && p1.Y()==p2.Y() && p1.Z()==p2.Z();
+}
+
+
+template <typename T>
+std::size_t hash(T const &t) {
+	std::size_t r=0;
+	for(auto const &c:t){
+		r+=hash(c);
+	}
+	return r;
+}
+
+template <typename T=Position>
+std::size_t hash(Position const &p) {
+	return std::hash<double>()(p.X())+std::hash<double>()(p.Y())+std::hash<double>()(p.Z());
+}
+
+
+}
 #endif

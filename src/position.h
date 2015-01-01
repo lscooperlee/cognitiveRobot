@@ -38,7 +38,7 @@ class Position{
 		 *
 		 */
 		Position const transform(Position const &cord, Angle const &ycur_ynew) const;
-		
+
 		Position operator + (Position const &pos) const { 
 			return Position(X()+pos.X(),Y()+pos.Y(),Z()+pos.Z());
 		}

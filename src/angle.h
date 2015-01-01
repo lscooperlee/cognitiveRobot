@@ -7,7 +7,6 @@
 #include "global.h"
 #include "position.h"
 
-
 namespace robot {
 
 /*

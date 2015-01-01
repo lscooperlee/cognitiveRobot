@@ -54,6 +54,7 @@ void GnuplotDisplay::operator () (Map const & m, char const *fname) {
 	std::ofstream mapdata;
 
 	unsigned int i=0;
+	unsigned int j=0;
 	for(auto const &v:m){
 		std::string tname=dirname+"/"+"tmpmap"+std::to_string(i)+".dat";
 		std::string colorstring;
@@ -67,10 +68,12 @@ void GnuplotDisplay::operator () (Map const & m, char const *fname) {
 		dump_view(v,mapdata);
 		if(displayrobot==true){
 			View r=draw_robot(v.getPosition(), v.getAngle());
+//			View r=draw_facing_direction(m.getRouteItem(v));
 			dump_view(r,mapdata);
 		}
 		mapdata.close();
 		i++;
+		j++;
 	}
 
 	display_cleanup(std::string(fname));
@@ -176,4 +179,9 @@ View GnuplotDisplay::draw_robot(Position const &p, Angle const &a){
 
 	View robot({Obstacle(p,head),Obstacle(head,left),Obstacle(head,right),Obstacle(left,right)});
 	return robot;
+}
+
+View GnuplotDisplay::draw_facing_direction(std::pair<Position, Position> const &pp){
+	View facing({Obstacle(pp.first,pp.second)});
+	return facing;
 }

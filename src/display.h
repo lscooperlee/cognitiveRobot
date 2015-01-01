@@ -60,6 +60,7 @@ class GnuplotDisplay : public Display{
 
 		void dump_view(View const &v, std::ofstream &os);
 		View draw_robot(Position const &p, Angle const &a);
+		View draw_facing_direction(std::pair<Position, Position> const &pp);
 
 		double minX;
 		double minY;
