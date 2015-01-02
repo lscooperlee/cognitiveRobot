@@ -115,6 +115,15 @@ View View::extend(double distance) const {
 	return v;
 }
 
+View const View::doSquare() const {
+	Position lb(min_x(*this),0);
+	Position rb(max_x(*this),0);
+	Position lt(min_x(*this),max_y(*this));
+	Position rt(max_x(*this),max_y(*this));
+
+	return View{Obstacle{lb,rb},Obstacle{rb,rt},Obstacle{rt,lt},Obstacle{lt,lb}};
+}
+
 View View::addNewView(Area const &area) const{
 	View v;
 
@@ -128,7 +137,6 @@ View View::addNewView(Area const &area) const{
 	v.putAngle(getAngle());
 
 	return v;
-	
 
 }
 

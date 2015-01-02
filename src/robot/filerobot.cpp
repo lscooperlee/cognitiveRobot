@@ -123,6 +123,11 @@ Map const FileRobot::do_map_backward(int c) const{
 	for(auto const vtrans:vc){
 		try{
 			sameviewvector.at(&vtrans);
+			/*
+			View vrevisit(vtrans);
+			vrevisit.setHighlight(true);
+			m.addView(vrevisit);
+			*/
 		}catch(...){
 			std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
 			/*
@@ -168,8 +173,34 @@ std::vector<View> FileRobot::doTransform(int c) const{
 }
 
 bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) const {
-	Position const &p=cur.makeFacingPair(last).second;
-	return is_in_area(p,tv);
+	Position const *the=nullptr;
+	Position const &pos=cur.getPosition();
+	double dist=1000000;
+	View const &lft=cur-last;
+	for(auto const &o:lft){
+		for(auto const &p:o){
+			double t=pos.distance(p);
+			if(t<dist){
+				the=&p;
+				dist=t;
+			}
+		}
+	}
+	if(the==nullptr)
+		return false;
+	return is_in_area(*the,tv);
+/*
+	View const &lft=cur-last;
+	return is_overlap_area(lft,tv);
+*/
+/*
+	if(lft.size()==0){
+		Position const &p=cur.makeFacingPair(last).second;
+		return is_in_area(p,tv);
+	}else{
+		return is_in_area(lft,tv);
+	}
+*/
 }
 
 std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitMap(std::vector<View> const &vc) const {
@@ -179,7 +210,7 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 		View const &last=*(i-1);
 		View const &cur=*i;
 
-		for(auto j=vc.cbegin()+1;j<i-1;++j){
+		for(auto j=vc.cbegin();j<i-1;++j){
 			View const &cv=*j;
 			if(isRevisit(cur,last,cv)){
 				bool out=false;

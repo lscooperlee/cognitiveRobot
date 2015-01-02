@@ -53,13 +53,20 @@ class View {
 
 		std::pair<Position, Position> const makeFacingPair(View const &v) const ;
 
-//		template <typename T>
-//		bool isStrictRevisit(T const &t) const {return is_in_area(globalPosition, Area(t));};
+		void setHighlight(bool h) {highlight=h;};
+		bool getHighlight() const {return highlight;};
+
+		View const doSquare() const ;
+		View const addSquare() const {
+			return doSquare()+*this;
+		}
 
 	private:
 		std::vector<Obstacle> Obstacles;
 		Position globalPosition;
 		Angle facingAngle;
+
+		bool highlight=false;
 		
 		View addNewView(Area const &area) const;
 };

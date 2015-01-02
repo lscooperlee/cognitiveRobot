@@ -63,6 +63,9 @@ void GnuplotDisplay::operator () (Map const & m, char const *fname) {
 		}else{
 			colorstring=color[i];
 		}
+		if(v.getHighlight()){
+			colorstring="#ff0000";
+		}
 		gnuplotfile << "\""<<tname<<"\""<<" with linespoint linetype rgb "<<"\""<<colorstring<<"\""<<", ";
 		mapdata.open(tname);
 		dump_view(v,mapdata);
