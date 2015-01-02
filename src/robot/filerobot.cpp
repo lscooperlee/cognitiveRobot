@@ -4,6 +4,7 @@
 #include "filerobot.h"
 #include "map.h"
 #include "display.h"
+#include "debug.h"
 
 using namespace robot;
 using std::ifstream;
@@ -109,27 +110,36 @@ View const FileRobot::look() throw(NoViewException) {
 	return v;
 }
 
-Map const FileRobot::doMap(int c) const{
+Map const FileRobot::doMap(int c) {
 	return do_map_backward(c);
 }
 
-/*
-Map const FileRobot::do_map_forward(int c) const{
+Map const FileRobot::do_map_backward(int c) const{
 	Map m;
+	std::vector<View> const &vc=doTransform(c);
 
-	c=c==0?size():c;
-	int sz=c>size()?size():c;
-	for(int i=0;i<sz;++i){
-		View const &v=get(i);	
-		m.addView(v.transform(-v.getPosition(),-v.getAngle()));
+	auto sameviewvector=getRevisitMap(vc);
+
+	for(auto const vtrans:vc){
+		try{
+			sameviewvector.at(&vtrans);
+		}catch(...){
+			std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
+			/*
+			if(display){
+				for(auto const &m:sm){
+					(*display)(m);
+				}
+				std::cout<<"producing backward map "<<count--<<"th"<<std::endl;
+			}*/
+		}
+
 	}
+
 	return m;
 }
-*/
 
-Map const FileRobot::do_map_backward(int c) const {
-	Map m;
-
+std::vector<View> FileRobot::doTransform(int c) const{
 	const_reverse_iterator i=crbegin();
 	View const &vorig=*i;
 	Position coor=vorig.getPosition();
@@ -138,8 +148,8 @@ Map const FileRobot::do_map_backward(int c) const {
 	c=c==0?size():c;
 	int sz=c>size()?size():c;
 
-	int j=sz;
-	for(auto i=crbegin();j>0;j--,++i){
+	std::vector<View> transformedMemory;
+	for(auto i=crbegin();sz>0;sz--,++i){
 		View const &v=*i;
 		//fist step, make the original position into the current View (v)'s coordinates
 		//so the current View (v)'s position and angle is the new zero.
@@ -151,16 +161,70 @@ Map const FileRobot::do_map_backward(int c) const {
 		
 		View const vtrans=v.transform(oinv,ainv);
 
-		std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
-
-		if(display){
-			for(auto const &m:sm){
-				(*display)(m);
-			}
-			std::cout<<"producing backward map "<<j<<"th"<<std::endl;
-		}
-
+		transformedMemory.push_back(vtrans);
 	}
 
-	return m;
+	return transformedMemory;
+}
+
+bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) const {
+	Position const &p=cur.makeFacingPair(last).second;
+	return is_in_area(p,tv);
+}
+
+std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitMap(std::vector<View> const &vc) const {
+	std::unordered_map<View const *, bool, viewhash, viewequal> sameviewvector;
+	auto lastv=vc.cend();
+	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){
+		View const &last=*(i-1);
+		View const &cur=*i;
+
+		for(auto j=vc.cbegin()+1;j<i-1;++j){
+			View const &cv=*j;
+			if(isRevisit(cur,last,cv)){
+				bool out=false;
+				if (i-lastv>1&&lastv!=vc.cend()){
+					out=true;
+				}
+				lastv=i;
+				sameviewvector.insert(std::make_pair(&cur,out));
+				break;
+			}
+		}
+	}
+	sameviewvector.insert(std::make_pair(&*lastv,true));
+	return sameviewvector;
+}
+
+inline static void get_revisit_map(void){
+	/*
+	auto tmphash=[](View const *v)->size_t{
+		return hash(v->getPosition())+hash(v->getAngle());
+	};
+	auto tmpequal=[](View const *v, View const *w)->bool{
+		return (is_equal(v->getPosition(), w->getPosition())) && (v->getAngle() == w->getAngle());
+	};
+
+	std::unordered_map<View const *, View const *, decltype(tmphash), decltype(tmpequal)> sameviewvector(0, tmphash,tmpequal);
+	std::unordered_map<View const *, bool, decltype(tmphash), decltype(tmpequal)> endofrevisit(0,tmphash,tmpequal);
+
+	auto lastv=vc.cend();
+	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){
+		View const &last=*(i-1);
+		View const &cur=*i;
+		Position const &p=cur.makeFacingPair(last).second;
+		for(auto j=vc.cbegin()+1;j<i-1;++j){
+			View const &cv=*j;
+			if(is_in_area(p,cv)){
+				if (i-lastv>1&&lastv!=vc.cend()){
+					endofrevisit.insert(std::make_pair(&(*lastv),true));
+				}
+				lastv=i;
+				sameviewvector.insert(std::make_pair(&cur,&cv));
+				break;
+			}
+		}
+	}
+	endofrevisit.insert(std::make_pair(&(*lastv),true));
+	*/
 }

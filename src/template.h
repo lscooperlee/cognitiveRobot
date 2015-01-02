@@ -3,6 +3,7 @@
 
 #include <limits>
 #include "area.h"
+#include "angle.h"
 
 namespace robot {
 
@@ -106,7 +107,7 @@ bool is_overlap_area(Position const &p, Area const &u){
 template <typename T>
 bool is_in_area(T const &t, Area const &u){
 	for(auto const &c:t){
-		if(is_in_area(c,u)){
+		if(!is_in_area(c,u)){
 			return false;
 		}
 	}
@@ -156,6 +157,11 @@ std::size_t hash(T const &t) {
 template <typename T=Position>
 std::size_t hash(Position const &p) {
 	return std::hash<double>()(p.X())+std::hash<double>()(p.Y())+std::hash<double>()(p.Z());
+}
+
+template <typename T=Angle>
+std::size_t hash(Angle const &a) {
+	return std::hash<double>()(a.value());
 }
 
 

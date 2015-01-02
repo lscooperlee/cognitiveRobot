@@ -49,6 +49,9 @@ class View {
 		Obstacle const & operator [] (unsigned int i) const {return Obstacles[i];}
 		View operator -(View const &view) const ;
 		View operator +(View const &view) const ;
+		bool operator ==(View const &view) const;
+
+		std::pair<Position, Position> const makeFacingPair(View const &v) const ;
 
 //		template <typename T>
 //		bool isStrictRevisit(T const &t) const {return is_in_area(globalPosition, Area(t));};

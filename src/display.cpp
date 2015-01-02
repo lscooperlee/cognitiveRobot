@@ -67,8 +67,8 @@ void GnuplotDisplay::operator () (Map const & m, char const *fname) {
 		mapdata.open(tname);
 		dump_view(v,mapdata);
 		if(displayrobot==true){
-			View r=draw_robot(v.getPosition(), v.getAngle());
-//			View r=draw_facing_direction(m.getRouteItem(v));
+//			View r=draw_robot(v.getPosition(), v.getAngle());
+			View r=draw_facing_direction(m.getRouteItem(v));
 			dump_view(r,mapdata);
 		}
 		mapdata.close();

@@ -59,6 +59,10 @@ View View::operator +(View const &view) const {
 	return v;
 }
 
+bool View::operator ==(View const &view) const {
+	return is_equal(globalPosition, view.getPosition()) && (facingAngle == view.getAngle());
+}
+
 View View::cut(Position const &pos, Angle const &ang) const{
 	//a=sin(ang)
 	//b=cos(ang)
@@ -126,4 +130,13 @@ View View::addNewView(Area const &area) const{
 	return v;
 	
 
+}
+
+std::pair<Position, Position> const View::makeFacingPair(View const &v) const {
+	Angle const &a=facingAngle;
+	Position const &p2=v.getPosition();
+	Position const &p1=globalPosition;
+	double distance=p1.distance(p2)/2;
+	Position p3=p1.directPosition(a,distance);
+	return std::make_pair(p1,p3);
 }

@@ -2,11 +2,25 @@
 #define __SRC_ROBOT_FILEROBOT_H__
 
 #include <fstream>
+#include <unordered_map>
 #include "laserrobot.h"
 
 namespace robot {
 
 class Display;
+class View;
+
+struct viewhash{
+	std::size_t operator () (View const *v) const {
+		return hash(v->getPosition())+hash(v->getAngle());
+	}
+};
+
+struct viewequal{
+	bool operator ()(View const *v, View const *w) const {
+		return (is_equal(v->getPosition(), w->getPosition())) && (v->getAngle() == w->getAngle());
+	}
+};
 
 class FileRobot: public LaserRobot {
 
@@ -19,7 +33,7 @@ class FileRobot: public LaserRobot {
 		
 		void setDisplay(Display *const dis) {display=dis;}
 		View const look() throw(NoViewException);
-		Map const doMap(int c=0) const;
+		Map const doMap(int c=0) ;
 
 	private:
 		std::ifstream *file;
@@ -27,8 +41,13 @@ class FileRobot: public LaserRobot {
 
 		Display *display=nullptr;
 
-		Map const do_map_forward(int c) const;
-		Map const do_map_backward(int c) const;
+		Map const do_map_backward(int sz) const;
+
+		std::vector<View> doTransform(int sz) const;
+
+		bool isRevisit(View const &cur,View const &last, View const &tv) const;
+
+		std::unordered_map<View const *, bool, viewhash, viewequal> getRevisitMap(std::vector<View> const &tv) const;
 
 };
 

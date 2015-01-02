@@ -3,6 +3,7 @@
 #include "obstacle.h"
 #include "position.h"
 #include "view.h"
+#include "debug.h"
 
 using namespace robot;
 
@@ -88,8 +89,6 @@ std::vector<Map> Map::addViewbyFullDeleteAreaExtend(View const &view, double dis
 	return stepMap;
 }
 
-//		View const * getRevisitStartView(View const &view) const ;
-//		View const * getRevisitEndView(View const &view) const ;
 void Map::makeRoute(View const &view){
 
 	Position const &p1=view.getPosition();
@@ -97,13 +96,7 @@ void Map::makeRoute(View const &view){
 		Position p2(0,max_y(view));
 		route.insert(std::make_pair(view,std::make_pair(p1,p2)));
 	}else{
-		Angle const &a=view.getAngle();
-		View const &v=ViewVector.back();
-		Position const &p2=v.getPosition();
-		
-		double distance=p1.distance(p2);
-		Position p3=p1.directPosition(a,distance);
-		route.insert(std::make_pair(view,std::make_pair(p1,p3)));
+		route.insert(std::make_pair(view,view.makeFacingPair(ViewVector.back())));
 	}
 }
 

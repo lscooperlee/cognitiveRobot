@@ -22,7 +22,7 @@ class Robot: public Mind, public Object{
 		virtual void memorize (View const & view) {memory.push_back(view);}
 		virtual View recall (int id ) const {return memory[id];}
 
-		virtual Map const doMap(int c=0) const = 0;
+		virtual Map const doMap(int c=0) = 0;
 
 	protected:
 		int size() const {return memory.size();}
