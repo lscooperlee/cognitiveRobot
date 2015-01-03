@@ -47,7 +47,7 @@ class FileRobot: public LaserRobot {
 
 		bool isRevisit(View const &cur,View const &last, View const &tv) const;
 
-		std::unordered_map<View const *, bool, viewhash, viewequal> getRevisitMap(std::vector<View> const &tv) const;
+		std::unordered_map<View const *, bool, viewhash, viewequal> getRevisitDict(std::vector<View> const &tv) const;
 
 };
 

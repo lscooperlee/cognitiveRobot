@@ -118,16 +118,17 @@ Map const FileRobot::do_map_backward(int c) const{
 	Map m;
 	std::vector<View> const &vc=doTransform(c);
 
-	auto sameviewvector=getRevisitMap(vc);
+	auto sameviewvector=getRevisitDict(vc);
 
 	for(auto const vtrans:vc){
 		try{
-			sameviewvector.at(&vtrans);
-			/*
-			View vrevisit(vtrans);
-			vrevisit.setHighlight(true);
-			m.addView(vrevisit);
-			*/
+			auto pair=sameviewvector.at(&vtrans);
+			if(pair){
+				View vrevisit(vtrans);
+				vrevisit.setHighlight(true);
+				m.addView(vrevisit);
+			}
+			
 		}catch(...){
 			std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
 			/*
@@ -173,6 +174,7 @@ std::vector<View> FileRobot::doTransform(int c) const{
 }
 
 bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) const {
+/*
 	Position const *the=nullptr;
 	Position const &pos=cur.getPosition();
 	double dist=1000000;
@@ -189,10 +191,12 @@ bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) con
 	if(the==nullptr)
 		return false;
 	return is_in_area(*the,tv);
-/*
-	View const &lft=cur-last;
-	return is_overlap_area(lft,tv);
 */
+
+
+	Position const &p=cur.makeFacingPair(last).second;
+	return is_in_area(p,tv);
+
 /*
 	if(lft.size()==0){
 		Position const &p=cur.makeFacingPair(last).second;
@@ -203,7 +207,8 @@ bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) con
 */
 }
 
-std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitMap(std::vector<View> const &vc) const {
+/*
+std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
 	std::unordered_map<View const *, bool, viewhash, viewequal> sameviewvector;
 	auto lastv=vc.cend();
 	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){
@@ -217,13 +222,50 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 				if (i-lastv>1&&lastv!=vc.cend()){
 					out=true;
 				}
+
+				if(lastv!=vc.cend()){
+					sameviewvector.insert(std::make_pair(&*lastv,out));
+				}
 				lastv=i;
-				sameviewvector.insert(std::make_pair(&cur,out));
+
 				break;
 			}
 		}
 	}
 	sameviewvector.insert(std::make_pair(&*lastv,true));
+	return sameviewvector;
+}
+*/
+
+std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
+	std::unordered_map<View const *, bool, viewhash, viewequal> sameviewvector;
+	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){
+		View const &last=*(i-1);
+		View const &cur=*i;
+
+		for(auto j=vc.cbegin();j<i-1;++j){
+			View const &cv=*j;
+			if(isRevisit(cur,last,cv)){
+				sameviewvector.insert(std::make_pair(&cur,false));
+				break;
+			}
+		}
+	}
+	
+	bool first=true;
+	for(auto i=vc.crbegin();i!=vc.crend();++i){
+		View const *cur=&*i;
+		try{
+			sameviewvector.at(cur);
+			if(first==true){
+				sameviewvector[cur]=true;
+				first=false;
+			}
+		}catch(...){
+			first=true;
+		}
+	}
+	
 	return sameviewvector;
 }
 
@@ -233,10 +275,7 @@ inline static void get_revisit_map(void){
 		return hash(v->getPosition())+hash(v->getAngle());
 	};
 	auto tmpequal=[](View const *v, View const *w)->bool{
-		return (is_equal(v->getPosition(), w->getPosition())) && (v->getAngle() == w->getAngle());
-	};
-
-	std::unordered_map<View const *, View const *, decltype(tmphash), decltype(tmpequal)> sameviewvector(0, tmphash,tmpequal);
+		return (is_equal(v->getPosition(), w->getPosition())) && (v->getAngle() == w->getAngle()); }; std::unordered_map<View const *, View const *, decltype(tmphash), decltype(tmpequal)> sameviewvector(0, tmphash,tmpequal);
 	std::unordered_map<View const *, bool, decltype(tmphash), decltype(tmpequal)> endofrevisit(0,tmphash,tmpequal);
 
 	auto lastv=vc.cend();
