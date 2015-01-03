@@ -131,13 +131,6 @@ Map const FileRobot::do_map_backward(int c) const{
 			
 		}catch(...){
 			std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
-			/*
-			if(display){
-				for(auto const &m:sm){
-					(*display)(m);
-				}
-				std::cout<<"producing backward map "<<count--<<"th"<<std::endl;
-			}*/
 		}
 
 	}
@@ -207,36 +200,6 @@ bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) con
 */
 }
 
-/*
-std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
-	std::unordered_map<View const *, bool, viewhash, viewequal> sameviewvector;
-	auto lastv=vc.cend();
-	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){
-		View const &last=*(i-1);
-		View const &cur=*i;
-
-		for(auto j=vc.cbegin();j<i-1;++j){
-			View const &cv=*j;
-			if(isRevisit(cur,last,cv)){
-				bool out=false;
-				if (i-lastv>1&&lastv!=vc.cend()){
-					out=true;
-				}
-
-				if(lastv!=vc.cend()){
-					sameviewvector.insert(std::make_pair(&*lastv,out));
-				}
-				lastv=i;
-
-				break;
-			}
-		}
-	}
-	sameviewvector.insert(std::make_pair(&*lastv,true));
-	return sameviewvector;
-}
-*/
-
 std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
 	std::unordered_map<View const *, bool, viewhash, viewequal> sameviewvector;
 	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){
@@ -247,6 +210,8 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 			View const &cv=*j;
 			if(isRevisit(cur,last,cv)){
 				sameviewvector.insert(std::make_pair(&cur,false));
+				cv.addSameSpaceView({&cv,&cur});
+				cur.addSameSpaceView({&cv,&cur});
 				break;
 			}
 		}

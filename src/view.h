@@ -2,6 +2,7 @@
 #define __SRC_VIEW_H__
 
 #include <vector>
+#include <memory>
 #include "global.h"
 #include "angle.h"
 #include "obstacle.h"
@@ -61,12 +62,17 @@ class View {
 			return doSquare()+*this;
 		}
 
+		void addSameSpaceView(std::initializer_list<View const *> lst) const {
+			samespace.insert(samespace.end(),lst);
+		}
+
 	private:
 		std::vector<Obstacle> Obstacles;
 		Position globalPosition;
 		Angle facingAngle;
 
 		bool highlight=false;
+		mutable std::vector<View const *> samespace;
 		
 		View addNewView(Area const &area) const;
 };

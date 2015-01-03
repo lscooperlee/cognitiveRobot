@@ -4,9 +4,7 @@
 using namespace robot;
 
 View::View(std::initializer_list<Obstacle> oblist){
-	for(auto const &o:oblist){
-		addObstacle(o);
-	}
+	Obstacles.insert(Obstacles.end(),oblist);
 }
 
 View const View::transform(Position const &cord, Angle const &ycur_ynew) const {
