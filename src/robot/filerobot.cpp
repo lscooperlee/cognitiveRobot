@@ -118,7 +118,16 @@ Map const FileRobot::do_map_backward(int c) const{
 	Map m;
 	std::vector<View> const &vc=doTransform(c);
 
-	auto sameviewvector=getRevisitDict(vc);
+	std::vector<View> tmp;
+	tmp.push_back(vc[0]);
+	for(auto i=vc.begin()+1;i!=vc.end();i++){
+		View const &cur=*i;
+		View const &last=*(i-1);
+		tmp.push_back(cur-last);
+	}
+
+//	auto sameviewvector=getRevisitDict(vc);
+	auto sameviewvector=getRevisitDict(tmp);
 
 	for(auto const vtrans:vc){
 		try{
@@ -127,6 +136,7 @@ Map const FileRobot::do_map_backward(int c) const{
 				View vrevisit(vtrans);
 				vrevisit.setHighlight(true);
 				m.addView(vrevisit);
+				std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
 			}
 			
 		}catch(...){
@@ -166,7 +176,44 @@ std::vector<View> FileRobot::doTransform(int c) const{
 	return transformedMemory;
 }
 
-bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) const {
+bool FileRobot::isRevisit(View const &cur, View const &last, View const &memorycur, View const &memorylast) const {
+	
+	Position const &p=cur.getPosition();
+	return is_in_area(p,memorycur-memorylast);
+
+/*
+	Position const &p=cur.getPosition();
+	return is_in_area(p,tv-lv);
+*/
+	/*
+	Position const &p=cur.makeFacingPair(last).second;
+	if(is_in_area(p,third)==false){
+		return is_in_area(p,tv);
+	}
+
+	Position const *the=nullptr;
+	Position const &pos=cur.getPosition();
+	Angle const &curangle=cur.getAngle();
+	Angle maxangle(PI);
+	View const &lft=cur-last;
+
+	for(auto const &o:lft){
+		for(auto const &p:o){
+			Angle angle(pos, p);
+			Angle tmp=curangle-angle;
+
+			if(tmp.abs()<maxangle){
+				maxangle=tmp.abs();
+				the=&p;
+			}
+		}
+	}
+
+	if(the==nullptr)
+		return false;
+
+	return is_in_area(*the,tv);
+*/
 /*
 	Position const *the=nullptr;
 	Position const &pos=cur.getPosition();
@@ -186,29 +233,26 @@ bool FileRobot::isRevisit(View const &cur, View const &last, View const &tv) con
 	return is_in_area(*the,tv);
 */
 
-
+/*
 	Position const &p=cur.makeFacingPair(last).second;
 	return is_in_area(p,tv);
-
-/*
-	if(lft.size()==0){
-		Position const &p=cur.makeFacingPair(last).second;
-		return is_in_area(p,tv);
-	}else{
-		return is_in_area(lft,tv);
-	}
 */
+
 }
 
 std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
 	std::unordered_map<View const *, bool, viewhash, viewequal> sameviewvector;
-	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){
+	if(vc.size()<3){
+		return sameviewvector;
+	}
+	for(auto i=vc.cbegin()+2;i!=vc.cend();++i){
 		View const &last=*(i-1);
 		View const &cur=*i;
 
-		for(auto j=vc.cbegin();j<i-1;++j){
+		for(auto j=vc.cbegin()+1;j<i-3;++j){
 			View const &cv=*j;
-			if(isRevisit(cur,last,cv)){
+			View const &lv=*(j-1);
+			if(isRevisit(cur,last,cv,lv)){
 				sameviewvector.insert(std::make_pair(&cur,false));
 				cv.addSameSpaceView({&cv,&cur});
 				cur.addSameSpaceView({&cv,&cur});

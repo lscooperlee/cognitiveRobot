@@ -67,6 +67,26 @@ Map Map::stepMapOutput(View const &v) {
 	return tm;
 }
 
+std::vector<Map> Map::addViewbyDeleteAreaExtend(View const &view, double distance) {
+//	fullViewVector.push_back(view);
+	
+	std::vector<Map> stepMap;
+
+	stepMap.push_back(stepMapOutput(view));
+	if(ViewVector.size()==0){
+		pushView(view);
+	}else{
+		View const &last=ViewVector.back();
+		View const nv=view.deleteAreaExtend(last,distance);
+		stepMap.push_back(stepMapOutput(nv));
+		if(nv.size()){
+			pushView(nv);
+		}
+	}
+
+	return stepMap;
+}
+
 std::vector<Map> Map::addViewbyFullDeleteAreaExtend(View const &view, double distance) {
 //	fullViewVector.push_back(view);
 	

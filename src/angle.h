@@ -23,8 +23,9 @@ class Angle {
 
 	public:
 		Angle(): angle(0) {}
-		Angle(double a): angle(a) {}
-
+		Angle(double a){angle=fixAngle(a);}
+		
+		//p1 is the original point
 		Angle(Position const &p1, Position const &p2){
 			double d=p1.distance(p2);
 			//nan is nan, not zero;
@@ -43,24 +44,41 @@ class Angle {
 		}
 
 		Angle operator +(Angle const &ang) const {
-			double na=fixAngle(ang.value() + angle);
+			double na=ang.value() + angle;
 			return Angle(na);
 		}
 		Angle operator +(double ang) const {
-			double na=fixAngle(ang + angle);
+			double na=ang + angle;
 			return Angle(na);
 		}
 
 		Angle operator -(Angle const &ang) const {
-			double na=fixAngle(angle - ang.value());
+			double na=angle - ang.value();
 			return Angle(na);
 		}
 		Angle operator -(double ang) const {
-			double na=fixAngle(angle - ang);
+			double na=angle - ang;
 			return Angle(na);
 		}
 		Angle operator -() const {
-			double na=fixAngle(-angle);
+			double na=-angle;
+			return Angle(na);
+		}
+
+		bool operator <(Angle const &ang) const {
+			return angle<ang.value();
+		}
+
+		bool operator >(Angle const &ang) const {
+			return angle>ang.value();
+		}
+
+		bool operator ==(Angle const &ang) const {
+			return angle==ang.value();
+		}
+
+		Angle abs() const {
+			double na=angle>0?angle:-angle;
 			return Angle(na);
 		}
 

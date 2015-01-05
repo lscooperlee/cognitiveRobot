@@ -30,6 +30,7 @@ class Map {
 		void addViewbyCut(View const &view) ;
 		void addViewbyFullCut(View const &view) ;
 		void addViewbyFullDeleteArea(View const &view) ;
+		std::vector<Map> addViewbyDeleteAreaExtend(View const &view, double distance);
 		std::vector<Map> addViewbyFullDeleteAreaExtend(View const &view, double distance);
 
 		typedef std::vector<View>::const_iterator const_iterator;
