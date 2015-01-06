@@ -117,7 +117,23 @@ Map const FileRobot::doMap(int c) {
 Map const FileRobot::do_map_backward(int c) const{
 	Map m;
 	std::vector<View> const &vc=doTransform(c);
+//	auto sameviewvector=getRevisitDict(vc);
 
+	std::vector<View> tmp;
+	for(auto j=vc.begin();j!=vc.end();++j){
+		View nv=*j;
+		for(auto k=vc.begin();k!=j;++k){
+			View tv=*k;
+			nv=nv.deleteAreaExtend(tv,0);
+		}
+		if(nv.size()){
+			tmp.push_back(nv);
+		}
+	}
+	
+	auto sameviewvector=getRevisitDict(vc);
+
+/*
 	std::vector<View> tmp;
 	tmp.push_back(vc[0]);
 	for(auto i=vc.begin()+1;i!=vc.end();i++){
@@ -126,22 +142,31 @@ Map const FileRobot::do_map_backward(int c) const{
 		tmp.push_back(cur-last);
 	}
 
-//	auto sameviewvector=getRevisitDict(vc);
 	auto sameviewvector=getRevisitDict(tmp);
+*/
+	auto i=vc.begin();
+	m.addView(*i);
+	for(i=vc.begin()+1;i!=vc.end();++i){
+		View const &vtrans=*i;
+		View const &last=*(i-1);
+//		try{
+//			auto pair=sameviewvector.at(&vtrans);
+	//		if(pair){
+				Obstacle o1(vtrans.getPosition(),vtrans.getRevisitCheckPoint(&last));
+				Obstacle o2(vtrans.getPosition(),last.getPosition());
 
-	for(auto const vtrans:vc){
-		try{
-			auto pair=sameviewvector.at(&vtrans);
-			if(pair){
-				View vrevisit(vtrans);
-				vrevisit.setHighlight(true);
+				View vrevisit{o1,o2};
+				vrevisit=vrevisit+vtrans;
+//				vrevisit.setHighlight(true);
+//				m.addViewbyFullDeleteAreaExtend(vrevisit,500);
 				m.addView(vrevisit);
-				std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
-			}
+	//		}
 			
-		}catch(...){
-			std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
-		}
+//		}catch(...){
+//			std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
+//			m.addViewbyDeleteAreaExtend(vtrans,500);
+//			m.addView(vtrans);
+//		}
 
 	}
 
@@ -178,7 +203,9 @@ std::vector<View> FileRobot::doTransform(int c) const{
 
 bool FileRobot::isRevisit(View const &cur, View const &last, View const &memorycur, View const &memorylast) const {
 	
-	Position const &p=cur.getPosition();
+//	Position const &p=cur.getPosition();
+	Position const &p=cur.getRevisitCheckPoint(&last);
+//	return is_in_area(p,memorycur);
 	return is_in_area(p,memorycur-memorylast);
 
 /*

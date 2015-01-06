@@ -1,5 +1,6 @@
 #include "view.h"
 #include "template.h"
+#include "debug.h"
 
 using namespace robot;
 
@@ -145,4 +146,29 @@ std::pair<Position, Position> const View::makeFacingPair(View const &v) const {
 	double distance=p1.distance(p2)/2;
 	Position p3=p1.directPosition(a,distance);
 	return std::make_pair(p1,p3);
+}
+
+Position const &View::getRevisitCheckPoint(View const *last) const{
+	if(last==nullptr){
+		return globalPosition;
+	}
+	View const nv=*this-*last;
+	double distance=std::numeric_limits<double>::max();
+	Position const *rp=nullptr;
+	Position const op=globalPosition;
+	for(auto const &o:nv){
+		for(auto const &p:o){
+			double d=op.distance(p);
+			if(d<distance){
+				distance=d;
+				rp=&p;
+			}
+		}
+	}
+	
+	if(rp==nullptr){
+		return globalPosition;
+	}
+
+	return *rp;
 }

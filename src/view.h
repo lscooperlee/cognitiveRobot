@@ -66,31 +66,7 @@ class View {
 			samespace.insert(samespace.end(),lst);
 		}
 
-		Position const &getRevisitCheckPoint(View const *last=nullptr){
-			if(last==nullptr){
-				return globalPosition;
-			}
-
-			View const nv=*this-*last;
-			double distance=std::numeric_limits<double>::max();
-			Position const *rp=nullptr;
-			Position const op=globalPosition;
-			for(auto const &o:nv){
-				for(auto const &p:o){
-					double d=op.distance(p);
-					if(d<distance){
-						distance=d;
-						rp=&p;
-					}
-				}
-			}
-			
-			if(rp==nullptr){
-				return globalPosition;
-			}
-
-			return *rp;
-		}
+		Position const &getRevisitCheckPoint(View const *last=nullptr) const;
 
 	private:
 		std::vector<Obstacle> Obstacles;
