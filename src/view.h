@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <unordered_set>
 #include "global.h"
 #include "angle.h"
 #include "obstacle.h"
@@ -63,7 +64,21 @@ class View {
 		}
 
 		void addSameSpaceView(std::initializer_list<View const *> lst) const {
-			samespace.insert(samespace.end(),lst);
+			std::unordered_set<View const *> s(samespace.begin(),samespace.end());
+
+			for(auto const &p:lst){
+				View const *a=p;
+				if(s.find(a)!=s.end())
+					samespace.push_back(a);
+			}
+		}
+
+		View const *getSameSpaceView(int n) const {
+			return samespace[n];
+		}
+
+		std::size_t getSameSpaceSize() const {
+			return samespace.size();
 		}
 
 		Position const &getRevisitCheckPoint(View const *last=nullptr) const;

@@ -113,12 +113,34 @@ View const FileRobot::look() throw(NoViewException) {
 Map const FileRobot::doMap(int c) {
 	return do_map_backward(c);
 }
+Map const FileRobot::do_map_backward(int c) const{
+	Map m;
+	std::vector<View> const &vc=doTransform(c);
+	auto sameviewvector=getRevisitDict(vc);
 
+	for(auto i=vc.begin();i!=vc.end();++i){
+		View const &vtrans=*i;
+		if(vtrans.getSameSpaceSize()){
+			auto pair=sameviewvector.at(&vtrans);
+			View const &t=*vtrans.getSameSpaceView(0);
+//			m.addView(*vtrans.getSameSpaceView(0));
+			m.addViewbyFullDeleteAreaExtend(*vtrans.getSameSpaceView(0),500);
+		}else{
+//			m.addView(vtrans);
+			m.addViewbyFullDeleteAreaExtend(vtrans,500);
+		}
+		
+	}
+	return m;
+}
+
+#if 0
 Map const FileRobot::do_map_backward(int c) const{
 	Map m;
 	std::vector<View> const &vc=doTransform(c);
 //	auto sameviewvector=getRevisitDict(vc);
 
+/*
 	std::vector<View> tmp;
 	for(auto j=vc.begin();j!=vc.end();++j){
 		View nv=*j;
@@ -130,7 +152,7 @@ Map const FileRobot::do_map_backward(int c) const{
 			tmp.push_back(nv);
 		}
 	}
-	
+*/
 	auto sameviewvector=getRevisitDict(vc);
 
 /*
@@ -172,6 +194,8 @@ Map const FileRobot::do_map_backward(int c) const{
 
 	return m;
 }
+#endif
+
 
 std::vector<View> FileRobot::doTransform(int c) const{
 	const_reverse_iterator i=crbegin();
@@ -202,69 +226,7 @@ std::vector<View> FileRobot::doTransform(int c) const{
 }
 
 bool FileRobot::isRevisit(View const &cur, View const &last, View const &memorycur, View const &memorylast) const {
-	
-//	Position const &p=cur.getPosition();
-	Position const &p=cur.getRevisitCheckPoint(&last);
-//	return is_in_area(p,memorycur);
-	return is_in_area(p,memorycur-memorylast);
-
-/*
-	Position const &p=cur.getPosition();
-	return is_in_area(p,tv-lv);
-*/
-	/*
-	Position const &p=cur.makeFacingPair(last).second;
-	if(is_in_area(p,third)==false){
-		return is_in_area(p,tv);
-	}
-
-	Position const *the=nullptr;
-	Position const &pos=cur.getPosition();
-	Angle const &curangle=cur.getAngle();
-	Angle maxangle(PI);
-	View const &lft=cur-last;
-
-	for(auto const &o:lft){
-		for(auto const &p:o){
-			Angle angle(pos, p);
-			Angle tmp=curangle-angle;
-
-			if(tmp.abs()<maxangle){
-				maxangle=tmp.abs();
-				the=&p;
-			}
-		}
-	}
-
-	if(the==nullptr)
-		return false;
-
-	return is_in_area(*the,tv);
-*/
-/*
-	Position const *the=nullptr;
-	Position const &pos=cur.getPosition();
-	double dist=1000000;
-	View const &lft=cur-last;
-	for(auto const &o:lft){
-		for(auto const &p:o){
-			double t=pos.distance(p);
-			if(t<dist){
-				the=&p;
-				dist=t;
-			}
-		}
-	}
-	if(the==nullptr)
-		return false;
-	return is_in_area(*the,tv);
-*/
-
-/*
-	Position const &p=cur.makeFacingPair(last).second;
-	return is_in_area(p,tv);
-*/
-
+	return is_overlap_area(cur,memorycur) && is_overlap_area(cur,memorylast);
 }
 
 std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
@@ -276,7 +238,8 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 		View const &last=*(i-1);
 		View const &cur=*i;
 
-		for(auto j=vc.cbegin()+1;j<i-3;++j){
+		for(auto j=vc.cbegin()+1;j<i-2;++j){
+			View const &nv=*(j+1);
 			View const &cv=*j;
 			View const &lv=*(j-1);
 			if(isRevisit(cur,last,cv,lv)){
@@ -287,7 +250,7 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 			}
 		}
 	}
-	
+/*	
 	bool first=true;
 	for(auto i=vc.crbegin();i!=vc.crend();++i){
 		View const *cur=&*i;
@@ -301,7 +264,7 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 			first=true;
 		}
 	}
-	
+*/
 	return sameviewvector;
 }
 
