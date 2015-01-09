@@ -55,7 +55,7 @@ class View {
 
 		std::pair<Position, Position> const makeFacingPair(View const &v) const ;
 
-		void setHighlight(bool h) {highlight=h;};
+		void setHighlight(bool h) const {highlight=h;};
 		bool getHighlight() const {return highlight;};
 
 		View const doSquare() const ;
@@ -68,18 +68,20 @@ class View {
 
 			for(auto const &p:lst){
 				View const *a=p;
-				if(s.find(a)!=s.end())
+				if(s.find(a)==s.end())
 					samespace.push_back(a);
 			}
 		}
 
 		View const *getSameSpaceView(int n) const {
-			return samespace[n];
+			return samespace[0];
 		}
 
 		std::size_t getSameSpaceSize() const {
 			return samespace.size();
 		}
+
+		View const getLocalSpace(View const &last) const ;
 
 		Position const &getRevisitCheckPoint(View const *last=nullptr) const;
 
@@ -88,7 +90,7 @@ class View {
 		Position globalPosition;
 		Angle facingAngle;
 
-		bool highlight=false;
+		mutable bool highlight=false;
 		mutable std::vector<View const *> samespace;
 		
 		View addNewView(Area const &area) const;

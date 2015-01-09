@@ -113,6 +113,7 @@ View const FileRobot::look() throw(NoViewException) {
 Map const FileRobot::doMap(int c) {
 	return do_map_backward(c);
 }
+
 Map const FileRobot::do_map_backward(int c) const{
 	Map m;
 	std::vector<View> const &vc=doTransform(c);
@@ -120,15 +121,23 @@ Map const FileRobot::do_map_backward(int c) const{
 
 	for(auto i=vc.begin();i!=vc.end();++i){
 		View const &vtrans=*i;
+		View const &last=*(i-1);
+		
+//		dbg(vtrans.getSameSpaceSize());
 		if(vtrans.getSameSpaceSize()){
-			auto pair=sameviewvector.at(&vtrans);
-			View const &t=*vtrans.getSameSpaceView(0);
+//			auto pair=sameviewvector.at(&vtrans);
+//			View const &t=*vtrans.getSameSpaceView(0);
 //			m.addView(*vtrans.getSameSpaceView(0));
-			m.addViewbyFullDeleteAreaExtend(*vtrans.getSameSpaceView(0),500);
+//			View v=vtrans.getLocalSpace(last);
+			View v=vtrans;
+			v.setHighlight(true);
+			m.addView(v);
+//			m.addViewbyFullDeleteAreaExtend(*vtrans.getSameSpaceView(0),500);
 		}else{
 //			m.addView(vtrans);
 			m.addViewbyFullDeleteAreaExtend(vtrans,500);
 		}
+		
 		
 	}
 	return m;
@@ -226,7 +235,10 @@ std::vector<View> FileRobot::doTransform(int c) const{
 }
 
 bool FileRobot::isRevisit(View const &cur, View const &last, View const &memorycur, View const &memorylast) const {
-	return is_overlap_area(cur,memorycur) && is_overlap_area(cur,memorylast);
+	View const &curlocal=cur.getLocalSpace(last);
+	if(curlocal.size()==0)
+		return false;
+	return is_overlap_area(curlocal,memorycur) && is_overlap_area(curlocal,memorylast);
 }
 
 std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
@@ -250,6 +262,7 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 			}
 		}
 	}
+
 /*	
 	bool first=true;
 	for(auto i=vc.crbegin();i!=vc.crend();++i){

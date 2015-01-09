@@ -172,3 +172,26 @@ Position const &View::getRevisitCheckPoint(View const *last) const{
 
 	return *rp;
 }
+View const View::getLocalSpace(View const &last) const {
+	Position const &plast=last.getPosition();
+	Position const &pcur=getPosition();
+	double distance=pcur.distance(plast);
+	Angle const &facing=last.getAngle();
+	Position const &cutp=plast.directPosition(facing,distance/2);
+	View const &cutlast=this->cut(cutp,facing);
+
+	double d1=max_x(cutlast)-min_x(cutlast);
+	double d2=max_y(cutlast)-min_y(cutlast);
+	distance=d1+d2/8;
+
+	Angle const &cutangleright=facing+PI/2;
+	Angle const &cutangleleft=facing-PI/2;
+	
+	Position const &cutpright=pcur.directPosition(cutangleright,distance);
+	Position const &cutpleft=pcur.directPosition(cutangleleft,distance);
+
+	View const &cutright=cutlast.cut(cutpright, cutangleright);
+	View const &cutleft=cutright.cut(cutpleft, cutangleleft);
+
+	return cutleft;
+}

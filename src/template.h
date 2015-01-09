@@ -9,6 +9,7 @@ namespace robot {
 
 class Position;
 class Area;
+class Obstacle;
 
 template <typename T>
 double min_x(T const &t){
@@ -99,9 +100,21 @@ bool is_overlap_area(T const &t, Area const &u){
 	}
 	return false;
 }
+
 template <typename T=Position>
 bool is_overlap_area(Position const &p, Area const &u){
 	return p.isOverlapArea(u);
+}
+
+template <typename T>
+std::size_t overlap_size(T const &t, Area const &u){
+	std::size_t size=0;
+	for(auto const &c:t){
+		if(is_overlap_area(c,u)){
+			size++;
+		}
+	}
+	return size;
 }
 
 template <typename T>
