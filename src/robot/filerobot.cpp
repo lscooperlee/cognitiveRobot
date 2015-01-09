@@ -236,9 +236,9 @@ std::vector<View> FileRobot::doTransform(int c) const{
 
 bool FileRobot::isRevisit(View const &cur, View const &last, View const &memorycur, View const &memorylast) const {
 	View const &curlocal=cur.getLocalSpace(last);
-	if(curlocal.size()==0)
-		return false;
-	return is_overlap_area(curlocal,memorycur) && is_overlap_area(curlocal,memorylast);
+	View const &memorylocal=memorycur.getLocalSpace(memorylast);
+	return is_overlap_area(curlocal, memorylocal);
+//	return is_overlap_area(curlocal,memorycur) && is_overlap_area(curlocal,memorylast);
 }
 
 std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisitDict(std::vector<View> const &vc) const {
