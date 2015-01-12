@@ -40,7 +40,10 @@ class Obstacle: public Object {
 		Obstacle const transform(Position const &cord, Angle const &ycur_ynew) const;
 
 		Area toArea() const;
+		
+		bool isSameObstacle(Obstacle const &o) const;
 
+		Angle const getAngle() const ;
 };
 
 static inline std::ostream & operator <<(std::ostream &os, Obstacle const &obstacle){

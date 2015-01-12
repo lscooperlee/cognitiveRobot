@@ -137,6 +137,20 @@ size_t size(T const &t){
 }
 
 template <typename T>
+Position const average_position(T const &t){
+	Position p;
+	for(auto const &c:t){
+		p=p+average_position(c);
+	}
+	return p/t.size();
+}
+
+template <typename T=Position>
+Position const average_position(Position const &t){
+	return t;
+}
+
+template <typename T>
 bool is_equal(T const &t1, T const &t2){
 	
 	if(t1.size()!=t2.size()){
@@ -179,4 +193,5 @@ std::size_t hash(Angle const &a) {
 
 
 }
+
 #endif

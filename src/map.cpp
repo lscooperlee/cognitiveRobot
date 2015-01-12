@@ -92,14 +92,14 @@ std::vector<Map> Map::addViewbyFullDeleteAreaExtend(View const &view, double dis
 	
 	std::vector<Map> stepMap;
 
-	stepMap.push_back(stepMapOutput(view));
+//	stepMap.push_back(stepMapOutput(view));
 	if(ViewVector.size()==0){
 		pushView(view);
 	}else{
 		View nv=view;
 		for(auto const &tv:ViewVector){
 			nv=nv.deleteAreaExtend(tv,distance);
-			stepMap.push_back(stepMapOutput(nv));
+//			stepMap.push_back(stepMapOutput(nv));
 		}
 		if(nv.size()){
 			pushView(nv);

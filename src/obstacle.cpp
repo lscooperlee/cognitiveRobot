@@ -76,3 +76,27 @@ Obstacle const Obstacle::transform(Position const &cord, Angle const &ycur_ynew)
 	return newshape;
 }
 
+bool Obstacle::isSameObstacle(Obstacle const &o) const {
+	Angle const &a1=getAngle();
+	Angle const &a2=o.getAngle();
+	Angle const &acheck=Angle(PI*5/180);
+	
+	if((a1-a2)>acheck || (a1-a2) < -acheck){
+		return false;
+	}
+
+	Position const p1=average_position(*this);
+	Position const p2=average_position(o);
+	
+	if(p1.distance(p2)<400){
+		return true;
+	}
+	return false;
+}
+
+
+Angle const Obstacle::getAngle() const {
+	Position const &p1=shape[0];
+	Position const &p2=shape[1];
+	return Angle(p1,p2);
+}

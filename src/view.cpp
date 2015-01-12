@@ -48,11 +48,8 @@ View View::operator -(View const &view) const {
 }
 
 View View::operator +(View const &view) const {
-	View v;
+	View v(*this);
 	for(auto const &o:view){
-		v.addObstacle(o);
-	}
-	for(auto const &o:*this){
 		v.addObstacle(o);
 	}
 	return v;
@@ -172,6 +169,29 @@ Position const &View::getRevisitCheckPoint(View const *last) const{
 
 	return *rp;
 }
+
+
+void View::addSameSpaceView(std::initializer_list<View const *> lst) const {
+	auto tmpequal=[](View const *v,View const *w){
+		return v==w;
+	};
+	auto tmphash=[](View const *v){
+		return reinterpret_cast<unsigned long>(v);
+	};
+	std::unordered_set<View const *,decltype(tmphash),decltype(tmpequal)> s(0,tmphash,tmpequal);
+
+	s.insert(samespace.begin(),samespace.end());
+
+	for(auto const &p:lst){
+		View const *a=p;
+		if(s.find(a)==s.end()){
+			samespace.push_back(a);
+			s.insert(a);
+		}
+	}
+}
+
+
 View const View::getLocalSpace(View const &last) const {
 	Position const &plast=last.getPosition();
 	Position const &pcur=getPosition();
@@ -179,6 +199,8 @@ View const View::getLocalSpace(View const &last) const {
 	Angle const &facing=last.getAngle();
 	Position const &cutp=plast.directPosition(facing,distance/2);
 	View const &cutlast=this->cut(cutp,facing);
+
+//	return cutlast;
 
 	double d1=max_x(cutlast)-min_x(cutlast);
 	double d2=max_y(cutlast)-min_y(cutlast);
@@ -195,3 +217,25 @@ View const View::getLocalSpace(View const &last) const {
 
 	return cutleft;
 }
+
+std::pair<View const, bool> View::merge(View const &view) const {
+	int count=0;
+	for(auto const &o:*this){
+		for(auto const &b:view){
+			if(o.isSameObstacle(b)){
+				count++;
+				break;
+			}
+		}
+	}
+	if(count>4){
+		View const t(*this);
+		return std::make_pair(t,true);
+	}else{
+		View t=*this-view;
+//		t=t+view;
+		return std::make_pair(t,false);
+	}
+}
+
+

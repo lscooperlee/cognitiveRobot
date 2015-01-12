@@ -119,91 +119,31 @@ Map const FileRobot::do_map_backward(int c) const{
 	std::vector<View> const &vc=doTransform(c);
 	auto sameviewvector=getRevisitDict(vc);
 
+	m.addView(*vc.begin());
 	for(auto i=vc.begin();i!=vc.end();++i){
 		View const &vtrans=*i;
 		View const &last=*(i-1);
 		
-//		dbg(vtrans.getSameSpaceSize());
-		if(vtrans.getSameSpaceSize()){
-//			auto pair=sameviewvector.at(&vtrans);
-//			View const &t=*vtrans.getSameSpaceView(0);
-//			m.addView(*vtrans.getSameSpaceView(0));
-//			View v=vtrans.getLocalSpace(last);
-			View v=vtrans;
-			v.setHighlight(true);
-			m.addView(v);
-//			m.addViewbyFullDeleteAreaExtend(*vtrans.getSameSpaceView(0),500);
+		std::size_t sz=vtrans.getSameSpaceSize();
+		if(sz){
+			View const *vp=&vtrans;
+			m.addView(*vp);
+			for(unsigned int i=1;i<sz;i++){
+				View const *p=vtrans.getSameSpaceView(i);
+				vp=p;
+				auto pair=vp->merge(*p);
+				vp=&pair.first;
+				m.addView(*vp);
+			}
+//			m.addViewbyFullDeleteAreaExtend(*vp,500);
 		}else{
-//			m.addView(vtrans);
-			m.addViewbyFullDeleteAreaExtend(vtrans,500);
+//			m.addViewbyFullDeleteAreaExtend(vtrans,500);
 		}
 		
 		
 	}
 	return m;
 }
-
-#if 0
-Map const FileRobot::do_map_backward(int c) const{
-	Map m;
-	std::vector<View> const &vc=doTransform(c);
-//	auto sameviewvector=getRevisitDict(vc);
-
-/*
-	std::vector<View> tmp;
-	for(auto j=vc.begin();j!=vc.end();++j){
-		View nv=*j;
-		for(auto k=vc.begin();k!=j;++k){
-			View tv=*k;
-			nv=nv.deleteAreaExtend(tv,0);
-		}
-		if(nv.size()){
-			tmp.push_back(nv);
-		}
-	}
-*/
-	auto sameviewvector=getRevisitDict(vc);
-
-/*
-	std::vector<View> tmp;
-	tmp.push_back(vc[0]);
-	for(auto i=vc.begin()+1;i!=vc.end();i++){
-		View const &cur=*i;
-		View const &last=*(i-1);
-		tmp.push_back(cur-last);
-	}
-
-	auto sameviewvector=getRevisitDict(tmp);
-*/
-	auto i=vc.begin();
-	m.addView(*i);
-	for(i=vc.begin()+1;i!=vc.end();++i){
-		View const &vtrans=*i;
-		View const &last=*(i-1);
-//		try{
-//			auto pair=sameviewvector.at(&vtrans);
-	//		if(pair){
-				Obstacle o1(vtrans.getPosition(),vtrans.getRevisitCheckPoint(&last));
-				Obstacle o2(vtrans.getPosition(),last.getPosition());
-
-				View vrevisit{o1,o2};
-				vrevisit=vrevisit+vtrans;
-//				vrevisit.setHighlight(true);
-//				m.addViewbyFullDeleteAreaExtend(vrevisit,500);
-				m.addView(vrevisit);
-	//		}
-			
-//		}catch(...){
-//			std::vector<Map> sm=m.addViewbyFullDeleteAreaExtend(vtrans,500);
-//			m.addViewbyDeleteAreaExtend(vtrans,500);
-//			m.addView(vtrans);
-//		}
-
-	}
-
-	return m;
-}
-#endif
 
 
 std::vector<View> FileRobot::doTransform(int c) const{
@@ -286,9 +226,12 @@ inline static void get_revisit_map(void){
 	auto tmphash=[](View const *v)->size_t{
 		return hash(v->getPosition())+hash(v->getAngle());
 	};
-	auto tmpequal=[](View const *v, View const *w)->bool{
-		return (is_equal(v->getPosition(), w->getPosition())) && (v->getAngle() == w->getAngle()); }; std::unordered_map<View const *, View const *, decltype(tmphash), decltype(tmpequal)> sameviewvector(0, tmphash,tmpequal);
-	std::unordered_map<View const *, bool, decltype(tmphash), decltype(tmpequal)> endofrevisit(0,tmphash,tmpequal);
+	auto tmpequal =[](View const *v, View const *w)->bool {
+		return (is_equal(v->getPosition(), w->getPosition())) && (v->getAngle() == w->getAngle());
+	};
+
+	std::unordered_map < View const *, View const *, decltype(tmphash), decltype(tmpequal) > sameviewvector(0, tmphash, tmpequal);
+	std::unordered_map < View const *, bool, decltype(tmphash), decltype(tmpequal) > endofrevisit(0, tmphash, tmpequal);
 
 	auto lastv=vc.cend();
 	for(auto i=vc.cbegin()+1;i!=vc.cend();++i){

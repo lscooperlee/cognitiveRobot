@@ -24,7 +24,7 @@ int main(int argc,char **argv){
 	d(tt.cut(Position(0,1),Angle(3*PI/2)),"P01_AP135");
 	d(tt.cut(Position(0,1),Angle(-3*PI/2)),"P01_AM135");
 
-	return 0;
+//	return 0;
 	View v;
 /*
 	v.addObstacle(Obstacle(1,1,3,10));
@@ -89,4 +89,10 @@ int main(int argc,char **argv){
 	View r=i-m;
 	d(r);
 
+	r.addSameSpaceView({&i,&i,&m,&r,&i});
+	dbg("r",&r);
+	unsigned int size=r.getSameSpaceSize();
+	for(unsigned int k=0;k<size;k++){
+		dbg(k,r.getSameSpaceView(k));
+	}
 }

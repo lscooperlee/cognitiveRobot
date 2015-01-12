@@ -63,18 +63,10 @@ class View {
 			return doSquare()+*this;
 		}
 
-		void addSameSpaceView(std::initializer_list<View const *> lst) const {
-			std::unordered_set<View const *> s(samespace.begin(),samespace.end());
-
-			for(auto const &p:lst){
-				View const *a=p;
-				if(s.find(a)==s.end())
-					samespace.push_back(a);
-			}
-		}
+		void addSameSpaceView(std::initializer_list<View const *> lst) const ;
 
 		View const *getSameSpaceView(int n) const {
-			return samespace[0];
+			return samespace[n];
 		}
 
 		std::size_t getSameSpaceSize() const {
@@ -82,6 +74,8 @@ class View {
 		}
 
 		View const getLocalSpace(View const &last) const ;
+
+		std::pair<View const, bool> merge(View const &view) const;
 
 		Position const &getRevisitCheckPoint(View const *last=nullptr) const;
 
