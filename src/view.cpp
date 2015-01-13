@@ -218,10 +218,11 @@ View const View::getLocalSpace(View const &last) const {
 	return cutleft;
 }
 
-std::pair<View const, bool> View::merge(View const &view) const {
+View const View::merge(View const &view) const {
+//std::pair<View const, bool> View::merge(View const &view) const {
 	int count=0;
-	for(auto const &o:*this){
-		for(auto const &b:view){
+	for(Obstacle const &o:*this){
+		for(Obstacle const &b:view){
 			if(o.isSameObstacle(b)){
 				count++;
 				break;
@@ -230,11 +231,11 @@ std::pair<View const, bool> View::merge(View const &view) const {
 	}
 	if(count>4){
 		View const t(*this);
-		return std::make_pair(t,true);
+		return t;
 	}else{
 		View t=*this-view;
-//		t=t+view;
-		return std::make_pair(t,false);
+		t=t+view;
+		return t;
 	}
 }
 

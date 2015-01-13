@@ -75,7 +75,8 @@ class View {
 
 		View const getLocalSpace(View const &last) const ;
 
-		std::pair<View const, bool> merge(View const &view) const;
+		//std::pair<View const, bool> merge(View const &view) const;
+		View const merge(View const &view) const;
 
 		Position const &getRevisitCheckPoint(View const *last=nullptr) const;
 

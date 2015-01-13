@@ -119,25 +119,22 @@ Map const FileRobot::do_map_backward(int c) const{
 	std::vector<View> const &vc=doTransform(c);
 	auto sameviewvector=getRevisitDict(vc);
 
-	m.addView(*vc.begin());
+//	m.addView(*vc.begin());
 	for(auto i=vc.begin();i!=vc.end();++i){
 		View const &vtrans=*i;
 		View const &last=*(i-1);
 		
 		std::size_t sz=vtrans.getSameSpaceSize();
 		if(sz){
-			View const *vp=&vtrans;
-			m.addView(*vp);
+			View vp=vtrans;
 			for(unsigned int i=1;i<sz;i++){
 				View const *p=vtrans.getSameSpaceView(i);
-				vp=p;
-				auto pair=vp->merge(*p);
-				vp=&pair.first;
-				m.addView(*vp);
+				View const pair=vp.merge(*p);
+				vp=pair;
 			}
-//			m.addViewbyFullDeleteAreaExtend(*vp,500);
+			m.addViewbyFullDeleteAreaExtend(vp,500);
 		}else{
-//			m.addViewbyFullDeleteAreaExtend(vtrans,500);
+			m.addViewbyFullDeleteAreaExtend(vtrans,500);
 		}
 		
 		
