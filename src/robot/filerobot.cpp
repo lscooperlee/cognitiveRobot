@@ -125,6 +125,9 @@ Map const FileRobot::do_map_backward(int c) const{
 		View const &last=*(i-1);
 		
 		std::size_t sz=vtrans.getSameSpaceSize();
+
+#if 0
+		//merge same space
 		if(sz){
 			View vp=vtrans;
 			for(unsigned int i=1;i<sz;i++){
@@ -136,6 +139,31 @@ Map const FileRobot::do_map_backward(int c) const{
 		}else{
 			m.addViewbyFullDeleteAreaExtend(vtrans,500);
 		}
+#endif
+
+#if 1
+			//at the exit of overlap, add the common part of the same-place views, 
+			//show only the newest view in normal overlap situation
+
+			try{
+				auto pair=sameviewvector.at(&vtrans);
+				if(pair==true){
+					View vp=vtrans;
+					for(unsigned int i=1;i<sz;i++){
+						View const *p=vtrans.getSameSpaceView(i);
+						View const pair=vp&*p;
+						vp=pair;
+					}
+					m.addViewbyFullDeleteAreaExtend(vtrans+vp,500);
+
+				}else{
+					m.addViewbyFullDeleteAreaExtend(vtrans,500);
+				}
+			}catch(...){
+				if(sz==0)
+					m.addViewbyFullDeleteAreaExtend(vtrans,500);
+			}
+#endif
 		
 		
 	}
@@ -200,7 +228,8 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 		}
 	}
 
-/*	
+#if 1
+	// find the last exit
 	bool first=true;
 	for(auto i=vc.crbegin();i!=vc.crend();++i){
 		View const *cur=&*i;
@@ -214,7 +243,24 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 			first=true;
 		}
 	}
-*/
+#endif
+
+#if 0
+	bool first=true;
+	for(auto i=vc.crbegin();i!=vc.crend();++i){
+		View const *cur=&*i;
+		try{
+			sameviewvector.at(cur);
+			if(first==true){
+				first=false;
+			}
+		}catch(...){
+			
+		}
+	}
+
+#endif
+
 	return sameviewvector;
 }
 

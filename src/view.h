@@ -52,6 +52,7 @@ class View {
 		View operator -(View const &view) const ;
 		View operator +(View const &view) const ;
 		bool operator ==(View const &view) const;
+		View operator &(View const &view) const;
 
 		std::pair<Position, Position> const makeFacingPair(View const &v) const ;
 

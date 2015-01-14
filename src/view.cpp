@@ -59,6 +59,23 @@ bool View::operator ==(View const &view) const {
 	return is_equal(globalPosition, view.getPosition()) && (facingAngle == view.getAngle());
 }
 
+
+View View::operator &(View const &view) const {
+	Area area(view);
+	View v;
+
+	for (auto const &o:*this) {
+		if (is_overlap_area(o,area)) {
+			v.addObstacle(o);
+		}
+	}
+
+	v.putPosition(getPosition());
+	v.putAngle(getAngle());
+
+	return v;
+}
+
 View View::cut(Position const &pos, Angle const &ang) const{
 	//a=sin(ang)
 	//b=cos(ang)

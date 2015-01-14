@@ -15,7 +15,7 @@ int usage(char *self){
 	std::cout<<"options:"<<std::endl;
 	std::cout<<"  "<<"-f logfilename:\tspecify the logfile. default is /tmp/view.log"<<std::endl;
 	std::cout<<"  "<<"-d outputdir:  \tspecify the output directory. default is /tmp/img"<<std::endl;
-	std::cout<<"  "<<"-s :           \tgenerate the map step by step for final view, rather than one map for each view"<<std::endl;
+//	std::cout<<"  "<<"-s :           \tgenerate the map step by step for final view, rather than one map for each view"<<std::endl;
 	std::cout<<"  "<<"-r :           \tshow robots on the Map"<<std::endl;
 	std::cout<<"  "<<"-h :           \tshow this help"<<std::endl;
 	return 0;
@@ -23,7 +23,7 @@ int usage(char *self){
 
 int main(int argc, char **argv){
 
-	int opt,stepmap=0,drawrobot=0;
+	int opt,drawrobot=0;
 	string logfile="/tmp/view.log";
 	string outdir="/tmp/img/";
 	while ((opt = getopt(argc, argv, "f:d:hsr")) != -1) {
@@ -33,9 +33,6 @@ int main(int argc, char **argv){
 			break;
 		case 'd':
 			outdir=optarg;
-			break;
-		case 's':
-			stepmap=1;
 			break;
 		case 'r':
 			drawrobot=1;
@@ -67,18 +64,11 @@ int main(int argc, char **argv){
 
 		b.memorize(v);
 
-		if(stepmap==0){
-			Map m=b.doMap();
-			display(m);
-			static int lookcount=0;
-			std::cout<<"producing the "<<++lookcount<<"th map"<<std::endl;
-		}
-
-	}
-	if(stepmap==1){
-		b.setDisplay(&display);
 		Map m=b.doMap();
 		display(m);
+		static int lookcount=0;
+		std::cout<<"producing the "<<++lookcount<<"th map"<<std::endl;
+
 	}
 
 	delete p;
