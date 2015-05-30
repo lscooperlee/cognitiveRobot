@@ -51,3 +51,13 @@ Position Position::directPosition(Angle const &a, double distance) const{
 	return Position(dx+X(),dy+Y());
 }
 
+
+//namespace robot {
+std::ostream & robot::operator <<(std::ostream &os, Position const & position){
+//	os << "("<<position.X()<<","<<position.Y()<<","<<position.Z()<<") ";
+	std::fixed(os);
+//	os << std::setprecision(2) <<"("<<float(position.X())<<","<<float(position.Y())<<") ";
+	os << std::setprecision(2) <<float(position.X())<<" "<<float(position.Y())<<" ";
+	return os;
+}
+//}

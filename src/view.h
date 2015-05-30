@@ -92,15 +92,7 @@ class View {
 		View addNewView(Area const &area) const;
 };
 
-static inline std::ostream & operator <<(std::ostream &os, View const &view) {
-	os << "globalPosition: "<< view.getPosition() <<" facingAngle "<<view.getAngle();
-
-	for(View::const_iterator i=view.begin();i!=view.end();++i){
-		Obstacle const &o=*i;
-		os<<o<<" ";
-	}
-	return os;
-}
+std::ostream & operator <<(std::ostream &os, View const &view) ;
 
 }
 #endif

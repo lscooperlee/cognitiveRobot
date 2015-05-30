@@ -256,4 +256,12 @@ View const View::merge(View const &view) const {
 	}
 }
 
+std::ostream & robot::operator <<(std::ostream &os, View const &view) {
+	os << "globalPosition: "<< view.getPosition() <<" facingAngle "<<view.getAngle();
 
+	for(View::const_iterator i=view.begin();i!=view.end();++i){
+		Obstacle const &o=*i;
+		os<<o<<" ";
+	}
+	return os;
+}

@@ -122,7 +122,7 @@ Map const FileRobot::do_map_backward(int c) const{
 //	m.addView(*vc.begin());
 	for(auto i=vc.begin();i!=vc.end();++i){
 		View const &vtrans=*i;
-		View const &last=*(i-1);
+		//View const &last=*(i-1);
 		
 		std::size_t sz=vtrans.getSameSpaceSize();
 
@@ -216,7 +216,7 @@ std::unordered_map<View const *, bool, viewhash, viewequal> FileRobot::getRevisi
 		View const &cur=*i;
 
 		for(auto j=vc.cbegin()+1;j<i-2;++j){
-			View const &nv=*(j+1);
+			//View const &nv=*(j+1);
 			View const &cv=*j;
 			View const &lv=*(j-1);
 			if(isRevisit(cur,last,cv,lv)){

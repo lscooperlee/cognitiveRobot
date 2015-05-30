@@ -82,13 +82,7 @@ class Position{
 
 };
 
-static inline std::ostream & operator <<(std::ostream &os, Position const & position){
-//	os << "("<<position.X()<<","<<position.Y()<<","<<position.Z()<<") ";
-	std::fixed(os);
-//	os << std::setprecision(2) <<"("<<float(position.X())<<","<<float(position.Y())<<") ";
-	os << std::setprecision(2) <<float(position.X())<<" "<<float(position.Y())<<" ";
-	return os;
-}
+std::ostream & operator <<(std::ostream &os, Position const & position);
 
 }
 #endif

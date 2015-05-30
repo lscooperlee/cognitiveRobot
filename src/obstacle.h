@@ -46,34 +46,7 @@ class Obstacle: public Object {
 		Angle const getAngle() const ;
 };
 
-static inline std::ostream & operator <<(std::ostream &os, Obstacle const &obstacle){
-	for(auto const &o:obstacle){
-		os << o;
-	}
-	return os;
+std::ostream & operator <<(std::ostream &os, Obstacle const &obstacle);
+
 }
-
-#if 0
-class Obstacle2D: public Obstacle {
-
-	public:
-		/*
-		 * an obstacle needs at least two points. 
-		 */
-		Obstacle2D(Position const &p1, Position const &p2){
-			shape.push_back(p1);
-			shape.push_back(p2);
-			position=p1;
-		}
-		
-		Obstacle2D(double x1, double y1, double x2, double y2){
-			shape.push_back(Position(x1,y1));
-			shape.push_back(Position(x2,y2));
-			position=Position(x1,y1);
-		}
-
-};
-#endif
-}
-
 #endif

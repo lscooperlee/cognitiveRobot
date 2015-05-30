@@ -100,3 +100,10 @@ Angle const Obstacle::getAngle() const {
 	Position const &p2=shape[1];
 	return Angle(p1,p2);
 }
+
+std::ostream & robot::operator <<(std::ostream &os, Obstacle const &obstacle){
+	for(auto const &o:obstacle){
+		os << o;
+	}
+	return os;
+}

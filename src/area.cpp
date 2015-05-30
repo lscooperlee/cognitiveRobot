@@ -52,3 +52,10 @@ View Area::toView() const {
 	}
 	return v;
 }
+
+std::ostream & robot::operator << (std::ostream &os, Area const &area){
+	for(auto const &p:area){
+		os << p <<" ";
+	}
+	return os;
+}

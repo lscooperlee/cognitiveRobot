@@ -88,12 +88,7 @@ class Area {
 		}
 };
 
-static inline std::ostream & operator << (std::ostream &os, Area const &area){
-	for(auto const &p:area){
-		os << p <<" ";
-	}
-	return os;
-}
+std::ostream & operator << (std::ostream &os, Area const &area);
 
 }
 #endif
