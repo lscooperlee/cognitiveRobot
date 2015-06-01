@@ -33,9 +33,9 @@ class GnuplotDisplay : public Display{
 		GnuplotDisplay(char const *bname, char const *dname=NULL, int res_x = PLOT_RESOLUTION_X, int res_y=PLOT_RESOLUTION_Y);
 		GnuplotDisplay(std::string const bname, std::string const dname="", int res_x = PLOT_RESOLUTION_X, int res_y=PLOT_RESOLUTION_Y);
 
-		void operator () (Map const & v, char const * fname=NULL);
+		void operator () (Map const & v, char const * fname=NULL) override;
 
-		void operator () (View const & v, char const * fname=NULL);
+		void operator () (View const & v, char const * fname=NULL) override;
 
 		void displayRobot(bool robot){displayrobot=robot;}
 

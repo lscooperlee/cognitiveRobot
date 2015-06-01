@@ -32,7 +32,7 @@ class FileRobot: public LaserRobot {
 		~FileRobot();
 		
 		void setDisplay(Display *const dis) {display=dis;}
-		View const look() throw(NoViewException);
+		View const look() throw(NoViewException) override;
 		Map const doMap(int c=0) ;
 
 	private:
